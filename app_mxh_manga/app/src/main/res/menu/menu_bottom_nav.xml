@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_home"
+        android:title="Trang chủ"
+        android:icon="@drawable/ic_baseline_home_40" />
+    <item
+        android:id="@+id/item_readManga"
+        android:title="Đọc truyện"
+        android:icon="@drawable/ic_baseline_book_40"
+        />
+    <item
+        android:id="@+id/item_genre"
+        android:title="Phân loại"
+        android:icon="@drawable/ic_baseline_widgets_40"
+        />
+    <item
+        android:id="@+id/item_bookcase"
+        android:title="Tủ truyện"
+        android:icon="@drawable/ic_baseline_folder_40"/>
+    <item
+        android:id="@+id/item_profile"
+        android:title="Tôi"
+        android:icon="@drawable/ic_baseline_person_40"/>
+</menu>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".homePage.component.profile.component.Activity_NewPost">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_40"
+        android:theme="@style/Theme_transparent"
+        app:menu="@menu/menu_check"
+        app:title="Tạo bài viết mới"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/edt_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Writer a caotion"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:minHeight="100dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end|center_vertical"
+                android:paddingHorizontal="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm ảnh"
+                    android:textSize="20dp"
+                    android:background="@android:color/transparent"
+                    />
+
+                <ImageButton
+                    android:id="@+id/ib_addUri"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_baseline_image_40"
+                    android:background="@android:color/transparent"
+                    android:layout_margin="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_countIv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0/20"
+                    android:textSize="20dp"
+                    android:background="@android:color/transparent"
+                    />
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

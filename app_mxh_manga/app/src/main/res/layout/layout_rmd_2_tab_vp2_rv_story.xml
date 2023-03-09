@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:maxHeight="700dp">
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/tv_showAll"
+        android:maxLines="1"
+        android:text=""
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_showAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tabLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center_vertical"
+        android:text="Thêm >"
+        android:layout_marginEnd="10dp"
+        android:textSize="20dp" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/tv_title"
+        android:layout_height="wrap_content"
+        app:tabSelectedTextColor="#03A9F4"
+        app:tabRippleColor="@android:color/transparent"
+        />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPage2"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_below="@id/tabLayout"
+        android:layout_marginTop="10dp"/>
+</RelativeLayout>
