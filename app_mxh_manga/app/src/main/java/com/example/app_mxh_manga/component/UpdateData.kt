@@ -1,5 +1,7 @@
 package com.example.app_mxh_manga.component
 
+import android.util.Log
+import com.example.app_mxh_manga.module.Rating
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -213,6 +215,28 @@ class UpdateData {
             callback(false)
         }
     }
+
+
+
+    fun updateViewChapter(id_chapter: String, callback: (Boolean) -> Unit){
+        if (id_chapter!=""){
+            val chapterRef = FirebaseFirestore.getInstance().collection("Chapters").document(id_chapter)
+            // tăng  giá trị lên 1
+            val increment = FieldValue.increment(1)
+            chapterRef.update("views", increment)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d("UpdateData", "updateViewChapter Failure $it")
+                }
+
+        }else{
+            callback(false)
+        }
+    }
+
     fun newFollow_story(id_user: String, id_story: String, callback: (Boolean) -> Unit){
         if (id_user!=""){
             val postRef = FirebaseFirestore.getInstance().collection("User").document(id_user)
@@ -238,8 +262,41 @@ class UpdateData {
         }
     }
 
+    fun newLike_Chapter(id_user: String, id_chapter: String, callback: (Boolean) -> Unit){
+        if (id_user!=""){
+            val postRef = FirebaseFirestore.getInstance().collection("Chapters").document(id_chapter)
+            postRef.update("likes" , FieldValue.arrayUnion(id_user)).addOnSuccessListener {
+                callback(true)
+            }.addOnFailureListener {
+                callback(false)
+            }
+        }else{
+            callback(false)
+        }
+    }
+    fun removeLike_Chapter(id_user: String, id_chapter: String , callback: (Boolean) -> Unit){
+        if (id_user!=""){
+            val postRef = FirebaseFirestore.getInstance().collection("Chapters").document(id_chapter)
+            postRef.update("likes" , FieldValue.arrayRemove(id_user)).addOnSuccessListener {
+                callback(true)
+            }.addOnFailureListener {
+                callback(false)
+            }
+        }else{
+            callback(false)
+        }
+    }
 
-
-
-
+    fun ratingUpdate(id_rating: String, score: Int , callback: (Boolean) -> Unit){
+        if (id_rating!=""){
+            val postRef = FirebaseFirestore.getInstance().collection("Ratings").document(id_rating)
+            postRef.update("score", score).addOnSuccessListener {
+                callback(true)
+            }.addOnFailureListener {
+                callback(false)
+            }
+        }else{
+            callback(false)
+        }
+    }
 }

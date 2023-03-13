@@ -15,32 +15,9 @@ class Story{
     var cover_image: String = ""
     var type: Boolean = true// t = novel, f = manga
     var genres: ArrayList<String> = ArrayList()
-    var ratings: ArrayList<String> = ArrayList()
     constructor()
 
 
-
-    constructor(
-        name: String,
-        author: String,
-        id_user: String,
-        describe: String,
-        status: Boolean,
-        cover_image: String,
-        type: Boolean,
-        genres: ArrayList<String>,
-        ratings: ArrayList<String>
-    ) {
-        this.name = name
-        this.author = author
-        this.id_user = id_user
-        this.describe = describe
-        this.status = status
-        this.cover_image = cover_image
-        this.type = type
-        this.genres = genres
-        this.ratings = ratings
-    }
 
     constructor(
         name: String,

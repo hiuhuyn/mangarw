@@ -1,11 +1,9 @@
 package com.example.app_mxh_manga.component
 
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
-import com.example.app_mxh_manga.module.Chapter
-import com.example.app_mxh_manga.module.Posts
-import com.example.app_mxh_manga.module.Story
-import com.example.app_mxh_manga.module.User
+import com.example.app_mxh_manga.module.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
@@ -57,5 +55,17 @@ class AddData {
             callback(null)
         }
     }
+    fun newRating(rating: Rating, callback: (id: String?) -> Unit){
+        Log.d("AddData", "newRating ${rating.score} ")
+        val ratingRef = FirebaseFirestore.getInstance().collection("Ratings")
+        ratingRef.add(rating).addOnSuccessListener {
+            callback(it.id)
+        }.addOnFailureListener {
+            callback(null)
+        }
+    }
+
+
+
 
 }

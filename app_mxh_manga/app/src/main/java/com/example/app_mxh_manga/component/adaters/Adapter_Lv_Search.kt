@@ -3,6 +3,7 @@ package com.example.app_mxh_manga.homePage.component.common.search.component
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,13 +61,32 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story_Ge
         GetData().getUserByID(story.id_user){
             if (it!=null){
                 tv_user.setText(it.user.name)
+            }else{
+                tv_user.setText("null")
+            }
+        }
+        GetData().userFollowStory(listFilter[position].id_story){
+            if (it!=null){
+                Log.d("GetData", "userFollowStory ${it.size}")
+                tv_numberFollow.setText(NumberData().formatInt(it.size))
+            }else{
+                tv_numberFollow.setText("0")
             }
         }
 
-//        tv_numberFollow.setText("${GetNumberData().numberFollow_Story(listFilter[position].id_story)}")
-//        tv_numberLike.setText("${GetNumberData().numberLike_Story(listFilter[position].id_story)}")
-//        tv_numberChapter.setText("${GetNumberData().numberChapter(listFilter[position].id_story)}")
-
+        GetData().getChapterByIdStory(listFilter[position].id_story){
+            if (it!=null){
+                tv_numberChapter.setText(NumberData().formatInt(it.size))
+                var count = 0
+                for (item in it){
+                    count += item.chapter.likes.size
+                }
+                tv_numberLike.setText(NumberData().formatInt(count))
+            }else{
+                tv_numberChapter.setText("0")
+                tv_numberLike.setText("0")
+            }
+        }
         val listGenre_get = ArrayList<Genre_Get>()
         val adapterRvGenre = Adapter_RV_Genre(listGenre_get)
         for (item in story.genres){

@@ -6,11 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
+import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.OnItemClick
-import com.example.app_mxh_manga.module.Chapter
 import com.example.app_mxh_manga.module.Chapter_Get
-import java.text.SimpleDateFormat
 
 class Adapter_RV_Chapter(val list: ArrayList<Chapter_Get>, val onItemClick: OnItemClick): RecyclerView.Adapter<Adapter_RV_Chapter.ItemViewHolder>() {
     class ItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
@@ -31,6 +30,13 @@ class Adapter_RV_Chapter(val list: ArrayList<Chapter_Get>, val onItemClick: OnIt
             setOnClickListener {
                 onItemClick.onItemClick(position)
             }
+            tv_numLike.setText(NumberData().formatInt(list[position].chapter.likes.size))
+            tv_numView.setText(NumberData().formatInt(list[position].chapter.views))
+
+
+
+
+
         }
     }
 

@@ -8,7 +8,7 @@
         android:id="@+id/tv_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hành động"
+        android:text=""
         android:textSize="20dp"
         android:gravity="center"
         android:background="@drawable/shape_genre_on"

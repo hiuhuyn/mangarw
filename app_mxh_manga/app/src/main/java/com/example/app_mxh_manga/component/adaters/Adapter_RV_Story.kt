@@ -1,17 +1,24 @@
 package com.example.app_mxh_manga.component.adaters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
+import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.module.Genre_Get
 import com.example.app_mxh_manga.module.Story
+import com.example.app_mxh_manga.module.Story_Get
+import com.squareup.picasso.Picasso
 
 
-class Adapter_RV_Story(val list: ArrayList<Story>, val onItemClick: OnItemClick) : RecyclerView.Adapter<Adapter_RV_Story.ViewHolder>() {
+class Adapter_RV_Story(val list: ArrayList<Story_Get>, val onItemClick: OnItemClick) : RecyclerView.Adapter<Adapter_RV_Story.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,20 +36,61 @@ class Adapter_RV_Story(val list: ArrayList<Story>, val onItemClick: OnItemClick)
             val tv_numberLike = findViewById<TextView>(R.id.tv_numberLike)
             val tv_numberChapter = findViewById<TextView>(R.id.tv_numberChapter)
 
-//            img_story.setImageURI(list[position].cover_image)
-//            tv_nameStory.setText(list[position].name)
-//            tv_describe.setText(list[position].describe)
-//
-//            tv_user.setText(GetData_id().getUser(list[position].id_user).name)
-//            tv_numberFollow.setText("${GetNumberData().numberFollow_Story(list[position].id_story)}")
-//            tv_numberLike.setText("${GetNumberData().numberLike_Story(list[position].id_story)}")
-//            tv_numberChapter.setText("${GetNumberData().numberChapter(list[position].id_story)}")
-//            val adapterRvGenre = Adapter_RV_Genre(GetData_id().getListGenre(list[position].id_story))
-//            recyclerView.adapter = adapterRvGenre
-//            recyclerView.layoutManager = LinearLayoutManager(
-//                context,
-//                LinearLayoutManager.HORIZONTAL,
-//                false)
+            GetData().getImage(list[position].story.cover_image){
+                if (it!=null){
+                    Picasso.with(context).load(it).into(img_story)
+                }
+            }
+
+            tv_nameStory.setText(list[position].story.name)
+            tv_describe.setText(list[position].story.describe)
+
+            GetData().getUserByID(list[position].story.id_user){
+                if (it!=null){
+                    tv_user.setText(it.user.name)
+                }else{
+                    tv_user.setText("null")
+                }
+            }
+            GetData().userFollowStory(list[position].id_story){
+                if (it!=null){
+                    Log.d("GetData", "userFollowStory ${it.size}")
+                    tv_numberFollow.setText(NumberData().formatInt(it.size))
+                }else{
+                    tv_numberFollow.setText("0")
+                }
+            }
+
+            GetData().getChapterByIdStory(list[position].id_story){
+                if (it!=null){
+                    tv_numberChapter.setText(NumberData().formatInt(it.size))
+                    var count = 0
+                    for (item in it){
+                        count += item.chapter.likes.size
+                    }
+                    tv_numberLike.setText(NumberData().formatInt(count))
+                }else{
+                    tv_numberChapter.setText("0")
+                    tv_numberLike.setText("0")
+                }
+            }
+
+            val listGenre_Get = ArrayList<Genre_Get>()
+            val adapterRvGenre = Adapter_RV_Genre(listGenre_Get)
+            for (i in list[position].story.genres){
+                GetData().getGenreByIdGenre(i){
+                    if (it!=null){
+                        listGenre_Get.add(it)
+                        adapterRvGenre.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            recyclerView.adapter = adapterRvGenre
+            recyclerView.layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.HORIZONTAL,
+                false)
 
             setOnClickListener {
 

@@ -8,7 +8,7 @@
         android:id="@+id/iv_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_baseline_folder_40"
+        android:src="@drawable/ic_baseline_priority_high_40"
         android:background="@drawable/background_ovel_iv"
         android:padding="10dp"
         android:layout_alignParentTop="true"
@@ -20,7 +20,7 @@
         android:background="@android:color/transparent"
         android:layout_toEndOf="@+id/iv_icon"
         android:layout_centerVertical="true"
-        android:text="Item"
+        android:text=""
         android:textSize="23dp"
         android:layout_marginStart="20dp"
         android:textStyle="bold"/>

@@ -3,6 +3,7 @@ package com.example.app_mxh_manga.homePage.component.common.showStory
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -21,6 +22,9 @@ import com.example.app_mxh_manga.homePage.component.story.IDCHAPTER
 import com.example.app_mxh_manga.homePage.component.story.IDStory
 import com.example.app_mxh_manga.module.*
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class Activity_showStory : AppCompatActivity() {
@@ -84,10 +88,6 @@ class Activity_showStory : AppCompatActivity() {
         rv_genre.adapter = adapter_gener
         user_main.id_user = ModeDataSaveSharedPreferences(this).getIdUser()
 
-
-
-
-
         adapter_chapter = Adapter_RV_Chapter(listChapter, object : OnItemClick {
             override fun onItemClick(position: Int) {
                 val i = Intent(this@Activity_showStory, Activity_readingStory::class.java)
@@ -132,13 +132,42 @@ class Activity_showStory : AppCompatActivity() {
                     }
                 }
 
+                GetData().userFollowStory(story_get.id_story){
+                    if (it != null) {
+                        tv_follow.setText(NumberData().formatInt(it.size))
+                    }else{
+                        tv_follow.setText("0")
+                    }
+                }
+                GetData().getChapterByIdStory(story_get.id_story){
+                    if (it!=null){
+                        tv_like.setText(NumberData().formatInt(it.size))
+                    }else{
+                        tv_like.setText("0")
+                    }
+                }
 
-                tv_like.setText(NumberData().formatInt(200))
-                tv_follow.setText(NumberData().formatInt(200))
-                // get data
-                var rating = 3.5
-                tv_review.setText("${rating}/5 - ${100}")
-                setColorRating(rating)
+                GetData().getRatingStory(story_get.id_story){
+                    if (it!=null){
+                        var rating = 0.0
+                        var checkForExistence = false
+                        var id_rating = ""
+                        for (i in it){
+                            rating += i.rating.score
+                            if(i.rating.id_user == user_main.id_user ){
+                                id_rating = i.id_rating
+                            }
+                        }
+                        Log.d("GetData", "getRatingStory rating: $rating, size : ${it.size}, id rating $id_rating")
+                        rating /= it.size
+                        tv_review.setText("${String.format("%.1f", rating)}/5 - ${it.size}")
+                        setColorRating(id_rating,rating)
+                    }else{
+                        tv_review.setText("----")
+                        setColorRating("", 0.0)
+                    }
+                }
+
             }
         }
         GetData().getChapterByIdStory(id_story){
@@ -149,15 +178,24 @@ class Activity_showStory : AppCompatActivity() {
             }
         }
         eventToolbar()
+
+
     }
 
-    private fun setColorRating(rating: Double) {
+    private fun setColorRating(id_rating: String, rating: Double) {
         val star1 = view_star.findViewById<ImageView>(R.id.iv_star1)
         val star2 = view_star.findViewById<ImageView>(R.id.iv_star2)
         val star3 = view_star.findViewById<ImageView>(R.id.iv_star3)
         val star4 = view_star.findViewById<ImageView>(R.id.iv_star4)
         val star5 = view_star.findViewById<ImageView>(R.id.iv_star5)
-        if(rating>=0.5 && rating < 1.0){
+
+        if (rating<0.5){
+            star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            star2.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+        }else if(rating>=0.5 && rating < 1.0){
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_half_40))
         }else if(rating >= 1.0 && rating < 1.5){
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
@@ -206,6 +244,16 @@ class Activity_showStory : AppCompatActivity() {
             star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
             star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
             star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            if (id_rating!=""){
+                // đã tồn tại
+                UpdateData().ratingUpdate(id_rating, 1){
+                }
+            }else{
+                val ratingNew = Rating(1, user_main.id_user, id_story)
+                AddData().newRating(ratingNew){
+
+                }
+            }
         }
         star2.setOnClickListener {
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
@@ -213,6 +261,16 @@ class Activity_showStory : AppCompatActivity() {
             star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
             star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
             star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            if (id_rating!=""){
+                // đã tồn tại
+                UpdateData().ratingUpdate(id_rating, 2){
+                }
+            }else{
+                val ratingNew = Rating(2, user_main.id_user, id_story)
+                AddData().newRating(ratingNew){
+
+                }
+            }
         }
         star3.setOnClickListener {
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
@@ -220,6 +278,16 @@ class Activity_showStory : AppCompatActivity() {
             star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
             star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
             star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            if (id_rating!=""){
+                // đã tồn tại
+                UpdateData().ratingUpdate(id_rating, 3){
+                }
+            }else{
+                val ratingNew = Rating(3, user_main.id_user, id_story)
+                AddData().newRating(ratingNew){
+
+                }
+            }
         }
         star4.setOnClickListener {
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
@@ -227,6 +295,16 @@ class Activity_showStory : AppCompatActivity() {
             star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
             star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
             star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_empty_40))
+            if (id_rating!=""){
+                // đã tồn tại
+                UpdateData().ratingUpdate(id_rating, 4){
+                }
+            }else{
+                val ratingNew = Rating(4, user_main.id_user, id_story)
+                AddData().newRating(ratingNew){
+
+                }
+            }
         }
         star5.setOnClickListener {
             star1.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
@@ -234,12 +312,17 @@ class Activity_showStory : AppCompatActivity() {
             star3.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
             star4.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
             star5.setImageURI(Int_Uri().convertUri(R.drawable.ic_baseline_star_40))
+            if (id_rating!=""){
+                // đã tồn tại
+                UpdateData().ratingUpdate(id_rating, 5){
+                }
+            }else{
+                val ratingNew = Rating(5, user_main.id_user, id_story)
+                AddData().newRating(ratingNew){
+
+                }
+            }
         }
-
-
-
-
-
     }
 
     private fun eventFollow(){

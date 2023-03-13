@@ -1,5 +1,6 @@
 package com.example.app_mxh_manga.component
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -8,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 class NumberData {
     fun formatInt(count: Int) : String {
-        var string = ""
+        var string = "${count}"
         if (count >= 1000 && count < 1000000){
             val k:Double = (count/1000).toDouble()
             string = String.format("%.1f", k) + "K"

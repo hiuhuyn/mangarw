@@ -36,7 +36,7 @@
             android:padding="10dp"
             android:textSize="25dp"
             android:drawableStart="@drawable/ic_baseline_lock_24"
-            android:drawableEnd="@drawable/ic_baseline_remove_red_eye_24"
+            android:drawableEnd="@drawable/ic_baseline_visibility_off_24"
             android:paddingStart="20dp"
             android:maxLines="1"
             android:maxLength="10"

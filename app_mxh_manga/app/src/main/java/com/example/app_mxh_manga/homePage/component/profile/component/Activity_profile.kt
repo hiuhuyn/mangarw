@@ -32,8 +32,7 @@ import kotlinx.coroutines.launch
 
 class Activity_profile : AppCompatActivity() {
     private lateinit var user: User
-    private var number_followers = "" // người theo dõi
-    private var number_following = "" // đang theo dõi
+
 
     private lateinit var toolbar: Toolbar
     private lateinit var iv_cover: ImageView
@@ -50,7 +49,7 @@ class Activity_profile : AppCompatActivity() {
     private lateinit var btn_follow: Button
     private lateinit var idUser: String
     private lateinit var idUserMain: String
-
+    private lateinit var adapterVp2Listfragment: Adapter_VP2_ListFragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,8 +84,13 @@ class Activity_profile : AppCompatActivity() {
                 }else{
                     tv_sex.setText("Nu")
                 }
-                tv_followers.setText("${number_followers}")
-                tv_following.setText("${number_following}")
+
+                GetData().usersFollowUser(idUser){
+                    if (it!=null){
+                        tv_followers.setText(NumberData().formatInt(it.size))
+                    }
+                }
+                tv_following.setText(NumberData().formatInt(user.follow_users.size))
                 val listFragment = ArrayList<Fragment>()
 
                 GetData().getImage(user.uri_avt){
@@ -95,10 +99,7 @@ class Activity_profile : AppCompatActivity() {
                 GetData().getImage(user.uri_cover){
                     Picasso.with(this).load(it).into(iv_cover)
                 }
-                listFragment.add(Fragment_RV_Post.newInstance(idUser))
-//                listFragment.add(Fragment_RV_Story.newInstance(GetData_id().getListStory_user(user.id_user)))
-
-                viewPager2.adapter = Adapter_VP2_ListFragment(this@Activity_profile, listFragment)
+                adapterVp2Listfragment = Adapter_VP2_ListFragment(this@Activity_profile, listFragment)
                 val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2){ tab, i ->
                     when(i){
                         0 -> {
@@ -110,6 +111,18 @@ class Activity_profile : AppCompatActivity() {
                     }
                     true
                 }
+                GetData().getStoryByIdUser(idUser){
+                    if (it!=null){
+                        val list = ArrayList<String>()
+                        for (item in it){
+                            list.add(item.id_story)
+                        }
+                        listFragment.add(Fragment_RV_Post.newInstance(idUser))
+                        listFragment.add(Fragment_RV_Story.newInstance(list))
+                        adapterVp2Listfragment.notifyDataSetChanged()
+                    }
+                }
+                viewPager2.adapter = adapterVp2Listfragment
                 tabLayoutMediator.attach()
                 if (idUserMain == idUser){
                     profile_me()
