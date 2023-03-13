@@ -14,22 +14,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
-import com.example.app_mxh_manga.component.GetNumberData
+import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Genre
 import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
-import com.example.app_mxh_manga.module.Genre
-import com.example.app_mxh_manga.module.Story
-import com.example.app_mxh_manga.module.User
+import com.example.app_mxh_manga.homePage.component.story.IDStory
+import com.example.app_mxh_manga.module.*
+import com.squareup.picasso.Picasso
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>): ArrayAdapter<Story>(activity, R.layout.item_story){
-    private var listFilter: ArrayList<Story> = ArrayList()
+class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story_Get>): ArrayAdapter<Story>(activity, R.layout.item_story){
+    private var listFilter: ArrayList<Story_Get> = ArrayList()
     init {
         listFilter.addAll(list)
     }
-
+    fun update(list: ArrayList<Story_Get>){
+        listFilter.addAll(list)
+        notifyDataSetChanged()
+    }
     override fun getCount(): Int {
         return listFilter.size
     }
@@ -44,16 +47,37 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>):
         val tv_numberFollow = view.findViewById<TextView>(R.id.tv_numberFollow)
         val tv_numberLike = view.findViewById<TextView>(R.id.tv_numberLike)
         val tv_numberChapter = view.findViewById<TextView>(R.id.tv_numberChapter)
+        val story = listFilter[position].story
+        GetData().getImage(listFilter[position].story.cover_image){
+            if (it!=null){
+                Picasso.with(context).load(it).into(img_story)
+            }
+        }
 
-        img_story.setImageURI(listFilter[position].cover_image)
-        tv_nameStory.setText(listFilter[position].name)
-        tv_describe.setText(listFilter[position].describe)
+        tv_nameStory.setText(story.name)
+        tv_describe.setText(story.describe)
 
-        tv_user.setText(GetData_id().getUser(listFilter[position].id_user).name)
-        tv_numberFollow.setText("${GetNumberData().numberFollow_Story(listFilter[position].id_story)}")
-        tv_numberLike.setText("${GetNumberData().numberLike_Story(listFilter[position].id_story)}")
-        tv_numberChapter.setText("${GetNumberData().numberChapter(listFilter[position].id_story)}")
-        val adapterRvGenre = Adapter_RV_Genre(GetData_id().getListGenre(listFilter[position].id_story))
+        GetData().getUserByID(story.id_user){
+            if (it!=null){
+                tv_user.setText(it.user.name)
+            }
+        }
+
+//        tv_numberFollow.setText("${GetNumberData().numberFollow_Story(listFilter[position].id_story)}")
+//        tv_numberLike.setText("${GetNumberData().numberLike_Story(listFilter[position].id_story)}")
+//        tv_numberChapter.setText("${GetNumberData().numberChapter(listFilter[position].id_story)}")
+
+        val listGenre_get = ArrayList<Genre_Get>()
+        val adapterRvGenre = Adapter_RV_Genre(listGenre_get)
+        for (item in story.genres){
+            GetData().getGenreByIdGenre(item){
+                if (it!=null){
+                    listGenre_get.add(it)
+                    adapterRvGenre.notifyDataSetChanged()
+                }
+            }
+        }
+
         recyclerView.adapter = adapterRvGenre
         recyclerView.layoutManager = LinearLayoutManager(
             parent.context,
@@ -63,7 +87,7 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>):
         view.setOnClickListener {
             val i = Intent(activity, Activity_showStory::class.java)
             val bundle = Bundle()
-            bundle.putParcelable("story", listFilter[position])
+            bundle.putString(IDStory, listFilter[position].id_story)
             i.putExtras(bundle)
             activity.startActivity(i)
         }
@@ -79,9 +103,9 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>):
                 if (strSearch.isEmpty()){
                     results.values = list
                 }else{
-                    val list2 = ArrayList<Story>()
+                    val list2 = ArrayList<Story_Get>()
                     for (item in listFilter){
-                        if (item.name.toLowerCase(Locale.ROOT).contains(strSearch.toLowerCase(Locale.ROOT))){
+                        if (item.story.name.toLowerCase(Locale.ROOT).contains(strSearch.toLowerCase(Locale.ROOT))){
                             list2.add(item)
                         }
                     }
@@ -93,7 +117,7 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>):
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 listFilter.clear()
                 if (results != null) {
-                    listFilter.addAll(results.values as Collection<Story>)
+                    listFilter.addAll(results.values as Collection<Story_Get>)
                 }
 
                 notifyDataSetChanged()
@@ -104,8 +128,13 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story>):
 }
 
 
-class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayList<User>): ArrayAdapter<User>(activity, R.layout.item_author_search) {
-    private var listFilter: ArrayList<User> = ArrayList()
+class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayList<User_Get>): ArrayAdapter<User>(activity, R.layout.item_author_search) {
+    private var listFilter: ArrayList<User_Get> = ArrayList()
+    fun update(list: ArrayList<User_Get>){
+        listFilter.addAll(list)
+        notifyDataSetChanged()
+    }
+
     init {
         listFilter.addAll(list)
     }
@@ -118,19 +147,20 @@ class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayL
         val imageAvt = view.findViewById<ImageView>(R.id.imageAvt)
         val tv_name = view.findViewById<TextView>(R.id.tv_nameUser)
         val tvSumStory = view.findViewById<TextView>(R.id.tv_sumStory)
-        imageAvt.setImageURI(listFilter[position].uri_avt)
-        tv_name.setText(listFilter[position].name)
-        tvSumStory.setText("Tổng cộng ${getNumberStory(listFilter[position].id_user)} tác phẩm.")
+        GetData().getImage(listFilter[position].user.uri_avt){
+            Picasso.with(context).load(it).into(imageAvt)
+        }
+        tv_name.setText(listFilter[position].user.name)
+        GetData().getStoryByIdUser(list[position].id_user){
+            if (it!=null){
+                tvSumStory.setText("Tổng cộng ${NumberData().formatInt(it.size)} tác phẩm.")
+            }
+        }
+
 
 
         return view
     }
-
-    private fun getNumberStory(idUser: Int): Int {
-
-        return 19
-    }
-
     override fun getFilter(): Filter {
         return object : Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults? {
@@ -140,9 +170,9 @@ class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayL
                 if (strSearch.isEmpty()){
                     results.values = list
                 }else{
-                    val list2 = ArrayList<User>()
+                    val list2 = ArrayList<User_Get>()
                     for (item in listFilter){
-                        if (item.name.toLowerCase(Locale.ROOT).contains(strSearch.toLowerCase(Locale.ROOT))){
+                        if (item.user.name.lowercase(Locale.ROOT).contains(strSearch.lowercase(Locale.ROOT))){
                             list2.add(item)
                         }
                     }
@@ -154,7 +184,7 @@ class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayL
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 listFilter.clear()
                 if (results != null) {
-                    listFilter.addAll(results.values as Collection<User>)
+                    listFilter.addAll(results.values as Collection<User_Get>)
                 }
 
                 notifyDataSetChanged()

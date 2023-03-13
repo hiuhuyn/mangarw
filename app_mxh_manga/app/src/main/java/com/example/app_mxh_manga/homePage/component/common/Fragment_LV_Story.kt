@@ -24,11 +24,7 @@ class Fragment_LV_Story : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                list = it.getParcelableArrayList(KEY_STORY, Story::class.java) as ArrayList<Story>
-            }else{
-                list = it.getParcelableArrayList<Story>(KEY_STORY) as ArrayList<Story>
-            }
+
         }
     }
 
@@ -39,8 +35,8 @@ class Fragment_LV_Story : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_listview, container, false)
         val listView = view.findViewById<ListView>(R.id.listView)
-        val adapter = context?.let { Adapter_Lv_Search_Story(it, list) }
-        listView.adapter = adapter
+//        val adapter = context?.let { Adapter_Lv_Search_Story(it, list) }
+//        listView.adapter = adapter
         return view
     }
     companion object {
@@ -48,7 +44,7 @@ class Fragment_LV_Story : Fragment() {
         fun newInstance(listStory: ArrayList<Story>) =
             Fragment_LV_Story().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_STORY, listStory )
+//                    putParcelableArrayList(KEY_STORY, listStory )
                 }
             }
     }

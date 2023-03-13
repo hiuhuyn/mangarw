@@ -24,9 +24,9 @@ class Fragment_RV_Story: Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                list = it.getParcelableArrayList(KEY_STORY, Story::class.java) as ArrayList<Story>
+//                list = it.getParcelableArrayList(KEY_STORY, Story::class.java) as ArrayList<Story>
             }else{
-                list = it.getParcelableArrayList<Story>(KEY_STORY) as ArrayList<Story>
+//                list = it.getParcelableArrayList<Story>(KEY_STORY) as ArrayList<Story>
             }
         }
     }
@@ -42,7 +42,7 @@ class Fragment_RV_Story: Fragment() {
             override fun onItemClick(position: Int) {
                 val i = Intent(activity, Activity_showStory::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("story", list[position])
+//                bundle.putParcelable("story", list[position])
                 i.putExtras(bundle)
                 startActivity(i)
             }
@@ -61,7 +61,7 @@ class Fragment_RV_Story: Fragment() {
         fun newInstance(listStory: ArrayList<Story>) =
             Fragment_RV_Story().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_STORY, listStory )
+//                    putParcelableArrayList(KEY_STORY, listStory )
                 }
             }
     }

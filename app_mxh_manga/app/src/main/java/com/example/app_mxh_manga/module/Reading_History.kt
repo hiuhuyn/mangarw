@@ -1,19 +1,28 @@
 package com.example.app_mxh_manga.module
 
+import java.util.Calendar
 import java.util.Date
 
 class Reading_History {
-    var id_history: Int
-    var id_story: Int
-    var id_user: Int
-    var id_chapter: Int
-    var time_read: Date
-
-    constructor(id_history: Int, id_story: Int, id_user: Int, id_chapter: Int, time_read: Date) {
-        this.id_history = id_history
-        this.id_story = id_story
+    var id_user: String = ""
+    var id_chapter: String = ""
+    var time_read: Date = Calendar.getInstance().time
+    constructor()
+    constructor(id_user: String, id_chapter: String, time_read: Date) {
         this.id_user = id_user
         this.id_chapter = id_chapter
         this.time_read = time_read
     }
+}
+
+class Reading_History_Get{
+    var id_reading: String = ""
+    var readingHistory: Reading_History= Reading_History()
+
+    constructor()
+    constructor(id_reading: String, readingHistory: Reading_History) {
+        this.id_reading = id_reading
+        this.readingHistory = readingHistory
+    }
+
 }

@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
 import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
 import com.example.app_mxh_manga.homePage.Activity_homePage
-import com.example.app_mxh_manga.homePage.component.genre.component.Fragment_LV_Genre
 import com.example.app_mxh_manga.module.Genre
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -33,9 +31,9 @@ class Fragment_Genre : Fragment() {
         viewPager2 = view.findViewById(R.id.viewPage2)
         var listFragment = ArrayList<Fragment>()
         var listGenre = ArrayList<Genre>()
-        listGenre.addAll(GetData_id().getAllGenre())
+//        listGenre.addAll(GetData_id().getAllGenre())
         for (i in listGenre){
-            listFragment.add(Fragment_LV_Genre.newInstance(i.id_genre))
+//            listFragment.add(Fragment_LV_Genre.newInstance(i.id_genre))
         }
 
 

@@ -12,7 +12,6 @@ import com.example.app_mxh_manga.homePage.component.bookcase.component.Fragment_
 import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
 import com.example.app_mxh_manga.homePage.component.bookcase.component.download.Fragment_downloaded_bk
 import com.example.app_mxh_manga.homePage.component.common.Fragment_LV_Story
-import com.example.app_mxh_manga.module.DataTest
 import com.example.app_mxh_manga.module.Story
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,8 +22,8 @@ class Fragment_BookCase : Fragment() {
     private var listStory_download = ArrayList<Story>()
 
     init {
-        listStory_saved.addAll(DataTest().getStory())
-        listStory_download.addAll(DataTest().getStory())
+//        listStory_saved.addAll(DataTest().getStory())
+//        listStory_download.addAll(DataTest().getStory())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -22,7 +22,7 @@ class Adapter_Lv_Story_Down(val activity: AppCompatActivity, val list: ArrayList
         val iv_close = view.findViewById<ImageView>(R.id.iv_close)
         val tv_name = view.findViewById<TextView>(R.id.tv_nameStory)
         val tv_count = view.findViewById<TextView>(R.id.tv_countChapter)
-        iv_avt.setImageURI(list[position].cover_image)
+//        iv_avt.setImageURI(list[position].cover_image)
         iv_close.setOnClickListener {
 
         }

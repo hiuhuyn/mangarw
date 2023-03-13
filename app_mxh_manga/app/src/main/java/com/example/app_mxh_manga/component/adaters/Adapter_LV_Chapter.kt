@@ -3,17 +3,16 @@ package com.example.app_mxh_manga.component.adaters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
+import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.module.Chapter
-import com.example.app_mxh_manga.module.Genre
+import com.example.app_mxh_manga.module.Chapter_Get
 import java.text.SimpleDateFormat
 
-class Adapter_RV_Chapter(val list: ArrayList<Chapter>, val onItemClick: OnItemClick): RecyclerView.Adapter<Adapter_RV_Chapter.ItemViewHolder>() {
+class Adapter_RV_Chapter(val list: ArrayList<Chapter_Get>, val onItemClick: OnItemClick): RecyclerView.Adapter<Adapter_RV_Chapter.ItemViewHolder>() {
     class ItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -27,9 +26,8 @@ class Adapter_RV_Chapter(val list: ArrayList<Chapter>, val onItemClick: OnItemCl
             val tv_numLike = findViewById<TextView>(R.id.tv_numLike)
             val tv_numCmt = findViewById<TextView>(R.id.tv_numCmt)
             val tv_numView = findViewById<TextView>(R.id.tv_numView)
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy")
-            tv_title.setText(list[position].title)
-            tv_date.setText(dateFormat.format(list[position].date_submit))
+            tv_title.setText(list[position].chapter.title)
+            tv_date.setText(NumberData().formatTime(list[position].chapter.date_submit))
             setOnClickListener {
                 onItemClick.onItemClick(position)
             }

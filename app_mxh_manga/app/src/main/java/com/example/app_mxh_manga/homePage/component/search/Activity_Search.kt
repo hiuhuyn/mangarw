@@ -1,5 +1,6 @@
 package com.example.app_mxh_manga.homePage.component.search
 
+import android.app.ProgressDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -88,6 +89,10 @@ class Activity_Search : AppCompatActivity() {
     }
 
     private fun updateViewPager2(search: String) {
+        val progressDialog = ProgressDialog(this@Activity_Search)
+        progressDialog.setMessage("Loading...")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
         val fragment = supportFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
 
         if(fragment is Fragment_Search_StoryNovel){
@@ -103,5 +108,6 @@ class Activity_Search : AppCompatActivity() {
             fragment.updateDataSearch(search)
         }
         adapterVP2.notifyDataSetChanged()
+        progressDialog.dismiss()
     }
 }

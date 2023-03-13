@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
-import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Story
 import com.example.app_mxh_manga.module.Story
 
 class Fragment_LV_Genre: Fragment() {
@@ -28,8 +26,8 @@ class Fragment_LV_Genre: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_listview, container, false)
         val listView = view.findViewById<ListView>(R.id.listView)
-        listStory.addAll(GetData_id().getListStoryInGenre(id_genre))
-        listView.adapter = Adapter_Lv_Search_Story(view.context, listStory)
+//        listStory.addAll(GetData_id().getListStoryInGenre(id_genre))
+//        listView.adapter = Adapter_Lv_Search_Story(view.context, listStory)
 
 
 
@@ -40,7 +38,7 @@ class Fragment_LV_Genre: Fragment() {
         fun newInstance(id_genre: Int) =
             Fragment_LV_Genre().apply {
                 arguments = Bundle().apply {
-                    putInt("id_genre", id_genre)
+//                    putInt("id_genre", id_genre)
                 }
             }
     }

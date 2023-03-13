@@ -1,61 +1,56 @@
 package com.example.app_mxh_manga.module
 
 import android.net.Uri
+import java.util.Calendar
 import java.util.Date
 
 class Chapter {
-    var id_chapter: Int
-    var title: String
-    var date_submit: Date
-    var id_story: Int
-    var views: Int
+    var title: String =""
+    var date_submit: Date = Calendar.getInstance().time
+    var id_story: String =""
+    var views: Int = 0
+    var images: ArrayList<String> = ArrayList()
+    var content_novel: String = ""
+    var comments: ArrayList<String> = ArrayList()
+    var likes: ArrayList<String> = ArrayList()
+    constructor()
 
-    constructor(id_chapter: Int, title: String, date_submit: Date, id_story: Int, views: Int) {
-        this.id_chapter = id_chapter
+    constructor(
+        title: String,
+        date_submit: Date,
+        id_story: String,
+        views: Int,
+        images: ArrayList<String>,
+        content_novel: String,
+        comments: ArrayList<String>,
+        likes: ArrayList<String>
+    ) {
         this.title = title
         this.date_submit = date_submit
         this.id_story = id_story
         this.views = views
+        this.images = images
+        this.content_novel = content_novel
+        this.comments = comments
+        this.likes = likes
     }
+
+    constructor(title: String, id_story: String, content_novel: String) {
+        this.title = title
+        this.id_story = id_story
+        this.content_novel = content_novel
+    }
+
+
 }
 
-class Chapter_novel{
-    var id_chapter: Int
-    var content: String
-
-    constructor(id_chapter: Int, content: String) {
+class Chapter_Get{
+    var id_chapter: String = ""
+    var chapter: Chapter = Chapter()
+    constructor()
+    constructor(id_chapter: String, chapter: Chapter) {
         this.id_chapter = id_chapter
-        this.content = content
+        this.chapter = chapter
     }
-}
 
-class Chapter_manga{
-    var id_chapter: Int
-    var image: Uri
-
-    constructor(id_chapter: Int, image: Uri) {
-        this.id_chapter = id_chapter
-        this.image = image
-    }
-}
-
-class Comment_chapter{
-    var id_cmt_chapter: Int
-    var content: String
-    var date_submit: Date
-    var id_chapter:Int
-    var id_user: Int
-    constructor(
-        id_cmt_chapter: Int,
-        content: String,
-        date_submit: Date,
-        id_chapter: Int,
-        id_user: Int
-    ) {
-        this.id_cmt_chapter = id_cmt_chapter
-        this.content = content
-        this.date_submit = date_submit
-        this.id_chapter = id_chapter
-        this.id_user = id_user
-    }
 }

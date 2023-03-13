@@ -2,6 +2,7 @@ package com.example.app_mxh_manga.homePage.component.profile.component
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,14 +10,18 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
+import com.example.app_mxh_manga.component.AddData
 import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
 import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.component.UpdateData
 import com.example.app_mxh_manga.module.Posts
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class Activity_NewPost : AppCompatActivity() {
@@ -27,7 +32,8 @@ class Activity_NewPost : AppCompatActivity() {
     private lateinit var ib_addUri: ImageButton
     private lateinit var startGallery_images: ActivityResultLauncher<Intent>
 
-    private var id_user: Int = 0
+    private var id_user: String = ""
+    private var idPosts: String = ""
     private var listUri = ArrayList<Uri>()
     private lateinit var adapterRvImgClose: Adapter_RV_img_close
 
@@ -74,7 +80,6 @@ class Activity_NewPost : AppCompatActivity() {
                 adapterRvImgClose.notifyDataSetChanged()
             }
         }
-
         addEvent()
     }
 
@@ -86,9 +91,35 @@ class Activity_NewPost : AppCompatActivity() {
             when(it.itemId){
                 R.id.check -> {
                     // thêm vào csdl
-                    val post = Posts(0,id_user, edt_content.text.toString(), Calendar.getInstance().time)
+                    val progressDialog = ProgressDialog(this)
+                    progressDialog.setMessage("Đang tạo mới...")
+                    progressDialog.setCancelable(false)
+                    progressDialog.show()
+                    val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
+                    var index = 0
 
-                    finish()
+                    val post = Posts(id_user, edt_content.text.toString())
+                    // Thêm bài viết -> Thêm ảnh -> Cập nhật ảnh trong bài viết
+                    AddData().newPost(post){
+                        if (it != null){
+                            idPosts = it
+                            for (i in listUri){
+                                val pathName = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idPosts}_${index}.jpg"
+                                AddData().newImage(i, pathName){
+                                    UpdateData().oneImagePost(idPosts, pathName){
+                                    }
+                                }
+                                index++
+                            }
+                            if (progressDialog.isShowing) progressDialog.dismiss()
+                            Toast.makeText(this, "Thêm bài viết thành công!", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }else{
+                            if (progressDialog.isShowing) progressDialog.dismiss()
+                            Toast.makeText(this, "Thêm bài viết thất bại!", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
                 }
             }
             true

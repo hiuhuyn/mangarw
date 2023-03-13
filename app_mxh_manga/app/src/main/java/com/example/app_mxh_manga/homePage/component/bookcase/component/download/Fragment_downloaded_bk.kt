@@ -21,11 +21,11 @@ class Fragment_downloaded_bk : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                list = it.getParcelableArrayList(KEY_STORY, Story::class.java) as ArrayList<Story>
-            }else{
-                list = it.getParcelableArrayList<Story>(KEY_STORY) as ArrayList<Story>
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//                list = it.getParcelableArrayList(KEY_STORY, Story::class.java) as ArrayList<Story>
+//            }else{
+//                list = it.getParcelableArrayList<Story>(KEY_STORY) as ArrayList<Story>
+//            }
         }
     }
 
@@ -48,7 +48,7 @@ class Fragment_downloaded_bk : Fragment() {
         fun newInstance(listStory: ArrayList<Story>) =
             Fragment_downloaded_bk().apply {
                 arguments = Bundle().apply {
-                    putParcelableArrayList(KEY_STORY, listStory )
+//                    putParcelableArrayList(KEY_STORY, listStory )
                 }
             }
     }

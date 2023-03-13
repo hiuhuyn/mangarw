@@ -10,11 +10,13 @@ import android.widget.ListView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import com.example.app_mxh_manga.R
+import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_ShowAll_ImagesPost
 
 class Activity_ShowImagePost : AppCompatActivity() {
-    private lateinit var listImage: ArrayList<Uri>
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private lateinit var idPosts: String
+    private lateinit var adapter:Adapter_LV_ShowAll_ImagesPost
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_image_post)
@@ -22,24 +24,31 @@ class Activity_ShowImagePost : AppCompatActivity() {
         val bundle = intent.extras
 
         if(bundle != null){
-            if (VERSION.SDK_INT >= 33){
-                listImage = bundle.getParcelableArrayList("", Uri::class.java) as ArrayList<Uri>
-            }else{
-                listImage = bundle.getParcelableArrayList<Uri>("listImagePost") as ArrayList<Uri>
-            }
+            idPosts = bundle.getString(IDPOST).toString()
         }else{
-            listImage = ArrayList()
+            idPosts = ""
         }
-
-
 
         val listView = findViewById<ListView>(R.id.listView)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-        listView.adapter = Adapter_LV_ShowAll_ImagesPost(this, listImage)
+        val listUri: ArrayList<Uri> = ArrayList()
+        GetData().getPost(idPosts){
+            if (it!=null){
+                for (item in it.posts.images){
+                    GetData().getImage(item){
+                        if (it != null) {
+                            listUri.add(it)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+        }
+        adapter = Adapter_LV_ShowAll_ImagesPost(this, listUri)
         toolbar.setNavigationOnClickListener {
             finish()
         }
+        listView.adapter =adapter
 
 
     }

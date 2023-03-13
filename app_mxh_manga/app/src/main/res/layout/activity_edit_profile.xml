@@ -148,6 +148,7 @@
                 android:maxLength="255"
                 android:padding="10dp"
                 android:inputType="date"
+                android:focusable="false"
                 />
             <TextView
                 android:layout_width="wrap_content"

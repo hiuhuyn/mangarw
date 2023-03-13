@@ -24,8 +24,8 @@ class Adapter_RV_story_recommend(val list: ArrayList<Story>, val size: Int ,val 
             val imageView = findViewById<ImageView>(R.id.imageView)
             val tv_name = findViewById<TextView>(R.id.tv_name)
 
-            imageView.setImageURI(list[position].cover_image)
-            tv_name.setText(list[position].name)
+//            imageView.setImageURI(list[position].cover_image)
+//            tv_name.setText(list[position].name)
             imageView.setOnClickListener {
                 onItemClick.onItemClick(position)
             }

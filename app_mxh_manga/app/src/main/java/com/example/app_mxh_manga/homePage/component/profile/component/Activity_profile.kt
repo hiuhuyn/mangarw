@@ -12,14 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
-import com.example.app_mxh_manga.component.GetNumberData
-import com.example.app_mxh_manga.component.Int_Uri
-import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
 import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
-import com.example.app_mxh_manga.homePage.component.common.Fragment_LV_Story
 import com.example.app_mxh_manga.homePage.component.common.Fragment_RV_Post
 import com.example.app_mxh_manga.homePage.component.common.showStory.Fragment_RV_Story
 import com.example.app_mxh_manga.homePage.component.story.Activity_creative_zone
@@ -29,6 +26,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class Activity_profile : AppCompatActivity() {
     private lateinit var user: User
@@ -48,24 +48,14 @@ class Activity_profile : AppCompatActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var floatBtn: FloatingActionButton
     private lateinit var btn_follow: Button
-
-    private var checkPage = true
+    private lateinit var idUser: String
+    private lateinit var idUserMain: String
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        val bundle = intent.extras
-        if (bundle != null) {
-            val idUser = bundle.getInt("id_user")
-            user = GetData_id().getUser(idUser)
-        }
-        val idUser = ModeDataSaveSharedPreferences(this).getIdUser()
-
-        number_followers = GetNumberData().numFollowers(user.id_user)
-        number_following = GetNumberData().numFollowing(user.id_user)
-
         toolbar = findViewById(R.id.toolbar)
         iv_cover = findViewById(R.id.iv_cover)
         iv_avt = findViewById(R.id.iv_avt)
@@ -79,48 +69,57 @@ class Activity_profile : AppCompatActivity() {
         viewPager2 = findViewById(R.id.viewPage2)
         floatBtn = findViewById(R.id.float_btn)
         btn_follow = findViewById(R.id.btn_follow)
-
-
-
-        //
-        iv_cover.setImageURI(user.uri_cover)
-        iv_avt.setImageURI(user.uri_avt)
-        tv_name.setText(user.name)
-        tv_desc.setText("Tiểu sử: "+user.story)
-        tv_level.setText("lv ${GetNumberData().formatLevel(user.score)}")
-        if (user.sex){
-            tv_sex.setText("Nam")
-        }else{
-            tv_sex.setText("Nu")
+        val bundle = intent.extras
+        if (bundle != null) {
+            idUser = bundle.getString(IDUSER).toString()
         }
-        tv_followers.setText("${number_followers}")
-        tv_following.setText("${number_following}")
-
-
-
-        val listFragment = ArrayList<Fragment>()
-        listFragment.add(Fragment_RV_Post.newInstance(user.id_user))
-        listFragment.add(Fragment_RV_Story.newInstance(GetData_id().getListStory_user(user.id_user)))
-        viewPager2.adapter = Adapter_VP2_ListFragment(this, listFragment)
-
-        val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2){ tab, i ->
-            when(i){
-                0 -> {
-                    tab.setText("Bảng tin")
+        idUserMain = ModeDataSaveSharedPreferences(this).getIdUser()
+        GetData().getUserByID(idUser){
+            if (it != null) {
+                user = it.user
+                tv_name.setText(user.name)
+                tv_desc.setText("Tiểu sử: "+user.story)
+                tv_level.setText("lv ${NumberData().formatLevel(user.score)}")
+                if (user.sex){
+                    tv_sex.setText("Nam")
+                }else{
+                    tv_sex.setText("Nu")
                 }
-                1 -> {
-                    tab.setText("Tác phẩm")
+                tv_followers.setText("${number_followers}")
+                tv_following.setText("${number_following}")
+                val listFragment = ArrayList<Fragment>()
+
+                GetData().getImage(user.uri_avt){
+                    Picasso.with(this).load(it).into(iv_avt)
+                }
+                GetData().getImage(user.uri_cover){
+                    Picasso.with(this).load(it).into(iv_cover)
+                }
+                listFragment.add(Fragment_RV_Post.newInstance(idUser))
+//                listFragment.add(Fragment_RV_Story.newInstance(GetData_id().getListStory_user(user.id_user)))
+
+                viewPager2.adapter = Adapter_VP2_ListFragment(this@Activity_profile, listFragment)
+                val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2){ tab, i ->
+                    when(i){
+                        0 -> {
+                            tab.setText("Bảng tin")
+                        }
+                        1 -> {
+                            tab.setText("Tác phẩm")
+                        }
+                    }
+                    true
+                }
+                tabLayoutMediator.attach()
+                if (idUserMain == idUser){
+                    profile_me()
+                }else{
+                    profile_other()
                 }
             }
-            true
         }
-        tabLayoutMediator.attach()
 
-        if (user.id_user == idUser){
-            profile_me()
-        }else{
-            profile_other()
-        }
+
         addEvent()
     }
 
@@ -131,6 +130,54 @@ class Activity_profile : AppCompatActivity() {
         iv_avt.setOnClickListener {
             //
         }
+        btn_follow.setText("Đang loading...")
+        GetData().getUserByID(idUserMain){ userGet ->
+            if (userGet!=null){
+                var check_follow = false
+                for (item in userGet.user.follow_users){
+                    if (item == idUser){
+                        check_follow = true
+                        break
+                    }
+                }
+                if (check_follow){
+                    btn_follow.setText("Đang theo dõi")
+                }else{
+                    btn_follow.setText("Theo dõi")
+                }
+                btn_follow.setOnClickListener {
+                    if (check_follow){
+                        btn_follow.setText("Theo dõi")
+                        check_follow = false
+                        UpdateData().removeFollow_user(idUserMain, idUser){
+                            if (it){
+                                btn_follow.setText("Theo dõi")
+                                check_follow = false
+                            }
+                        }
+
+                    }else{
+                        UpdateData().newFollow_user(idUserMain, idUser){
+                            if (it){
+                                btn_follow.setText("Đang theo dõi")
+                                check_follow = true
+                            }
+                        }
+
+                    }
+                }
+
+
+
+            }
+        }
+
+
+
+
+
+
+
 
     }
     private fun profile_me(){
@@ -155,11 +202,7 @@ class Activity_profile : AppCompatActivity() {
             bottomSheet.show()
         }
         floatBtn.setOnClickListener {
-            if (checkPage){
-                startActivity(Intent(this, Activity_NewPost::class.java))
-            }else{
-                startActivity(Intent(this, Activity_creative_zone::class.java))
-            }
+            startActivity(Intent(this, Activity_NewPost::class.java))
         }
     }
 
@@ -167,30 +210,5 @@ class Activity_profile : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             finish()
         }
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                when(position){
-                    0 -> {
-                        floatBtn.setImageResource(R.drawable.ic_baseline_add_40_white)
-                        checkPage = true
-                    }
-                    1 -> {
-                        floatBtn.setImageResource(R.drawable.ic_baseline_draw_40)
-                        checkPage = false
-                    }
-                }
-
-            }
-
-        })
-
-
-
-
     }
 }

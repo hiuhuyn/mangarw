@@ -23,8 +23,8 @@ class Adapter_RV_Story_2(val list: ArrayList<Story>, val onItemClick: OnItemClic
             val imageView = findViewById<ImageView>(R.id.imageView)
             val tv_name = findViewById<TextView>(R.id.tv_name)
 
-            imageView.setImageURI(list[position].cover_image)
-            tv_name.setText(list[position].name)
+//            imageView.setImageURI(list[position].cover_image)
+//            tv_name.setText(list[position].name)
 
         }
         holder.itemView.setOnClickListener {

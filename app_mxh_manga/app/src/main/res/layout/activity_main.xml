@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".MainActivity">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_mangarw"
         android:background="@android:color/transparent"
+        android:adjustViewBounds="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/logo_mangarw" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:background="@drawable/shape_oval_story"
+        android:backgroundTint="@color/white"
+        android:indeterminateTint="#0090FF"
+        android:layout_centerInParent="true"
+        android:padding="10dp"
+        android:visibility="visible"
         />
 
 

@@ -1,6 +1,12 @@
 package com.example.app_mxh_manga.component
 
-class GetNumberData {
+import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.concurrent.TimeUnit
+
+class NumberData {
     fun formatInt(count: Int) : String {
         var string = ""
         if (count >= 1000 && count < 1000000){
@@ -45,67 +51,36 @@ class GetNumberData {
         }
         return 0
     }
-    fun numberLike_Story(id_story: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
 
-        return formatInt(count)
-    }
-    fun numberLike_Chapter(id_chapter: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
 
-        return formatInt(count)
+    fun formatTime( pastTime: Date ): String{
+        val currentTime = Calendar.getInstance().time
+        val diffInSeconds = (currentTime.time - pastTime.time)/1000
+        val minutes = TimeUnit.SECONDS.toMinutes(diffInSeconds)
+        val hours = TimeUnit.SECONDS.toHours(diffInSeconds)
+        val days = TimeUnit.DAYS.toHours(diffInSeconds)
+
+        if (diffInSeconds<60){
+            return "${diffInSeconds} giây trước"
+        }else if (minutes<60 && minutes >= 1){
+            return "${minutes} phút trước"
+        }else if (hours <24 && hours >=0 ){
+            return "${hours} giờ trước"
+        }else if(days >= 1 && days <= 7){
+            return "${days} ngày trước"
+        }else{
+            return  SimpleDateFormat("dd/mm/yyyy").format(pastTime)
+        }
     }
-    fun numberChapter(id_story: Int): Int{
+
+    fun chapter(id_story: Int): Int{
         val count = 99
 
         return count
     }
 
 
-    fun numberCmt_Story(id_story: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
 
-        return formatInt(count)
-    }
-    fun numberLike_post(id_post: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
-    fun numberCmt_post(id_post: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
-    fun numberFollow_Story(id_story: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
-    fun numberFollow_User(id_user: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
-    fun numFollowers(id_user: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
-    fun numFollowing(id_user: Int): String{
-        val count = 1284792
-        // lấy dữ liệu về
-
-        return formatInt(count)
-    }
 
 
 

@@ -1,21 +1,23 @@
 package com.example.app_mxh_manga.module
 
 class Genre {
-    var id_genre: Int
-    var name: String
-
-    constructor(id_genre: Int, name: String) {
-        this.id_genre = id_genre
+    var name: String = ""
+    var describe: String = ""
+    constructor()
+    constructor(name: String, describe: String) {
         this.name = name
+        this.describe = describe
     }
 }
-
-class Story_genre{
-    var id_story: Int
-    var id_genre: Int
-
-    constructor(id_story: Int, id_genre: Int) {
-        this.id_story = id_story
+class Genre_Get {
+    var id_genre: String = ""
+    var genre: Genre = Genre()
+    constructor()
+    constructor(id_genre: String, genre: Genre) {
         this.id_genre = id_genre
+        this.genre = genre
     }
+
+
 }
+

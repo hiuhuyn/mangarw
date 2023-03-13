@@ -10,8 +10,6 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.Fragment_LV_Story
-import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Story
-import com.example.app_mxh_manga.module.DataTest
 import com.example.app_mxh_manga.module.Story
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,9 +22,9 @@ class Fragment_history : Fragment() {
 
 
     init {
-        list_all_story.addAll(DataTest().getStory())
-        list_novel_story.addAll(DataTest().getStory())
-        list_manga_story.addAll(DataTest().getStory())
+//        list_all_story.addAll(DataTest().getStory())
+//        list_novel_story.addAll(DataTest().getStory())
+//        list_manga_story.addAll(DataTest().getStory())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

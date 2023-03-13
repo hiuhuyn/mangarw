@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "248423748527",
+    "firebase_url": "https://mangarw-80a59-default-rtdb.firebaseio.com",
+    "project_id": "mangarw-80a59",
+    "storage_bucket": "mangarw-80a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248423748527:android:a153d689ca8cc7dd85155a",
+        "android_client_info": {
+          "package_name": "com.example.app_mxh_manga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248423748527-8jru7idui2flhq0nt0kpqs8v5ve7at51.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5XM9rUgf6MPkA3Sbyr7SALLyVGYi_BP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248423748527-8jru7idui2flhq0nt0kpqs8v5ve7at51.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,31 +1,31 @@
 package com.example.app_mxh_manga.homePage.component.story
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
-import com.example.app_mxh_manga.component.Int_Uri
-import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
-import com.example.app_mxh_manga.component.OnItemClick_2
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Genre
-import com.example.app_mxh_manga.module.DataTest
 import com.example.app_mxh_manga.module.Genre
+import com.example.app_mxh_manga.module.Genre_Get
 import com.example.app_mxh_manga.module.Story
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class Activity_New_Story : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
@@ -37,13 +37,23 @@ class Activity_New_Story : AppCompatActivity() {
     private lateinit var rg_type: RadioGroup
     private lateinit var btn_save: Button
     private lateinit var rv_genre: RecyclerView
-    private var listGenre = ArrayList<Genre>()
-    private var idUser = 0
-    private var uri_Avt: Uri = Int_Uri().convertUri(R.drawable.ic_launcher_background)
+    private var listGenre_Select = ArrayList<Genre_Get>()
+    private var idUser = ""
+    private var uri_Avt: Uri = Int_Uri().convertUri(R.drawable.img_1)
     private var isType: Boolean = true
     private lateinit var startGallery_images: ActivityResultLauncher<Intent>
-
+    private var allGenre = ArrayList<Genre_Get>()
     private lateinit var adapaterRV_Genre: Adapter_RV_Genre
+    init {
+        GetData().getAllGenre { geners ->
+            if (geners!=null){
+                allGenre.addAll(geners)
+
+            }
+
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +69,7 @@ class Activity_New_Story : AppCompatActivity() {
         rv_genre = findViewById(R.id.rv_genre)
 
         idUser = ModeDataSaveSharedPreferences(this).getIdUser()
-        adapaterRV_Genre = Adapter_RV_Genre(listGenre)
+        adapaterRV_Genre = Adapter_RV_Genre(listGenre_Select)
         rv_genre.adapter = adapaterRV_Genre
 
         startGallery_images = registerForActivityResult(
@@ -80,10 +90,42 @@ class Activity_New_Story : AppCompatActivity() {
             finish()
         }
         btn_save.setOnClickListener {
-            val story = Story(0, edt_name.text.toString(), edt_author.text.toString(), edt_desc.text.toString(),
-                false, uri_Avt, idUser, isType)
-            finish()
-            finish()
+            val name: String = edt_name.text.toString()
+            val author: String = edt_author.text.toString()
+            val id_user: String = idUser
+            val describe: String = edt_desc.text.toString()
+            val status: Boolean = false
+            val type: Boolean = isType
+            val progressDialog = ProgressDialog(this)
+            progressDialog.setMessage("Đang cập nhật...")
+            progressDialog.setCancelable(false)
+            progressDialog.show()
+            val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
+
+            val cover_image = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idUser}_story.jpg"
+            val listIdGenre = ArrayList<String>()
+            for (item in listGenre_Select){
+                listIdGenre.add(item.id_genre)
+            }
+            val story = Story(name, author, id_user, describe, status, cover_image, type, listIdGenre)
+            AddData().newStory(story){ id->
+                progressDialog.dismiss()
+                if (id!=null){
+                    progressDialog.show()
+                    AddData().newImage(uri_Avt, cover_image){
+                        progressDialog.dismiss()
+                        if (it){
+                            progressDialog.show()
+                            UpdateData().cover_story(id, cover_image){
+                                progressDialog.dismiss()
+                                finish()
+                            }
+                        }
+                    }
+                }else{
+                    Toast.makeText(this, "Thêm không thành công", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         rg_type.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
@@ -107,16 +149,15 @@ class Activity_New_Story : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.layout_bottomsheet_genre, null)
             val bottomSheet = BottomSheetDialog(this)
             bottomSheet.setContentView(view)
-            val listGenre2 = ArrayList<Genre>()
+            val listGenre2 = ArrayList<Genre_Get>()
             val rv_genre2 = view.findViewById<RecyclerView>(R.id.rv_genre2)
             val btn_confirm_genre = view.findViewById<Button>(R.id.btn_confirm_genre)
             btn_confirm_genre.setOnClickListener {
-                listGenre.clear()
-                listGenre.addAll(listGenre2)
-                bottomSheet.dismiss()
+                listGenre_Select.clear()
+                listGenre_Select.addAll(listGenre2)
                 adapaterRV_Genre.notifyDataSetChanged()
+                bottomSheet.dismiss()
             }
-            val allGenre = DataTest().getGenres()
             val adapterRvGenre2 = Adapter_RV_Genre2(allGenre, object : OnItemClick_2{
                 override fun onItemClick2(position: Int, check: Boolean) {
                     if (check){

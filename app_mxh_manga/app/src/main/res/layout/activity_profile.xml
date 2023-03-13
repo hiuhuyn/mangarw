@@ -3,18 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_40"
-        style="@style/Theme_transparent"
-        />
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_alignParentTop="true"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +73,7 @@
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nguyễn Minh Quân"
+                    android:text="..."
                     android:textSize="30dp"
                     android:background="@android:color/transparent"
                     android:textStyle="bold"
@@ -167,7 +160,7 @@
                         android:id="@+id/tv_followers"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20000"
+                        android:text="0"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:background="@android:color/transparent"
@@ -187,7 +180,7 @@
                         android:id="@+id/tv_following"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20000"
+                        android:text="0"
                         android:textSize="20dp"
                         android:background="@android:color/transparent"
                         android:textStyle="bold"
@@ -220,6 +213,14 @@
         </LinearLayout>
 
     </ScrollView>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_baseline_arrow_circle_left_40"
+        style="@style/Theme_transparent"
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/float_btn"

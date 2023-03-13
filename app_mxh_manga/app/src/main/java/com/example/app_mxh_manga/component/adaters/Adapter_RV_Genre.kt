@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.module.Genre
+import com.example.app_mxh_manga.module.Genre_Get
 
-class Adapter_RV_Genre(val list: ArrayList<Genre>): RecyclerView.Adapter<Adapter_RV_Genre.NameGenreViewHolder>() {
+class Adapter_RV_Genre(val list: ArrayList<Genre_Get>): RecyclerView.Adapter<Adapter_RV_Genre.NameGenreViewHolder>() {
     class NameGenreViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NameGenreViewHolder {
@@ -18,7 +19,7 @@ class Adapter_RV_Genre(val list: ArrayList<Genre>): RecyclerView.Adapter<Adapter
     override fun onBindViewHolder(holder: NameGenreViewHolder, position: Int) {
         holder.itemView.apply {
             val tv_genre = findViewById<TextView>(R.id.tv_genre)
-            tv_genre.setText(list[position].name)
+            tv_genre.setText(list[position].genre.name)
         }
     }
 

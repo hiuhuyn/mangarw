@@ -17,9 +17,6 @@ import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
 import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_recommend
 import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_VP2_BXH
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Fragment_LV_Story_name2
-import com.example.app_mxh_manga.module.DataTest
-import com.example.app_mxh_manga.module.Genre
 import com.example.app_mxh_manga.module.Story
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -71,7 +68,7 @@ class Fragment_Recommend : Fragment() {
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("story", listStoryHot[index])
+//                bundle.putParcelable("story", listStoryHot[index])
                 i.putExtras(bundle)
                 startActivity(i)
             }
@@ -96,7 +93,7 @@ class Fragment_Recommend : Fragment() {
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("story", listStoryHot[index])
+//                bundle.putParcelable("story", listStoryHot[index])
                 i.putExtras(bundle)
                 startActivity(i)
             }
@@ -151,7 +148,7 @@ class Fragment_Recommend : Fragment() {
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("story", listStoryHot[index])
+//                bundle.putParcelable("story", listStoryHot[index])
                 i.putExtras(bundle)
                 startActivity(i)
             }
@@ -166,7 +163,7 @@ class Fragment_Recommend : Fragment() {
 
     private fun getStoryHot(): ArrayList<Story> {
         val list = ArrayList<Story>()
-        list.addAll(DataTest().getStory())
+//        list.addAll(DataTest().getStory())
         return list
     }
 

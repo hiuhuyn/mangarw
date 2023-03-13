@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
@@ -14,8 +13,6 @@ import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
 import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_Story_2
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_recommend
-import com.example.app_mxh_manga.module.DataTest
 import com.example.app_mxh_manga.module.Story
 
 public const val TYPE_STORY = "type_story"
@@ -35,10 +32,10 @@ class Fragment_Story_ForYou : Fragment() {
         }
         if (type==TYPE_NOVEL){
             // get data
-            listStory.addAll(DataTest().getStory())
+//            listStory.addAll(DataTest().getStory())
         }else if (type == TYPE_MANGA){
             //
-            listStory.addAll(DataTest().getStory())
+//            listStory.addAll(DataTest().getStory())
         }
 
 
@@ -56,7 +53,7 @@ class Fragment_Story_ForYou : Fragment() {
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomePage, Activity_showStory::class.java)
                 val bundle = Bundle()
-                bundle.putParcelable("story", listStory[index])
+//                bundle.putParcelable("story", listStory[index])
                 i.putExtras(bundle)
                 startActivity(i)
             }

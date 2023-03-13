@@ -1,18 +1,19 @@
 package com.example.app_mxh_manga.homePage.component.profile
 
+import android.app.ProgressDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ListView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.RecyclerView
+import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
+import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.Int_Uri
 import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
@@ -23,17 +24,27 @@ import com.example.app_mxh_manga.homePage.component.profile.component.Activity_p
 import com.example.app_mxh_manga.homePage.component.story.Activity_creative_zone
 import com.example.app_mxh_manga.login.Activity_Login
 import com.example.app_mxh_manga.module.User
+import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.*
 
 
 class Fragment_Profile : Fragment() {
-    private lateinit var user: User
+    private lateinit var user: User_Get
     private lateinit var activityHomepage: Activity_homePage
     private lateinit var toolbar: Toolbar
     private lateinit var iv_avt: ImageView
     private lateinit var floatBtn: FloatingActionButton
     private lateinit var listView: ListView
+    private lateinit var idUser:String
+    private lateinit var tv_name:TextView
+    private lateinit var tv_level:TextView
+    private lateinit var tv_followers:TextView
+    private lateinit var tv_following:TextView
+    private lateinit var progressBar: ProgressBar
+
     val listIv_Str = arrayListOf(
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Hồ sơ"),
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_monetization_on_40), "Nạp tiền"),
@@ -48,6 +59,7 @@ class Fragment_Profile : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
+
     }
 
     override fun onCreateView(
@@ -56,20 +68,39 @@ class Fragment_Profile : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        activityHomepage = activity as Activity_homePage
-        val idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
-        user = GetData_id().getUser(idUser)
-
         toolbar = view.findViewById(R.id.toolbar)
         iv_avt = view.findViewById(R.id.iv_avt)
         floatBtn = view.findViewById(R.id.float_btn)
         listView = view.findViewById(R.id.listView)
-
-
+        tv_name = view.findViewById(R.id.tv_name)
+        tv_level = view.findViewById(R.id.tv_level)
+        tv_followers = view.findViewById(R.id.tv_followers)
+        tv_following = view.findViewById(R.id.tv_following)
+        progressBar = view.findViewById(R.id.progressBar)
+        activityHomepage = activity as Activity_homePage
+        progressBar.visibility = View.VISIBLE
+        idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
+        GetData().getUserByID(idUser){
+            progressBar.visibility = View.GONE
+            if (it != null) {
+                tv_name.text = it.user.name
+                tv_followers.setText("${NumberData().formatInt(it.user.follow_users.size)}")
+                tv_following.setText("${NumberData().formatInt(it.user.follow_users.size)}")
+                tv_level.setText("LV ${NumberData().formatLevel(it.user.score)}")
+                progressBar.visibility = View.VISIBLE
+                GetData().getImage(it.user.uri_avt){ uri ->
+                    progressBar.visibility = View.GONE
+                    if (uri != null){
+                        Picasso.with(activityHomepage).load(uri).into(iv_avt)
+                    }
+                }
+                addEvent()
+            }else{
+                Toast.makeText(activityHomepage, "Mất kết nối!", Toast.LENGTH_SHORT).show()
+            }
+        }
         listView.adapter = Adapter_LV_iv_string(activityHomepage, listIv_Str)
 
-
-        addEvent()
         return view
     }
 
@@ -80,7 +111,7 @@ class Fragment_Profile : Fragment() {
         iv_avt.setOnClickListener {
             val i = Intent(activityHomepage, Activity_profile::class.java)
             val bundle = Bundle()
-            bundle.putInt("id_user",user.id_user)
+            bundle.putString(IDUSER, idUser)
             i.putExtras(bundle)
             startActivity(i)
         }
@@ -92,8 +123,6 @@ class Fragment_Profile : Fragment() {
                 R.id.item_setting -> {
 
                 }
-
-
             }
             true
         }
@@ -102,7 +131,7 @@ class Fragment_Profile : Fragment() {
                 0 -> {
                     val i = Intent(activityHomepage, Activity_profile::class.java)
                     val bundle = Bundle()
-                    bundle.putInt("id_user",user.id_user)
+                    bundle.putString(IDUSER, idUser)
                     i.putExtras(bundle)
                     startActivity(i)
                 }
@@ -123,8 +152,5 @@ class Fragment_Profile : Fragment() {
 
 
     }
-
-
-
 
 }

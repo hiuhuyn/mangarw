@@ -13,22 +13,18 @@ class ModeDataSaveSharedPreferences(val activity: AppCompatActivity) {
     }
     fun logout(){
         val myEdit: SharedPreferences.Editor = myperf.edit()
-        myEdit.putBoolean("login", false)
-        myEdit.putInt("id_user", -1)
+        myEdit.putString("id_user", "")
         myEdit.apply()
     }
 
-    fun isCheckLogin(): Boolean{
-        return myperf.getBoolean("login", true)
-    }
-    fun setLogin(check: Boolean, id_user: Int){
+
+    fun setLogin(id_user: String){
         val myEdit: SharedPreferences.Editor = myperf.edit()
-        myEdit.putBoolean("login", check)
-        myEdit.putInt("id_user", id_user)
+        myEdit.putString("id_user", id_user)
         myEdit.apply()
     }
 
-    fun getIdUser():Int{
-        return myperf.getInt("id_user", 1)
+    fun getIdUser():String{
+        return myperf.getString("id_user", "").toString()
     }
 }

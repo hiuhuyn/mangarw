@@ -1,32 +1,26 @@
 package com.example.app_mxh_manga.homePage.component.common.showStory
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData_id
-import com.example.app_mxh_manga.component.GetNumberData
-import com.example.app_mxh_manga.component.Int_Uri
-import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Genre
 import com.example.app_mxh_manga.homePage.component.common.Activity_readingStory
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
-import com.example.app_mxh_manga.module.Chapter
-import com.example.app_mxh_manga.module.DataTest
-import com.example.app_mxh_manga.module.Genre
-import com.example.app_mxh_manga.module.Story
+import com.example.app_mxh_manga.homePage.component.story.IDCHAPTER
+import com.example.app_mxh_manga.homePage.component.story.IDStory
+import com.example.app_mxh_manga.module.*
+import com.squareup.picasso.Picasso
 
 
 class Activity_showStory : AppCompatActivity() {
@@ -48,22 +42,25 @@ class Activity_showStory : AppCompatActivity() {
     private lateinit var btn_reading_new: Button
     private lateinit var lv_chapter: RecyclerView
 
-    private lateinit var story : Story
-    private var listChapter = ArrayList<Chapter>()
+    private lateinit var story_get : Story_Get
+    private var listChapter = ArrayList<Chapter_Get>()
+    private var listGenre_Get = ArrayList<Genre_Get>()
+    private var id_story: String = ""
+    private lateinit var adapter_gener : Adapter_RV_Genre
+    private lateinit var adapter_chapter : Adapter_RV_Chapter
+    private var user_get = User_Get()
+    private var user_main = User_Get()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         val bundle = intent.extras
         if (bundle != null) {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//                story = bundle.getParcelable("story", Story::class.java) as Story
-//            }else{
-//
-//            }
-            story = bundle.getParcelable<Story>("story")!!
+            id_story = bundle.getString(IDStory).toString()
         }else{
-            story = DataTest().getStory().get(0)
+            Toast.makeText(this, "Lỗi òi...", Toast.LENGTH_SHORT).show()
+            finish()
         }
         setContentView(R.layout.activity_show_story)
         toolbar = findViewById(R.id.toolbar)
@@ -83,42 +80,75 @@ class Activity_showStory : AppCompatActivity() {
         tv_nameStory = findViewById(R.id.tv_nameStory)
         btn_continue = findViewById(R.id.btn_continue)
 
-        listChapter.addAll(DataTest().getChapter())
-//        lv_chapter.adapter = Adapter_LV_Chapter(this, listChapter)
-        lv_chapter.adapter = Adapter_RV_Chapter(listChapter, object : OnItemClick{
+        adapter_gener = Adapter_RV_Genre(listGenre_Get)
+        rv_genre.adapter = adapter_gener
+        user_main.id_user = ModeDataSaveSharedPreferences(this).getIdUser()
+
+
+
+
+
+        adapter_chapter = Adapter_RV_Chapter(listChapter, object : OnItemClick {
             override fun onItemClick(position: Int) {
                 val i = Intent(this@Activity_showStory, Activity_readingStory::class.java)
                 val bundle = Bundle()
-                bundle.putInt("id_chapter", listChapter[position].id_chapter)
+                bundle.putString(IDCHAPTER, listChapter[position].id_chapter)
                 i.putExtras(bundle)
                 startActivity(i)
             }
-
         })
+        lv_chapter.adapter = adapter_chapter
+        GetData().getUserByID(user_main.id_user){
+            if (it!=null){
+                user_main = it
+                eventFollow()
+            }
+        }
+        GetData().getStoryByID(id_story){
+            if (it!=null){
+                story_get = it
+                for (item in it.story.genres){
+                    GetData().getGenreByIdGenre(item){
+                        if (it != null) {
+                            listGenre_Get.add(it)
+                            adapter_gener.notifyDataSetChanged()
+                        }
+                    }
+                }
+                eventTv_user()
+                tv_nameStory.setText(story_get.story.name)
+                tv_author.setText(story_get.story.author)
+                GetData().getImage(story_get.story.cover_image){
+                    if (it!=null){
+                        Picasso.with(this).load(it).into(iv_avt)
+                    }
+                }
+                tv_desc.setText(story_get.story.describe)
+                // từ id lấy ra name
+                GetData().getUserByID(story_get.story.id_user){
+                    if (it!=null){
+                        user_get = it
+                        tv_user.setText("${it.user.name}")
+                    }
+                }
 
-        tv_nameStory.setText(story.name)
-        tv_author.setText(story.author)
-        iv_avt.setImageURI(story.cover_image)
-        tv_desc.setText(story.describe)
-        // từ id lấy ra name
-        tv_user.setText("${story.id_user}")
-        tv_like.setText(GetNumberData().numberLike_Story(story.id_story))
-        tv_follow.setText(GetNumberData().numberFollow_Story(story.id_story))
-        // get data
-        var rating = 3.5
-        tv_review.setText("${rating}/5 - ${100}")
-        setColorRating(rating)
-        var listGenre = ArrayList<Genre>()
-        listGenre.addAll(DataTest().getGenres())
 
-        val adapter_gener = Adapter_RV_Genre(listGenre)
-        rv_genre.adapter = adapter_gener
-
-
-
-
-
-        addEvent()
+                tv_like.setText(NumberData().formatInt(200))
+                tv_follow.setText(NumberData().formatInt(200))
+                // get data
+                var rating = 3.5
+                tv_review.setText("${rating}/5 - ${100}")
+                setColorRating(rating)
+            }
+        }
+        GetData().getChapterByIdStory(id_story){
+            if (it!=null){
+                listChapter.addAll(it)
+                adapter_chapter.notifyDataSetChanged()
+                eventReading()
+            }
+        }
+        eventToolbar()
     }
 
     private fun setColorRating(rating: Double) {
@@ -212,36 +242,61 @@ class Activity_showStory : AppCompatActivity() {
 
     }
 
-    private fun addEvent() {
-        tv_user.setOnClickListener {
-            var i = Intent(this, Activity_profile::class.java)
-            val bundle = Bundle()
-            bundle.putInt("id_user", story.id_user)
-            i.putExtras(bundle)
-            startActivity(i)
-
+    private fun eventFollow(){
+        var isFollow = false // kt 1 hàm khác
+        for (item in user_main.user.follow_storys){
+            if (item== id_story){
+                isFollow = true
+                break
+            }
         }
-        var isFollow = true // kt 1 hàm khác
+
         if (isFollow){
-            btn_follow.setBackgroundColor(getColor(R.color.green))
-            btn_follow.setText("Theo dõi")
-            isFollow = false
-        }else{
             btn_follow.setBackgroundColor(getColor(R.color.red))
             btn_follow.setText("Đang theo dõi")
-            isFollow = true
+        }else{
+            btn_follow.setBackgroundColor(getColor(R.color.green))
+            btn_follow.setText("Theo dõi")
         }
         btn_follow.setOnClickListener {
             if (isFollow){
                 btn_follow.setBackgroundColor(getColor(R.color.green))
                 btn_follow.setText("Theo dõi")
                 isFollow = false
+                UpdateData().removeFollow_story(user_main.id_user, id_story){
+                }
             }else{
                 btn_follow.setBackgroundColor(getColor(R.color.red))
                 btn_follow.setText("Đang theo dõi")
                 isFollow = true
+                UpdateData().newFollow_story(user_main.id_user, id_story){
+
+                }
             }
         }
+    }
+    private fun eventTv_user(){
+        tv_user.setOnClickListener {
+            val i = Intent(this, Activity_profile::class.java)
+            val bundle = Bundle()
+            bundle.putString(IDUSER, story_get.story.id_user)
+            i.putExtras(bundle)
+            startActivity(i)
+
+        }
+    }
+    private fun eventReading(){
+        btn_continue.setOnClickListener {
+//            showContentChapter(listChapter[2].id_chapter)
+        }
+        btn_reading_First.setOnClickListener {
+            showContentChapter(listChapter.last().id_chapter)
+        }
+        btn_reading_new.setOnClickListener {
+            showContentChapter(listChapter.first().id_chapter)
+        }
+    }
+    private fun eventToolbar(){
         toolbar.setNavigationOnClickListener {
             finish()
         }
@@ -257,22 +312,13 @@ class Activity_showStory : AppCompatActivity() {
             }
             true
         }
-        btn_continue.setOnClickListener {
-            showContentChapter(listChapter[2].id_chapter)
-        }
-        btn_reading_First.setOnClickListener {
-            showContentChapter(listChapter.first().id_chapter)
-        }
-        btn_reading_new.setOnClickListener {
-            showContentChapter(listChapter.last().id_chapter)
-        }
-
-
     }
-    private fun showContentChapter(id_chapter: Int){
+
+
+    private fun showContentChapter(id_chapter: String){
         val i = Intent(this, Activity_readingStory::class.java)
         val bundle = Bundle()
-        bundle.putInt("id_chapter", id_chapter)
+        bundle.putString("id_chapter", id_chapter)
         i.putExtras(bundle)
         startActivity(i)
 

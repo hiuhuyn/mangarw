@@ -28,16 +28,17 @@
                 android:id="@+id/iv_avt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/img_1"
+                android:src="@drawable/ic_baseline_restart_alt_40"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:backgroundTint="@color/light_gray"
                 />
             <TextView
                 android:id="@+id/tv_nameStory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="30dp"
-                android:text="Hành trình đế vương"
+                android:text="Tên"
                 android:textStyle="bold"
                 android:padding="10dp"
                 />
@@ -79,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:text="Author"
+                    android:text=""
                     android:padding="10dp"
                     />
             </LinearLayout>
@@ -101,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:text="User"
+                    android:text=""
                     android:padding="10dp"
                     />
             </LinearLayout>
@@ -123,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:text="1k"
+                    android:text=""
                     android:padding="10dp"
                     />
 
@@ -181,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20dp"
-                    android:text="0/5 - 100"
+                    android:text="0/5 - 0"
                     android:padding="10dp"
                     />
                 <TextView
@@ -220,7 +221,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
-                android:text="Desc"
+                android:text="Miêu tả"
                 android:padding="10dp"
                 />
             <Button

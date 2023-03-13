@@ -8,32 +8,45 @@ import java.util.Date
 
 
 class User{
-    var id_user: Int
-    var name: String
-    var birthday: Date
-    var sex: Boolean
-    var email: String
-    var score: Int
-    var point: Int
-    var story: String
-    var uri_avt: Uri
-    var uri_cover: Uri
-    var password: String
+
+    var name: String =""
+    var birthday: String = ""
+    var sex: Boolean = true
+    var email: String = ""
+    var score: Int = 0
+    var point: Int = 0
+    var story: String = ""
+    var uri_avt: String = ""
+    var uri_cover: String = ""
+    var password: String =""
+    var follow_users: ArrayList<String>  = ArrayList()
+    var follow_storys: ArrayList<String> = ArrayList()
+    constructor()
+
+
+
+    constructor(name: String, birthday: String, sex: Boolean, email: String, password: String) {
+        this.name = name
+        this.birthday = birthday
+        this.sex = sex
+        this.email = email
+        this.password = password
+    }
 
     constructor(
-        id_user: Int,
         name: String,
-        birthday: Date,
+        birthday: String,
         sex: Boolean,
         email: String,
         score: Int,
         point: Int,
         story: String,
-        uri_avt: Uri,
-        uri_cover: Uri,
-        password: String
+        uri_avt: String,
+        uri_cover: String,
+        password: String,
+        follow_users: ArrayList<String>,
+        follow_storys: ArrayList<String>
     ) {
-        this.id_user = id_user
         this.name = name
         this.birthday = birthday
         this.sex = sex
@@ -44,5 +57,21 @@ class User{
         this.uri_avt = uri_avt
         this.uri_cover = uri_cover
         this.password = password
+        this.follow_users = follow_users
+        this.follow_storys = follow_storys
     }
+
 }
+
+class User_Get{
+    var id_user: String = ""
+    var user: User = User()
+    constructor()
+    constructor(id_user: String, user: User) {
+        this.id_user = id_user
+        this.user = user
+    }
+
+
+}
+

@@ -3,17 +3,14 @@ package com.example.app_mxh_manga.homePage.component.story
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetNumberData
-import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.component.OnItemClick_2
 import com.example.app_mxh_manga.module.Genre
-import com.example.app_mxh_manga.module.Story
+import com.example.app_mxh_manga.module.Genre_Get
 
-class Adapter_RV_Genre2(val list: ArrayList<Genre>, val onItemClick: OnItemClick_2): RecyclerView.Adapter<Adapter_RV_Genre2.ItemViewHolder>(){
+class Adapter_RV_Genre2(val list: ArrayList<Genre_Get>, val onItemClick: OnItemClick_2): RecyclerView.Adapter<Adapter_RV_Genre2.ItemViewHolder>(){
     class ItemViewHolder(view: View): RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -23,7 +20,7 @@ class Adapter_RV_Genre2(val list: ArrayList<Genre>, val onItemClick: OnItemClick
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemView.apply {
             val tv_genre = findViewById<TextView>(R.id.tv_genre)
-            tv_genre.setText(list[position].name)
+            tv_genre.setText(list[position].genre.name)
             var checkOnClick = true
             tv_genre.setOnClickListener {
                 if (checkOnClick){

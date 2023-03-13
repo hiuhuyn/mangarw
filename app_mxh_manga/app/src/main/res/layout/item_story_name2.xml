@@ -25,11 +25,12 @@
         android:id="@+id/imageAvt"
         android:layout_width="80dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/ic_baseline_restart_alt_40"
         android:layout_alignParentTop="true"
         android:scaleType="centerCrop"
         android:background="@drawable/shape_bogoc"
         android:layout_toEndOf="@+id/tv_raring"
+        android:backgroundTint="@color/light_gray"
         android:outlineProvider="background"
         android:clipToOutline="true"
         />

@@ -1,7 +1,6 @@
 package com.example.app_mxh_manga.homePage.component.readmanga.component.common
 
 import android.os.Bundle
-import android.provider.ContactsContract.Contacts.Data
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ListView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.homePage.Activity_homePage
-import com.example.app_mxh_manga.module.DataTest
 import com.example.app_mxh_manga.module.Story
 
 
@@ -25,7 +23,7 @@ class Fragment_LV_Story_name2 : Fragment() {
         arguments?.let {
             type = it.getInt(ARG_TYPE)
             // lấy list ở đây
-            listStory.addAll(DataTest().getStory())
+//            listStory.addAll(DataTest().getStory())
         }
     }
 

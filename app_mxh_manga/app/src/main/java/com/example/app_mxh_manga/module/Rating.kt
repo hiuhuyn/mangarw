@@ -1,15 +1,23 @@
 package com.example.app_mxh_manga.module
 
 class Rating {
-    var id_rating: Int
-    var score: Short
-    var id_story: Int
-    var id_user: Int
+    var score: Short = 0
+    var id_user: String = ""
+    constructor()
 
-    constructor(id_rating: Int, score: Short, id_story: Int, id_user: Int) {
-        this.id_rating = id_rating
+    constructor(score: Short, id_user: String) {
         this.score = score
-        this.id_story = id_story
         this.id_user = id_user
     }
+}
+
+class Rating_Get{
+    var id_rating: String = ""
+    var rating: Rating = Rating()
+    constructor()
+    constructor(id_rating: String, rating: Rating) {
+        this.id_rating = id_rating
+        this.rating = rating
+    }
+
 }
