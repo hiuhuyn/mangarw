@@ -17,12 +17,8 @@ class Activity_Search : AppCompatActivity() {
     private lateinit var tabLayout: TabLayout
     private lateinit var tv_huy: TextView
     private lateinit var viewPager2: ViewPager2
-    private var adapterVP2: Adapter_VP2_Search
+    private lateinit var adapterVP2: Adapter_VP2_Search
     private var search = ""
-    init {
-        adapterVP2 = Adapter_VP2_Search(this)
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +27,7 @@ class Activity_Search : AppCompatActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         tv_huy = findViewById(R.id.tv_huy)
         viewPager2 = findViewById(R.id.viewPage2)
+        adapterVP2 = Adapter_VP2_Search(this)
         tv_huy.setOnClickListener {
             finish()
         }
@@ -49,7 +46,7 @@ class Activity_Search : AppCompatActivity() {
                     tab.setText("Bài viết")
                 }
                 3 -> {
-                    tab.setText("Tác giả/Dịch giả")
+                    tab.setText("Người dùng")
                 }
             }
         }
@@ -89,10 +86,6 @@ class Activity_Search : AppCompatActivity() {
     }
 
     private fun updateViewPager2(search: String) {
-        val progressDialog = ProgressDialog(this@Activity_Search)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
         val fragment = supportFragmentManager.findFragmentByTag("f${viewPager2.currentItem}")
 
         if(fragment is Fragment_Search_StoryNovel){
@@ -107,7 +100,6 @@ class Activity_Search : AppCompatActivity() {
         if(fragment is Fragment_Search_Author){
             fragment.updateDataSearch(search)
         }
-        adapterVP2.notifyDataSetChanged()
-        progressDialog.dismiss()
+//        adapterVP2.notifyDataSetChanged()
     }
 }

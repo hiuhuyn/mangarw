@@ -145,35 +145,17 @@ class Activity_EditProfile : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.check -> {
-                    val progressDialog = ProgressDialog(this)
-                    progressDialog.setMessage("Đang cập nhật...")
-                    progressDialog.setCancelable(false)
-                    progressDialog.show()
+                    val dialog = Notification(this).dialogLoading("Đang cập nhật...")
+                    dialog.show()
                     val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
-
-
                     if (user.name != edt_name.text.toString()){
                         UpdateData().name_user(idUser, edt_name.text.toString()){
-                            if (it){
-                                Toast.makeText(this, "Cập nhật tên thành công", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(this, "Cập nhật tên thất bại", Toast.LENGTH_SHORT).show()
-                            }
-
                         }
                     }
                     if ( avt2 != null ){
                         val pathNameAvt = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idUser}_avt.jpg"
                         AddData().newImage(avt2!!, pathNameAvt){
                             UpdateData().avtUser(idUser, pathNameAvt){
-                                if (it){
-                                    Toast.makeText(this, "Cập nhật avt thành công", Toast.LENGTH_SHORT).show()
-                                    DeleteData().oneImage(user.uri_avt){
-
-                                    }
-                                }else{
-                                    Toast.makeText(this, "Cập nhật avt thất bại", Toast.LENGTH_SHORT).show()
-                                }
                             }
                         }
                     }
@@ -182,44 +164,22 @@ class Activity_EditProfile : AppCompatActivity() {
                         val pathNameCover = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idUser}_cover.jpg"
                         AddData().newImage(cover2!!, pathNameCover){
                             UpdateData().coverUser(idUser, pathNameCover){
-                                if (it){
-                                    Toast.makeText(this, "Cập nhật ảnh bìa thành công", Toast.LENGTH_SHORT).show()
-                                    DeleteData().oneImage(user.uri_cover){
-                                    }
-                                }else{
-                                    Toast.makeText(this, "Cập nhật ảnh bìa thất bại", Toast.LENGTH_SHORT).show()
-                                }
                             }
                         }
                     }
                     if (user.story != edt_story.text.toString()){
                         UpdateData().story_user(idUser, edt_story.text.toString()){
-                            if (it){
-                                Toast.makeText(this, "Cập nhật tiểu sử thành công", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(this, "Cập nhật tiểu sử thất bại", Toast.LENGTH_SHORT).show()
-                            }
                         }
                     }
                     if (user.birthday != edt_birthday.text.toString()){
                         UpdateData().birthday_user(idUser, edt_birthday.text.toString()){
-                            if (it){
-                                Toast.makeText(this, "Cập nhật ngày sinh thành công", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(this, "Cập nhật ngày sinh thất bại", Toast.LENGTH_SHORT).show()
-                            }
                         }
                     }
                     if ( user.sex != sex){
                         UpdateData().sex_user(idUser, sex){
-                            if (it){
-                                Toast.makeText(this, "Cập nhật giới tính thành công", Toast.LENGTH_SHORT).show()
-                            }else{
-                                Toast.makeText(this, "Cập nhật giới tính thất bại", Toast.LENGTH_SHORT).show()
-                            }
                         }
                     }
-                    if (progressDialog.isShowing) progressDialog.dismiss()
+                    dialog.dismiss()
 
                 }
             }

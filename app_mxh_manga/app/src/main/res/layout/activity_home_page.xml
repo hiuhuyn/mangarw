@@ -23,8 +23,7 @@
         app:menu="@menu/menu_bottom_nav"
         app:itemIconTint="@color/bottom_nav_select_color"
         app:itemBackground="@android:color/transparent"
-        style="@style/Theme_LayoutItem"
-
+        style="@style/Toolbar"
         />
 
 </RelativeLayout>

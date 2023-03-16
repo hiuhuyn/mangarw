@@ -12,25 +12,23 @@
         app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_40"
         app:title="Chi tiết"
         android:layout_alignParentTop="true"
-        android:theme="@style/Theme_transparent"
+        android:theme="@style/Toolbar"
         />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_newChap"
-        android:background="@color/light_gray"
         android:layout_below="@id/toolbar">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:color/transparent">
+            android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_bogoc"
-                android:layout_marginBottom="10dp"
+                android:layout_marginVertical="10dp"
                 android:backgroundTint="@color/white">
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView"
@@ -56,10 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_margin="10dp"
                     android:layout_toEndOf="@+id/cardView"
                     android:maxLines="2"
                     android:text=""
@@ -71,7 +66,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_name"
                     android:layout_marginHorizontal="10dp"
-                    android:layout_marginBottom="51dp"
                     android:layout_toEndOf="@id/cardView"
                     android:background="@android:color/transparent"
                     android:text=""
@@ -117,7 +111,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chapter (0)"
-                    android:textSize="20dp"
+                    style="@style/Theme_textView"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentStart="true"
                     android:layout_margin="10dp"
@@ -143,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Tạo chương"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:background="@drawable/bg_btn_yellow"

@@ -11,27 +11,23 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
-import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
-import com.example.app_mxh_manga.homePage.component.common.Fragment_RV_Post
-import com.example.app_mxh_manga.homePage.component.common.showStory.Fragment_RV_Story
-import com.example.app_mxh_manga.homePage.component.story.Activity_creative_zone
-import com.example.app_mxh_manga.module.User
+import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
+
+import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
+import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class Activity_profile : AppCompatActivity() {
-    private lateinit var user: User
+    private lateinit var user: User_Get
 
 
     private lateinit var toolbar: Toolbar
@@ -43,14 +39,21 @@ class Activity_profile : AppCompatActivity() {
     private lateinit var tv_sex: TextView
     private lateinit var tv_followers: TextView
     private lateinit var tv_following: TextView
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager2: ViewPager2
     private lateinit var floatBtn: FloatingActionButton
     private lateinit var btn_follow: Button
     private lateinit var idUser: String
     private lateinit var idUserMain: String
-    private lateinit var adapterVp2Listfragment: Adapter_VP2_ListFragment
+    private lateinit var btn_post: Button
+    private lateinit var btn_story: Button
+    private lateinit var tv_empty: TextView
 
+    private lateinit var adapterPost: Adapter_RV_Post
+    private lateinit var adapterRvStory: Adapter_RV_Story
+    private var checkPost = false
+    private var checkStory = false
+
+
+    private lateinit var rv : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,22 +67,29 @@ class Activity_profile : AppCompatActivity() {
         tv_sex = findViewById(R.id.tv_sex)
         tv_followers = findViewById(R.id.tv_followers)
         tv_following = findViewById(R.id.tv_following)
-        tabLayout = findViewById(R.id.tabLayout)
-        viewPager2 = findViewById(R.id.viewPage2)
         floatBtn = findViewById(R.id.float_btn)
         btn_follow = findViewById(R.id.btn_follow)
+        rv = findViewById(R.id.recyclerView)
+        btn_post  = findViewById(R.id.btn_post)
+        btn_story= findViewById(R.id.btn_story)
+        tv_empty= findViewById(R.id.tv_empty)
+        tv_empty.setText(". . .")
+        tv_empty.visibility= View.VISIBLE
+
         val bundle = intent.extras
         if (bundle != null) {
             idUser = bundle.getString(IDUSER).toString()
         }
         idUserMain = ModeDataSaveSharedPreferences(this).getIdUser()
-        GetData().getUserByID(idUser){
-            if (it != null) {
-                user = it.user
-                tv_name.setText(user.name)
-                tv_desc.setText("Tiểu sử: "+user.story)
-                tv_level.setText("lv ${NumberData().formatLevel(user.score)}")
-                if (user.sex){
+        val dialog = Notification(this).dialogLoading("Loading...")
+        dialog.show()
+        GetData().getUserByID(idUser){ userGet ->
+            if (userGet != null) {
+                user = userGet
+                tv_name.setText(user.user.name)
+                tv_desc.setText("Tiểu sử: "+user.user.story)
+                tv_level.setText("lv ${NumberData().formatLevel(user.user.score)}")
+                if (user.user.sex){
                     tv_sex.setText("Nam")
                 }else{
                     tv_sex.setText("Nu")
@@ -90,50 +100,56 @@ class Activity_profile : AppCompatActivity() {
                         tv_followers.setText(NumberData().formatInt(it.size))
                     }
                 }
-                tv_following.setText(NumberData().formatInt(user.follow_users.size))
-                val listFragment = ArrayList<Fragment>()
+                tv_following.setText(NumberData().formatInt(user.user.follow_users.size))
 
-                GetData().getImage(user.uri_avt){
-                    Picasso.with(this).load(it).into(iv_avt)
-                }
-                GetData().getImage(user.uri_cover){
-                    Picasso.with(this).load(it).into(iv_cover)
-                }
-                adapterVp2Listfragment = Adapter_VP2_ListFragment(this@Activity_profile, listFragment)
-                val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2){ tab, i ->
-                    when(i){
-                        0 -> {
-                            tab.setText("Bảng tin")
-                        }
-                        1 -> {
-                            tab.setText("Tác phẩm")
-                        }
-                    }
-                    true
-                }
-                GetData().getStoryByIdUser(idUser){
-                    if (it!=null){
-                        val list = ArrayList<String>()
-                        for (item in it){
-                            list.add(item.id_story)
-                        }
-                        listFragment.add(Fragment_RV_Post.newInstance(idUser))
-                        listFragment.add(Fragment_RV_Story.newInstance(list))
-                        adapterVp2Listfragment.notifyDataSetChanged()
+                GetData().getImage(user.user.uri_avt){
+                    if(it!=null){
+                        Picasso.with(this).load(it).into(iv_avt)
                     }
                 }
-                viewPager2.adapter = adapterVp2Listfragment
-                tabLayoutMediator.attach()
+                GetData().getImage(user.user.uri_cover){
+                    if(it!=null){
+                        Picasso.with(this).load(it).into(iv_cover)
+                    }
+                }
+                //
+                GetData().getPost_IdUser(idUser){ posts->
+                    if (posts!=null){
+                        adapterPost = Adapter_RV_Post(posts, idUser)
+                        checkPost = true
+                        rv.adapter = adapterPost
+                        tv_empty.visibility = View.GONE
+                    }else{
+                        checkPost = false
+                        tv_empty.visibility = View.VISIBLE
+                        tv_empty.setText("Hiện chưa có bài viết nào")
+                    }
+                    GetData().getStoryByIdUser(idUser){ storys ->
+                        if (storys!=null){
+                            adapterRvStory = Adapter_RV_Story(storys, object : OnItemClick{
+                                override fun onItemClick(position: Int) {
+
+                                }
+                            })
+                            checkStory = true
+                        }else{
+                            checkStory = false
+                        }
+                        dialog.dismiss()
+                        addEvent()
+                    }
+                }
                 if (idUserMain == idUser){
                     profile_me()
                 }else{
                     profile_other()
                 }
+            }else{
+                dialog.dismiss()
+                Notification(this).toastCustom("Lấy thông tin thất bại")
+                finish()
             }
         }
-
-
-        addEvent()
     }
 
 
@@ -143,7 +159,6 @@ class Activity_profile : AppCompatActivity() {
         iv_avt.setOnClickListener {
             //
         }
-        btn_follow.setText("Đang loading...")
         GetData().getUserByID(idUserMain){ userGet ->
             if (userGet!=null){
                 var check_follow = false
@@ -161,37 +176,32 @@ class Activity_profile : AppCompatActivity() {
                 btn_follow.setOnClickListener {
                     if (check_follow){
                         btn_follow.setText("Theo dõi")
-                        check_follow = false
                         UpdateData().removeFollow_user(idUserMain, idUser){
                             if (it){
                                 btn_follow.setText("Theo dõi")
                                 check_follow = false
-                            }
-                        }
-
-                    }else{
-                        UpdateData().newFollow_user(idUserMain, idUser){
-                            if (it){
+                            }else{
                                 btn_follow.setText("Đang theo dõi")
                                 check_follow = true
                             }
                         }
 
+                    }else{
+                        btn_follow.setText("Đang theo dõi")
+                        UpdateData().newFollow_user(idUserMain, idUser){
+                            if (it){
+                                btn_follow.setText("Đang theo dõi")
+                                check_follow = true
+                            }else{
+                                btn_follow.setText("Theo dõi")
+                                check_follow = false
+                            }
+                        }
+
                     }
                 }
-
-
-
             }
         }
-
-
-
-
-
-
-
-
     }
     private fun profile_me(){
         floatBtn.visibility = View.VISIBLE
@@ -211,7 +221,6 @@ class Activity_profile : AppCompatActivity() {
                     Toast.makeText(this, listIv_Str[position].str, Toast.LENGTH_SHORT).show()
                 }
             }
-
             bottomSheet.show()
         }
         floatBtn.setOnClickListener {
@@ -223,5 +232,28 @@ class Activity_profile : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             finish()
         }
+        btn_post.setOnClickListener {
+            if (checkPost){
+                rv.adapter = adapterPost
+                tv_empty.visibility = View.GONE
+            }else{
+                rv.adapter = null
+                tv_empty.visibility = View.VISIBLE
+                tv_empty.setText("Hiện chưa có bài viết nào.")
+            }
+        }
+        btn_story.setOnClickListener {
+            if (checkStory){
+                rv.adapter = adapterRvStory
+                tv_empty.visibility = View.GONE
+            }else{
+                rv.adapter = null
+                tv_empty.visibility = View.VISIBLE
+                tv_empty.setText("Hiện chưa có tác phẩm nào")
+
+            }
+        }
+
+
     }
 }

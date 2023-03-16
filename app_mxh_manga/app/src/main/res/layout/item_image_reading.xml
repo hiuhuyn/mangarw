@@ -7,7 +7,7 @@
         android:id="@+id/iv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_restart_alt_40"
+        android:src="@drawable/ic_launcher_foreground"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:backgroundTint="@android:color/transparent"

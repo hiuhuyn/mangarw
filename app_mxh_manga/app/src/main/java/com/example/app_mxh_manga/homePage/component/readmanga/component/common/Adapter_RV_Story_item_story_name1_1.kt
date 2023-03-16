@@ -11,12 +11,11 @@ import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.module.Story
 
 
-
-class Adapter_RV_story_recommend(val list: ArrayList<Story>, val size: Int ,val onItemClick: OnItemClick): RecyclerView.Adapter<Adapter_RV_story_recommend.StoryItemHolder>() {
+class Adapter_RV_Story_item_story_name1_1(val list: ArrayList<Story>, val onItemClick: OnItemClick): RecyclerView.Adapter<Adapter_RV_Story_item_story_name1_1.StoryItemHolder>() {
     class StoryItemHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryItemHolder {
-        return StoryItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_story_name1, parent, false))
+        return StoryItemHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_story_name1_1, parent, false))
     }
 
     override fun onBindViewHolder(holder: StoryItemHolder, position: Int) {
@@ -26,18 +25,17 @@ class Adapter_RV_story_recommend(val list: ArrayList<Story>, val size: Int ,val 
 
 //            imageView.setImageURI(list[position].cover_image)
 //            tv_name.setText(list[position].name)
-            imageView.setOnClickListener {
-                onItemClick.onItemClick(position)
-            }
+
+        }
+        holder.itemView.setOnClickListener {
+            onItemClick.onItemClick(position)
+
+
         }
     }
 
     override fun getItemCount(): Int {
-        if (list.size <= size){
-            return list.size
-        }else{
-            return size
-        }
+        return list.size
     }
 
 

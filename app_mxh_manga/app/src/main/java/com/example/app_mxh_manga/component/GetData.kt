@@ -1,6 +1,7 @@
 package com.example.app_mxh_manga.component
 
 import android.net.Uri
+import android.nfc.Tag
 import android.util.Log
 import com.example.app_mxh_manga.module.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -9,8 +10,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.rpc.Help.Link
 
+const val TAGGET ="GetData"
 class GetData{
     private val db = Firebase.firestore
     fun getUserByEmail(email: String, callback: (user: User_Get?) -> Unit){
@@ -32,7 +33,7 @@ class GetData{
                     }
                 }
                 .addOnFailureListener {
-                    Log.d("GetData", "Khong truy xuat duoc: ", it)
+                    Log.d(TAGGET, "Khong truy xuat duoc: ", it)
                     callback(null)
                 }
         }else{
@@ -48,19 +49,14 @@ class GetData{
             userRef.get().addOnSuccessListener {
                 if (it != null){
                     val user = it.toObject(User::class.java)!!
-                    Log.d("GetData", "getUserByID User data: ${user.name}")
-                    if (user!=null){
-                        val userGet = User_Get(it.id, user)
-                        callback(userGet)
-                    }else{
-                        callback(null)
-                    }
+                    val userGet = User_Get(it.id, user)
+                    callback(userGet)
                 }else{
-                    Log.d("GetData", "No such document")
+                    Log.d(TAGGET, "No such document")
                     callback(null)
                 }
             }.addOnFailureListener {
-                Log.d("GetData", "get failed with ", it)
+                Log.d(TAGGET, "get failed with ", it)
                 callback(null)
             }
         }else{
@@ -85,7 +81,7 @@ class GetData{
 
             }
             .addOnFailureListener { exception ->
-                Log.w("GetData", "getAllUser Error getting documents.", exception)
+                Log.w(TAGGET, "getAllUser Error getting documents.", exception)
                 callback(null)
             }
     }
@@ -119,7 +115,11 @@ class GetData{
         if (src!= ""){
             val storageReference2 = FirebaseStorage.getInstance().getReference(src)
             storageReference2.downloadUrl.addOnSuccessListener {
-                callback(it)
+                if (it!=null){
+                    callback(it)
+                }else{
+                    callback(null)
+                }
             }.addOnFailureListener {
                 callback(null)
             }
@@ -127,75 +127,75 @@ class GetData{
             callback(null)
         }
     }
-    fun getStory_latestUpdates(callback: (ArrayList<Story_Get>?) -> Unit){
-        FirebaseFirestore.getInstance().collection("Chapters")
-            .orderBy("date_submit", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener {
-                val groupChapter = it.groupBy {
-                    it.getString("id_story")
-                }
-                val id_storys = groupChapter.keys.toList()
-                if (id_storys.isEmpty()){
-                    callback(null)
-                }else{
-                    val listStory_Get = ArrayList<Story_Get>()
-                    for (i in id_storys){
-                        if (i != null) {
-                            GetData().getStoryByID(i){
-                                if (it != null) {
-                                    listStory_Get.add(it)
-                                }else{
-                                    callback(null)
-                                }
-                            }
-                        }else{
-                            callback(null)
-                        }
-                    }
-                    callback(listStory_Get)
-                }
-            }
-            .addOnFailureListener {
-                callback(null)
-                Log.d("GetData", "getStoryLimit: $it")
-            }
-    }
-    fun getStory_latestUpdates(type: Boolean, callback: (ArrayList<Story_Get>?) -> Unit){
-        FirebaseFirestore.getInstance().collection("Chapters")
-            .whereEqualTo("type", type)
-            .orderBy("date_submit", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener {
-                val groupChapter = it.groupBy {
-                    it.getString("id_story")
-                }
-                val id_storys = groupChapter.keys.toList()
-                if (id_storys.isEmpty()){
-                    callback(null)
-                }else{
-                    val listStory_Get = ArrayList<Story_Get>()
-                    for (i in id_storys){
-                        if (i != null) {
-                            GetData().getStoryByID(i){
-                                if (it != null) {
-                                    listStory_Get.add(it)
-                                }else{
-                                    callback(null)
-                                }
-                            }
-                        }else{
-                            callback(null)
-                        }
-                    }
-                    callback(listStory_Get)
-                }
-            }
-            .addOnFailureListener {
-                callback(null)
-                Log.d("GetData", "getStoryLimit: $it")
-            }
-    }
+//    fun getStory_latestUpdates(callback: (ArrayList<Story_Get>?) -> Unit){
+//        FirebaseFirestore.getInstance().collection("Chapters")
+//            .orderBy("date_submit", Query.Direction.DESCENDING)
+//            .get()
+//            .addOnSuccessListener { it ->
+//                val groupChapter = it.groupBy {
+//                    it.getString("id_story")
+//                }
+//                val id_storys = groupChapter.keys.toList()
+//                if (id_storys.isEmpty()){
+//                    callback(null)
+//                }else{
+//                    val listStory_Get = ArrayList<Story_Get>()
+//                    for (i in id_storys){
+//                        if (i != null) {
+//                            GetData().getStoryByID(i){
+//                                if (it != null) {
+//                                    listStory_Get.add(it)
+//                                }else{
+//                                    callback(null)
+//                                }
+//                            }
+//                        }else{
+//                            callback(null)
+//                        }
+//                    }
+//                    callback(listStory_Get)
+//                }
+//            }
+//            .addOnFailureListener {
+//                callback(null)
+//                Log.d(TAGGET, "getStoryLimit: $it")
+//            }
+//    }
+//    fun getStory_latestUpdates(type: Boolean, callback: (ArrayList<Story_Get>?) -> Unit){
+//        FirebaseFirestore.getInstance().collection("Chapters")
+//            .whereEqualTo("type", type)
+//            .orderBy("date_submit", Query.Direction.DESCENDING)
+//            .get()
+//            .addOnSuccessListener {
+//                val groupChapter = it.groupBy {
+//                    it.getString("id_story")
+//                }
+//                val id_storys = groupChapter.keys.toList()
+//                if (id_storys.isEmpty()){
+//                    callback(null)
+//                }else{
+//                    val listStory_Get = ArrayList<Story_Get>()
+//                    for (i in id_storys){
+//                        if (i != null) {
+//                            GetData().getStoryByID(i){
+//                                if (it != null) {
+//                                    listStory_Get.add(it)
+//                                }else{
+//                                    callback(null)
+//                                }
+//                            }
+//                        }else{
+//                            callback(null)
+//                        }
+//                    }
+//                    callback(listStory_Get)
+//                }
+//            }
+//            .addOnFailureListener {
+//                callback(null)
+//                Log.d(TAGGET, "getStoryLimit: $it")
+//            }
+//    }
 
     fun userFollowStory(id_story: String, callback: (array: ArrayList<User_Get>?) -> Unit){
         if (id_story!=""){
@@ -256,14 +256,13 @@ class GetData{
             userRef.get().addOnSuccessListener {
                 if (it != null){
                     val post = it.toObject(Posts::class.java)!!
-                    Log.d("GetData", "GetPost post data: ${it.data}")
                     callback(Post_Get(it.id,post))
                 }else{
                     Log.d("GetData", "GetPost No such document ")
                     callback(null)
                 }
             }.addOnFailureListener {
-                Log.d("GetData", "GetPost get failed with ", it)
+                Log.d(TAGGET, "GetPost get failed with ", it)
                 callback(null)
             }
         }else{
@@ -276,7 +275,7 @@ class GetData{
             .orderBy("date_submit", Query.Direction.DESCENDING)
             .get().addOnSuccessListener {
             if (it.isEmpty){
-                Log.d("GetData", "getAllPosts isEmpty")
+                Log.d(TAGGET, "getAllPosts isEmpty")
                 callback(null)
             }else{
                 val postsGet = ArrayList<Post_Get>()
@@ -287,7 +286,7 @@ class GetData{
             }
         }.addOnFailureListener {
             callback(null)
-                Log.d("GetData", "getAllPosts: $it")
+                Log.d(TAGGET, "getAllPosts: $it")
         }
     }
 
@@ -296,12 +295,15 @@ class GetData{
             val storyRef  = FirebaseFirestore.getInstance().collection("Storys")
             storyRef.whereEqualTo("id_user", id_user).get()
                 .addOnSuccessListener {
-                    val storyGet: ArrayList<Story_Get> =ArrayList()
-
-                    for (item in it){
-                        storyGet.add(Story_Get(item.id, item.toObject()))
+                    if (it.isEmpty){
+                        callback(null)
+                    }else{
+                        val storyGet: ArrayList<Story_Get> =ArrayList()
+                        for (item in it){
+                            storyGet.add(Story_Get(item.id, item.toObject()))
+                        }
+                        callback(storyGet)
                     }
-                    callback(storyGet)
                 }.addOnFailureListener {
                     callback(null)
                 }
@@ -331,7 +333,6 @@ class GetData{
     }
 
     fun getChapterByIdStory(id_story: String, callback: (chapters: ArrayList<Chapter_Get>?)->Unit){
-        Log.d("GetData", "getChapterByIdStory id story: $id_story")
         if (id_story!=""){
             val storyRef = FirebaseFirestore.getInstance().collection("Chapters")
                 .whereEqualTo("id_story", id_story)
@@ -340,18 +341,17 @@ class GetData{
                 .addOnSuccessListener {
                     if (it.isEmpty){
                         callback(null)
-                        Log.d("GetData", "getChapterByIdStory isEmpty")
+                        Log.d(TAGGET, "getChapterByIdStory isEmpty")
                     }else{
                         val chapters = ArrayList<Chapter_Get>()
                         for (item in it){
                             chapters.add(Chapter_Get(item.id, item.toObject()))
                         }
-                        Log.d("GetData", "getChapterByIdStory ${chapters.toArray()}")
                         callback(chapters)
                     }
 
                 }.addOnFailureListener {
-                    Log.d("GetData", "getChapterByIdStory $it")
+                    Log.d(TAGGET, "getChapterByIdStory $it")
                     callback(null)
                 }
         }
@@ -477,6 +477,104 @@ class GetData{
             callback(null)
         }
     }
+
+    fun getCmtPostByIDPost(id_post: String, callback: (array: ArrayList<Comment_Post_Get>?) -> Unit){
+        if (id_post!=""){
+            val cmtRef = FirebaseFirestore.getInstance().collection("Comment_post")
+            cmtRef.whereEqualTo("id_post", id_post)
+                .orderBy("date_submit", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener {
+                    if (it.isEmpty){
+                        Log.d(TAGGET, "getCmtPostByIDPost isEmpty")
+                        callback(null)
+                    }else{
+                        val list = ArrayList<Comment_Post_Get>()
+                        for(i in it){
+                            list.add(Comment_Post_Get(i.id, i.toObject()))
+                        }
+                        callback(list)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getCmtPostByIDPost addOnFailureListener:  $it" )
+                }
+        }else{
+            callback(null)
+        }
+    }
+    fun getCmtPostByIDCmt(id_comment: String, callback: (Comment_Post_Get?) -> Unit){
+        if (id_comment!=""){
+            val cmtRef = FirebaseFirestore.getInstance().collection("Comment_post")
+                .document(id_comment)
+                .get()
+                .addOnSuccessListener {
+                    if (it!=null ){
+                        callback(Comment_Post_Get(it.id, it.toObject<Comment_post>()!!))
+                    }else{
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getCmtByIDCmt addOnFailureListener: $it")
+                }
+        }else{
+            callback(null)
+        }
+    }
+    fun getCmtChapterByIDChapter(id_chapter: String, callback: (array: ArrayList<Comment_Chapter_Get>?) -> Unit){
+        if (id_chapter!=""){
+            val cmtRef = FirebaseFirestore.getInstance().collection("Comment_chapter")
+            cmtRef.whereEqualTo("id_chapter", id_chapter)
+                .orderBy("date_submit", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener {
+                    if (it.isEmpty){
+                        Log.d(TAGGET, "getCmtChapterByIDChapter isEmpty")
+                        callback(null)
+                    }else{
+                        val list = ArrayList<Comment_Chapter_Get>()
+                        for(i in it){
+                            list.add(Comment_Chapter_Get(i.id, i.toObject()))
+                        }
+                        callback(list)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getCmtChapterByIDChapter addOnFailureListener:  $it" )
+                }
+        }else{
+            callback(null)
+        }
+    }
+    fun getCmtChapterByIDCmt(id_comment: String, callback: (Comment_Chapter_Get?) -> Unit){
+        if (id_comment!=""){
+            val cmtRef = FirebaseFirestore.getInstance().collection("Comment_chapter")
+                .document(id_comment)
+                .get()
+                .addOnSuccessListener {
+                    if (it!=null){
+                        val comment = it.toObject<Comment_chapter>()
+                        if (comment!=null){
+                            callback(Comment_Chapter_Get(it.id, comment))
+                        }
+
+                    }else{
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getCmtChapterByIDCmt addOnFailureListener: $it")
+                }
+        }else{
+            callback(null)
+        }
+    }
+
 
 
 

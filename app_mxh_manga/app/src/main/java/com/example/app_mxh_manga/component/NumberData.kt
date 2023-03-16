@@ -47,8 +47,6 @@ class NumberData {
             return 8
         }else if (score in 35000..39999){
             return 9
-        }else if (score >= 40000 ){
-            return 10
         }
         return 0
     }
@@ -59,7 +57,6 @@ class NumberData {
         val diffInSeconds = (currentTime.time - pastTime.time)/1000
         val minutes = TimeUnit.SECONDS.toMinutes(diffInSeconds)
         val hours = TimeUnit.SECONDS.toHours(diffInSeconds)
-        val days = TimeUnit.DAYS.toHours(diffInSeconds)
 
         if (diffInSeconds<60){
             return "${diffInSeconds} giây trước"
@@ -67,10 +64,8 @@ class NumberData {
             return "${minutes} phút trước"
         }else if (hours <24 && hours >=0 ){
             return "${hours} giờ trước"
-        }else if(days >= 1 && days <= 7){
-            return "${days} ngày trước"
         }else{
-            return  SimpleDateFormat("dd/mm/yyyy").format(pastTime)
+            return  SimpleDateFormat("dd/MM/yyyy").format(pastTime)
         }
     }
 

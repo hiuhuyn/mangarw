@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_recommend
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_VP2_BXH
+import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_item_story_name1
 import com.example.app_mxh_manga.module.Story
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -64,7 +64,7 @@ class Fragment_Recommend : Fragment() {
         }
         val listStoryHot:ArrayList<Story> = getStoryHot()
 
-        recyclerView.adapter = Adapter_RV_story_recommend(listStoryHot,9, object : OnItemClick{
+        recyclerView.adapter = Adapter_RV_story_item_story_name1(listStoryHot,9, object : OnItemClick{
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()
@@ -89,7 +89,7 @@ class Fragment_Recommend : Fragment() {
         }
         val listStoryHot:ArrayList<Story> = getStoryHot()
 
-        recyclerView.adapter = Adapter_RV_story_recommend(listStoryHot,9, object : OnItemClick{
+        recyclerView.adapter = Adapter_RV_story_item_story_name1(listStoryHot,9, object : OnItemClick{
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()
@@ -115,7 +115,8 @@ class Fragment_Recommend : Fragment() {
 
         }
 
-        viewPager2.adapter = Adapter_VP2_BXH(activityHomepage)
+        val listFragment = ArrayList<Fragment>()
+        viewPager2.adapter = Adapter_VP2_ListFragment(activityHomepage, listFragment)
         val tabMedia = TabLayoutMediator(tabLayout, viewPager2){ tab, position ->
             when(position){
                 0 -> {
@@ -144,7 +145,7 @@ class Fragment_Recommend : Fragment() {
         }
         val listStoryHot:ArrayList<Story> = getStoryHot()
 
-        recyclerView.adapter = Adapter_RV_story_recommend(listStoryHot,9, object : OnItemClick{
+        recyclerView.adapter = Adapter_RV_story_item_story_name1(listStoryHot,9, object : OnItemClick{
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomepage, Activity_showStory::class.java)
                 val bundle = Bundle()

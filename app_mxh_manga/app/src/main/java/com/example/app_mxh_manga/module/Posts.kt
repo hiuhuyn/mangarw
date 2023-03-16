@@ -9,7 +9,6 @@ class Posts {
     var date_submit: Date = Calendar.getInstance().time
     var images: ArrayList<String> = ArrayList()
     var likes: ArrayList<String> = ArrayList()
-    var comments: ArrayList<String> = ArrayList()
     constructor()
 
     constructor(
@@ -17,15 +16,13 @@ class Posts {
         content: String,
         date_submit: Date,
         images: ArrayList<String>,
-        likes: ArrayList<String>,
-        comments: ArrayList<String>
+        likes: ArrayList<String>
     ) {
         this.id_user = id_user
         this.content = content
         this.date_submit = date_submit
         this.images = images
         this.likes = likes
-        this.comments = comments
     }
 
     constructor(id_user: String, content: String, images: ArrayList<String>) {

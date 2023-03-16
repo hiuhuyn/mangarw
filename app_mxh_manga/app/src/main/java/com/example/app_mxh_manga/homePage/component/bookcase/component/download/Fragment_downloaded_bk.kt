@@ -9,8 +9,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.homePage.Activity_homePage
-import com.example.app_mxh_manga.homePage.component.common.KEY_STORY
-import com.example.app_mxh_manga.homePage.component.common.ONE_STORY
+
 import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Story
 import com.example.app_mxh_manga.module.Story
 

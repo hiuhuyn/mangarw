@@ -15,10 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.AddData
-import com.example.app_mxh_manga.component.GetData
-import com.example.app_mxh_manga.component.OnItemClick
-import com.example.app_mxh_manga.component.UpdateData
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.module.Chapter
 import com.example.app_mxh_manga.module.Posts
 import java.text.SimpleDateFormat
@@ -113,20 +110,16 @@ class Activity_newChapter : AppCompatActivity() {
             val textContent = edt_content.text.toString().trim()
             val textTitle = edt_title.text.toString().trim()
 
-            val progressDialog = ProgressDialog(this)
-            progressDialog.setMessage("Đang tạo mới...")
-            progressDialog.setCancelable(false)
-            progressDialog.show()
+            val dialog = Notification(this).dialogLoading("Save...")
             val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
             var index = 0
 
-            var chapter = Chapter(textTitle, id_story, textContent)
-
+            val chapter = Chapter(textTitle, id_story, textContent)
+            dialog.show()
             AddData().newChapter(chapter){ id_chapter->
-                progressDialog.dismiss()
+                dialog.dismiss()
                 if (id_chapter != null){
                     if (listUri.size > 0){
-                        progressDialog.show()
                         for (i in listUri){
                             val pathName = "images_chapter/${simpleDateFormat.format(Calendar.getInstance().time)}_${id_chapter}_${index}.jpg"
                             AddData().newImage(i, pathName){
@@ -135,18 +128,13 @@ class Activity_newChapter : AppCompatActivity() {
                             }
                             index++
                         }
-                        progressDialog.dismiss()
                     }
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                    Toast.makeText(this, "Thêm chương mới thành công!", Toast.LENGTH_SHORT).show()
+                    Notification(this).toastCustom("Thêm chương mới thành công!").show()
                     finish()
                 }else{
-                    if (progressDialog.isShowing) progressDialog.dismiss()
-                    Toast.makeText(this, "Thêm chương thất bại!", Toast.LENGTH_SHORT).show()
+                    Notification(this).toastCustom("Thêm chương thất bại!").show()
                 }
             }
-
-
         }
     }
 }

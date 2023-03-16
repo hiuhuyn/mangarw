@@ -33,7 +33,7 @@
                 android:id="@+id/imageStory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_restart_alt_40"
+                android:src="@drawable/ic_launcher_foreground"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"/>
         </androidx.cardview.widget.CardView>
@@ -48,7 +48,7 @@
         android:text=""
         android:textStyle="bold"
         android:background="@android:color/transparent"
-        android:textSize="25dp"
+        android:textSize="15sp"
         android:layout_marginHorizontal="10dp"
         android:maxLines="1"
         android:gravity="center_vertical"

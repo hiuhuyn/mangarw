@@ -1,50 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <View
         android:id="@+id/view"
         android:layout_width="70dp"
         android:layout_height="5dp"
         android:background="@drawable/shape_bogoc"
         android:backgroundTint="#6B6B6B"
-        android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         />
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        android:layout_below="@id/view"
+        android:layout_above="@+id/view2"
+        />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/relativeLayout_cmt"
+        android:background="@color/black_50" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout_cmt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black_50"
-            />
+        android:padding="10dp">
+
         <EditText
+            android:id="@+id/edt_cmt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_bogoc"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/ib_send"
+            android:background="@drawable/selector_btn_rg30"
             android:backgroundTint="#E4E4E4"
-            android:textSize="25dp"
-            android:text=""
-            android:paddingVertical="10dp"
-            android:paddingHorizontal="20dp"
-            android:inputType="text"
             android:hint="Viết bình luận..."
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:textSize="15sp"
+            android:layout_marginVertical="10dp"/>
 
-
-        </LinearLayout>
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/ib_send"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignBottom="@+id/edt_cmt"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/btn_like_cmt"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_send_24"
+            android:contentDescription="TODO" />
+    </RelativeLayout>
 
 </RelativeLayout>

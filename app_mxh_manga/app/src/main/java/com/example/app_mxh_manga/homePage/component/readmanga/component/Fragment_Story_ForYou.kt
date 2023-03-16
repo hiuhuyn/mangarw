@@ -12,7 +12,7 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_Story_2
+import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_Story_item_story_name1_1
 import com.example.app_mxh_manga.module.Story
 
 public const val TYPE_STORY = "type_story"
@@ -49,7 +49,7 @@ class Fragment_Story_ForYou : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_rv, container, false)
         recyclerView = view.findViewById(R.id.recyclerView)
         activityHomePage = activity as Activity_homePage
-        recyclerView.adapter = Adapter_RV_Story_2(listStory, object : OnItemClick{
+        recyclerView.adapter = Adapter_RV_Story_item_story_name1_1(listStory, object : OnItemClick{
             override fun onItemClick(index: Int) {
                 val i = Intent(activityHomePage, Activity_showStory::class.java)
                 val bundle = Bundle()

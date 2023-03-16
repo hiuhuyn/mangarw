@@ -1,5 +1,6 @@
 package com.example.app_mxh_manga.homePage.component.story
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.homePage.component.common.Activity_readingStory
@@ -36,6 +38,8 @@ class Activity_MyStory : AppCompatActivity() {
     private lateinit var story_get: Story_Get
     private lateinit var id_story: String
     private var listChapter = ArrayList<Chapter_Get>()
+    private lateinit var notification: Notification
+    private lateinit var dialog: Dialog
 
     private lateinit var adapterRvChapter: Adapter_RV_Chapter
 
@@ -52,20 +56,24 @@ class Activity_MyStory : AppCompatActivity() {
         btn_stats = findViewById(R.id.btn_stats)
         btn_newChap = findViewById(R.id.btn_newChap)
         rv_chap = findViewById(R.id.rv_chap)
+        notification = Notification(this)
+        dialog = notification.dialogLoading("Loading...")
         val bundle = intent.extras
         if (bundle!=null){
             id_story = bundle.getString(IDStory).toString()
         }else{
-            Toast.makeText(this, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show()
+            notification.toastCustom("Hì như app không nhận được id của truyện\nthử lại đi").show()
             finish()
         }
-
-
+        dialog.show()
         GetData().getStoryByID(id_story){ storyGet ->
+            dialog.dismiss()
             if (storyGet!= null){
                 story_get = storyGet
                 GetData().getImage(story_get.story.cover_image){
-                    Picasso.with(this).load(it).into(iv_avt)
+                    if(it!=null){
+                        Picasso.with(this).load(it).into(iv_avt)
+                    }
                 }
                 tv_name.setText(story_get.story.name)
                 if (story_get.story.type){
@@ -108,12 +116,14 @@ class Activity_MyStory : AppCompatActivity() {
     private fun addEvent() {
 
         btn_newChap.setOnClickListener {
+            dialog.show()
             val i = Intent(this, Activity_newChapter::class.java)
             val bundle = Bundle()
             bundle.putString(IDStory, id_story)
             bundle.putBoolean("type", story_get.story.type)
             i.putExtras(bundle)
             startActivity(i)
+            dialog.dismiss()
         }
 
         btn_edit.setOnClickListener {

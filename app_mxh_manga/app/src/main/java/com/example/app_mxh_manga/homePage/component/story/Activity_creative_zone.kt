@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
+import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.module.Story
 import com.example.app_mxh_manga.module.Story_Get
@@ -43,12 +44,13 @@ class Activity_creative_zone : AppCompatActivity() {
         tv_income = findViewById(R.id.tv_income)
         float_btn = findViewById(R.id.float_btn)
 
-
+        val dialog = Notification(this).dialogLoading("Loading...")
+        dialog.show()
         GetData().getStoryByIdUser(idUser){ storys ->
+            dialog.dismiss()
             if ( storys!= null){
                 listStory.addAll(storys)
                 Log.d("GetData", "creative: ${storys.toArray()}")
-//                adapterRvStoryCompose.update(listStory)
                 adapterRvStoryCompose = Adapter_RV_Story_compose(listStory, object : OnItemClick{
                     override fun onItemClick(position: Int) {
                         val i = Intent(this@Activity_creative_zone, Activity_MyStory::class.java)

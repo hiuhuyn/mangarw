@@ -1,5 +1,6 @@
 package com.example.app_mxh_manga.homePage.component.profile
 
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -12,10 +13,7 @@ import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData
-import com.example.app_mxh_manga.component.NumberData
-import com.example.app_mxh_manga.component.Int_Uri
-import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
 
 import com.example.app_mxh_manga.homePage.Activity_homePage
@@ -43,8 +41,8 @@ class Fragment_Profile : Fragment() {
     private lateinit var tv_level:TextView
     private lateinit var tv_followers:TextView
     private lateinit var tv_following:TextView
-    private lateinit var progressBar: ProgressBar
-
+    private lateinit var notification: Notification
+    private lateinit var dialog: Dialog
     val listIv_Str = arrayListOf(
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Hồ sơ"),
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_monetization_on_40), "Nạp tiền"),
@@ -76,31 +74,36 @@ class Fragment_Profile : Fragment() {
         tv_level = view.findViewById(R.id.tv_level)
         tv_followers = view.findViewById(R.id.tv_followers)
         tv_following = view.findViewById(R.id.tv_following)
-        progressBar = view.findViewById(R.id.progressBar)
         activityHomepage = activity as Activity_homePage
-        progressBar.visibility = View.VISIBLE
+        listView.adapter = Adapter_LV_iv_string(activityHomepage, listIv_Str)
+
+        notification = Notification(view.context)
+        dialog = notification.dialogLoading("Loading...")
+        dialog.show()
         idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
-        GetData().getUserByID(idUser){
-            progressBar.visibility = View.GONE
-            if (it != null) {
-                tv_name.text = it.user.name
-                tv_followers.setText("${NumberData().formatInt(it.user.follow_users.size)}")
-                tv_following.setText("${NumberData().formatInt(it.user.follow_users.size)}")
-                tv_level.setText("LV ${NumberData().formatLevel(it.user.score)}")
-                progressBar.visibility = View.VISIBLE
-                GetData().getImage(it.user.uri_avt){ uri ->
-                    progressBar.visibility = View.GONE
+        GetData().getUserByID(idUser){ userGet ->
+            dialog.dismiss()
+            if (userGet != null) {
+                tv_name.text = userGet.user.name
+                tv_following.setText("${NumberData().formatInt(userGet.user.follow_users.size)}")
+                tv_level.setText("LV ${NumberData().formatLevel(userGet.user.score)}")
+                GetData().usersFollowUser(idUser){
+                    if (it!=null){
+                        tv_followers.setText(NumberData().formatInt(it.size))
+                    }
+                }
+
+                GetData().getImage(userGet.user.uri_avt){ uri ->
                     if (uri != null){
                         Picasso.with(activityHomepage).load(uri).into(iv_avt)
                     }
                 }
+
                 addEvent()
             }else{
-                Toast.makeText(activityHomepage, "Mất kết nối!", Toast.LENGTH_SHORT).show()
+                notification.toastCustom("Mất kết nối!").show()
             }
         }
-        listView.adapter = Adapter_LV_iv_string(activityHomepage, listIv_Str)
-
         return view
     }
 

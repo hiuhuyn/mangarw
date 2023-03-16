@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Author
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
@@ -35,14 +36,11 @@ class Fragment_Search_Author: Fragment() {
         val view =inflater.inflate(R.layout.fragment_listview, container, false)
         val listView =view.findViewById<ListView>(R.id.listView)
         val activitySearch = activity as Activity_Search
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+        val dialog = Notification(view.context).dialogLoading("Loading...")
         adapter = Adapter_Lv_Search_Author(activitySearch, listUser)
         listView.adapter = adapter
         GetData().getAllUser {
-            progressDialog.dismiss()
+            dialog.dismiss()
             if (it!=null){
                 listUser.addAll(it)
                 adapter.update(listUser)

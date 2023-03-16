@@ -17,19 +17,20 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@id/tv_huy"
         android:layout_alignParentTop="true"/>
-    <TextView
+    <Button
         android:id="@+id/tv_huy"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
         android:text="Hủy"
-        android:textSize="20dp"
+        android:textSize="18sp"
         android:textStyle="bold"
+        android:textAllCaps="false"
         android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
+        android:background="@drawable/btn_like_cmt"
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="10dp"
         />
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

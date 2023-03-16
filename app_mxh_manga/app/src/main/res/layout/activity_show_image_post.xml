@@ -12,6 +12,7 @@
         app:navigationIcon="@drawable/ic_baseline_navigate_before_40"
         android:layout_alignParentTop="true"
         app:title="Ảnh bài viết"
+        style="@style/Toolbar"
         />
     <ListView
         android:id="@+id/listView"

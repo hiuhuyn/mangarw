@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -10,27 +11,36 @@
         android:theme="@style/Theme_transparent"
         android:layout_alignParentTop="true"
         app:menu="@menu/menu_setting"
+        style="@style/Toolbar"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
-        android:paddingBottom="50dp"
         android:layout_below="@id/toolbar"
         android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/logo_mangarw"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="-65dp"
+            />
         <androidx.cardview.widget.CardView
             android:layout_width="70dp"
             android:layout_height="70dp"
             app:cardElevation="0dp"
-            android:layout_margin="10dp"
-            app:cardBackgroundColor="@color/white_30"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="-100dp"
+            app:cardBackgroundColor="#70DEDEDE"
             app:cardCornerRadius="50dp">
             <ImageView
                 android:id="@+id/iv_avt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_baseline_person_40"
+                android:src="@drawable/ic_launcher_foreground"
                 android:scaleType="centerCrop"
                 />
         </androidx.cardview.widget.CardView>
@@ -38,8 +48,8 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User name"
-            android:textSize="25dp"
+            android:text=""
+            android:textSize="20sp"
             android:layout_margin="10dp"
             android:backgroundTint="@android:color/transparent"
             android:maxLines="1"
@@ -49,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="lv 0"
-            android:textSize="20dp"
+            android:textSize="18sp"
             android:background="@drawable/border"
             android:layout_margin="10dp"
             android:textStyle="bold|italic"
@@ -72,8 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Người theo dõi: "
-                android:textSize="17dp"
-                android:background="@android:color/transparent"
+                style="@style/Theme_textView"
                 android:textColor="@color/black_50"
                 />
             <TextView
@@ -81,18 +90,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"
+                style="@style/Theme_textView"
                 android:textColor="@color/black_50"
+                android:textStyle="bold"
                 android:maxLines="1"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đang theo dõi: "
-                android:textSize="17dp"
-                android:background="@android:color/transparent"
+                style="@style/Theme_textView"
                 android:textColor="@color/black_50"
                 android:layout_marginStart="10dp"
                 />
@@ -101,19 +108,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textSize="20dp"
-                android:background="@android:color/transparent"
-                android:textStyle="bold"
+                style="@style/Theme_textView"
                 android:textColor="@color/black_50"
+                android:textStyle="bold"
                 android:maxLines="1"
                 />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_marginVertical="5dp"
-            android:backgroundTint="#C1C9C9C9"/>
+            android:background="#7E474747"/>
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
@@ -132,16 +138,5 @@
         android:layout_marginBottom="40dp"
         android:layout_marginEnd="20dp"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:background="@drawable/shape_oval_story"
-        android:backgroundTint="@color/white"
-        android:indeterminateTint="#0090FF"
-        android:layout_centerInParent="true"
-        android:padding="10dp"
-        android:visibility="gone"
-        />
 
 </RelativeLayout>

@@ -93,7 +93,6 @@ class Adapter_RV_Story(val list: ArrayList<Story_Get>, val onItemClick: OnItemCl
                 false)
 
             setOnClickListener {
-
                 onItemClick.onItemClick(position)
             }
         }

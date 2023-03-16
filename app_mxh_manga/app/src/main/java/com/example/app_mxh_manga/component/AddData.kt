@@ -64,6 +64,23 @@ class AddData {
             callback(null)
         }
     }
+    fun newCmtPost(commentPost: Comment_post, callback: (id: String?) -> Unit){
+        FirebaseFirestore.getInstance().collection("Comment_post").add(commentPost).addOnSuccessListener {
+            callback(it.id)
+        }.addOnFailureListener {
+            callback(null)
+        }
+    }
+    fun newCmtChapter(commentChapter: Comment_chapter, callback: (id: String?) -> Unit){
+        FirebaseFirestore.getInstance().collection("Comment_chapter").add(commentChapter).addOnSuccessListener {
+            callback(it.id)
+        }.addOnFailureListener {
+            callback(null)
+        }
+    }
+
+
+
 
 
 

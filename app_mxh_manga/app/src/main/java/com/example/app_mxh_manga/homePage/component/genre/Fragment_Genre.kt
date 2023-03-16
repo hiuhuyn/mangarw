@@ -1,25 +1,56 @@
 package com.example.app_mxh_manga.homePage.component.genre
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager2.widget.ViewPager2
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
+import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.component.TAGGET
+import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
 import com.example.app_mxh_manga.homePage.Activity_homePage
-import com.example.app_mxh_manga.module.Genre
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
+import com.example.app_mxh_manga.homePage.component.genre.component.Adapter_Spinner_Genre
+import com.example.app_mxh_manga.homePage.component.genre.component.Adapter_Spinner_TextView
+import com.example.app_mxh_manga.homePage.component.story.IDStory
+import com.example.app_mxh_manga.module.Genre_Get
+import com.example.app_mxh_manga.module.Story_Get
 
 // TODO: Rename parameter arguments, choose names that match
 
 
 class Fragment_Genre : Fragment() {
-    private lateinit var tabLayout: TabLayout
-    private lateinit var viewPager2: ViewPager2
     private lateinit var activityHomepage: Activity_homePage
+    private lateinit var spinner_genre: Spinner
+    private lateinit var spinner_sort: Spinner
+    private lateinit var rv_story: RecyclerView
+    private lateinit var tv_descGenre: TextView
+    private lateinit var adapterRvStory: Adapter_RV_Story
+    private var listGenre = ArrayList<Genre_Get>()
+    private var listStoryAll = ArrayList<Story_Get>()
+    private var listStory_Genre = ArrayList<Story_Get>()
+    private var listSort = ArrayList<String>()
+    init {
+        listSort = arrayListOf(
+            "Mới cập nhật",
+            "Lượt xem",
+            "Số chương",
+            "Lượt like"
+        )
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,28 +58,98 @@ class Fragment_Genre : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_genre, container, false)
         activityHomepage = activity as Activity_homePage
-        tabLayout = view.findViewById(R.id.tabLayout)
-        viewPager2 = view.findViewById(R.id.viewPage2)
-        var listFragment = ArrayList<Fragment>()
-        var listGenre = ArrayList<Genre>()
-//        listGenre.addAll(GetData_id().getAllGenre())
-        for (i in listGenre){
-//            listFragment.add(Fragment_LV_Genre.newInstance(i.id_genre))
+        val adapterSpinnerGenre = Adapter_Spinner_Genre(view.context, listGenre)
+        GetData().getAllGenre {
+            if(it!=null){
+                listGenre.addAll(it)
+                adapterSpinnerGenre.notifyDataSetChanged()
+            }
+        }
+        spinner_genre = view.findViewById(R.id.spinner_genre)
+        spinner_sort = view.findViewById(R.id.spinner_sort)
+        tv_descGenre = view.findViewById(R.id.tv_descGenre)
+        rv_story = view.findViewById(R.id.rv_story)
+        adapterRvStory = Adapter_RV_Story(listStory_Genre, object : OnItemClick{
+            override fun onItemClick(position: Int) {
+                val i = Intent(activity, Activity_showStory::class.java)
+                val bundle = Bundle()
+                bundle.putString(IDStory, listStory_Genre[position].id_story)
+                i.putExtras(bundle)
+                view.context.startActivity(i)
+            }
+        })
+        GetData().getAllStory {
+            if (it!=null){
+                listStoryAll.addAll(it)
+                listStory_Genre.addAll(it)
+                adapterRvStory.notifyDataSetChanged()
+                Log.d(TAGGET, "list story: $it")
+            }
+        }
+        rv_story.adapter = adapterRvStory
+        rv_story.layoutManager = LinearLayoutManager(
+            view.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        spinner_genre.adapter = adapterSpinnerGenre
+        spinner_genre.onItemSelectedListener = object : OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (listGenre[position].genre.describe != ""){
+                    tv_descGenre.text = listGenre[position].genre.describe
+                }else{
+                    tv_descGenre.text = listGenre[position].genre.name
+                }
+                filterStoryByGenre(listGenre[position].id_genre)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
         }
 
 
-        viewPager2.adapter = Adapter_VP2_ListFragment(activityHomepage, listFragment)
+        spinner_sort.adapter = Adapter_Spinner_TextView(view.context, listSort)
+        spinner_sort.onItemSelectedListener = object : OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Toast.makeText(context, listSort[position], Toast.LENGTH_SHORT).show()
+            }
 
-        val tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager2) { tab, viewpager ->
-            tab.setText(listGenre[viewpager].name)
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
 
         }
-        tabLayoutMediator.attach()
 
 
 
         return view
     }
+
+    private fun filterStoryByGenre(id_genre: String){
+        listStory_Genre.clear()
+        for ( i in listStoryAll ){
+            for (itemGenre in i.story.genres){
+                if (itemGenre == id_genre){
+                    listStory_Genre.add(i)
+                }
+            }
+        }
+        adapterRvStory.notifyDataSetChanged()
+    }
+
+
+
 
 
 }

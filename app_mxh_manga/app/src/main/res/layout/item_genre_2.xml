@@ -2,14 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
     android:padding="10dp">
     <TextView
         android:id="@+id/tv_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="20dp"
+        android:textSize="15sp"
         android:gravity="center"
         android:background="@drawable/shape_genre_on"
         android:padding="10dp"

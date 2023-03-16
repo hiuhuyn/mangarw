@@ -9,6 +9,7 @@ import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.Notification
 
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_Posts_Other
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
@@ -36,19 +37,19 @@ class Fragment_Search_Post: Fragment() {
         val activitySearch = activity as Activity_Search
         adapter = Adapter_LV_Posts_Other(activitySearch, listPosts)
         listView.adapter = adapter
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-        GetData().getAllPosts {
-            progressDialog.dismiss()
-            if (it != null) {
-                listPosts.addAll(it)
-                adapter.update(listPosts)
-            }
-        }
-        listView.setOnItemClickListener { parent, view, position, id ->
+        val dialog = Notification(view.context).dialogLoading("Loading...")
+        dialog.show()
 
+        GetData().getAllPosts {
+            dialog.dismiss()
+            if (it != null) {
+                for (i in it){
+                    listPosts.add(i)
+                    adapter.update(listPosts)
+                }
+            }else{
+                Notification(view.context).toastCustom("Không có nội dung để hiển thị").show()
+            }
         }
         return view
     }

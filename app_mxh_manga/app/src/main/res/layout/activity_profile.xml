@@ -4,14 +4,22 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <ScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        app:navigationIcon="@drawable/ic_baseline_navigate_before_40"
+        style="@style/Toolbar"
+        />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -19,11 +27,11 @@
                 <ImageView
                     android:id="@+id/iv_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="200dp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:layout_alignParentTop="true"
-                    android:src="@drawable/img" />
+                    android:src="@drawable/ic_launcher_foreground" />
 
                 <FrameLayout
                     android:id="@+id/fl"
@@ -47,7 +55,7 @@
                             android:id="@+id/iv_avt"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/img_1"
+                            android:src="@drawable/ic_launcher_foreground"
                             android:scaleType="centerCrop"/>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -59,7 +67,7 @@
                     android:background="@drawable/border_follow"
                     android:layout_alignParentEnd="true"
                     android:layout_below="@id/iv_cover"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:gravity="center"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="20dp"
@@ -67,14 +75,14 @@
                     android:textStyle="bold"
                     android:layout_marginEnd="10dp"
                     android:textAllCaps="false"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     />
                 <TextView
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="..."
-                    android:textSize="30dp"
+                    android:text=""
+                    android:textSize="20dp"
                     android:background="@android:color/transparent"
                     android:textStyle="bold"
                     android:layout_below="@id/fl"
@@ -87,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tiểu Sử"
-                    android:textSize="20dp"
+                    android:textSize="15sp"
                     android:background="@android:color/transparent"
                     android:layout_below="@id/tv_name"
                     android:layout_alignParentStart="true"
@@ -100,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="lv 0"
-                    android:textSize="20dp"
+                    android:textSize="18sp"
                     android:background="@drawable/border"
                     android:layout_below="@id/tv_desc"
                     android:layout_alignParentStart="true"
@@ -119,8 +127,8 @@
                     android:id="@+id/tv_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nam"
-                    android:textSize="20dp"
+                    android:text=""
+                    android:textSize="18sp"
                     android:background="@drawable/border"
                     android:layout_below="@id/tv_desc"
                     android:layout_marginHorizontal="20dp"
@@ -135,93 +143,100 @@
                     android:paddingHorizontal="20dp"
                     android:layout_toEndOf="@+id/tv_level"
                     />
-
-
-                <LinearLayout
-                    android:id="@+id/ll1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/tv_level"
-                    android:gravity="center_vertical"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@android:color/transparent"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Người theo dõi: "
-                        android:textSize="17dp"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/black_50"
-                        />
-                    <TextView
-                        android:id="@+id/tv_followers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/black_50"
-                        android:maxLines="1"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đang theo dõi: "
-                        android:textSize="17dp"
-                        android:background="@android:color/transparent"
-                        android:textColor="@color/black_50"
-                        android:layout_marginStart="10dp"
-                        />
-                    <TextView
-                        android:id="@+id/tv_following"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:background="@android:color/transparent"
-                        android:textStyle="bold"
-                        android:textColor="@color/black_50"
-                        android:maxLines="1"
-                        />
-                </LinearLayout>
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll1"
-                    android:background="@android:color/transparent"
-                    app:tabSelectedTextColor="#03A9F4"
-                    app:tabBackground="@android:color/transparent"
-                    app:tabRippleColor="@android:color/transparent">
-                </com.google.android.material.tabs.TabLayout>
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPage2"
-                    android:layout_width="match_parent"
-                    android:layout_height="1000dp"
-                    android:layout_below="@+id/tabLayout"/>
-
-
-
             </RelativeLayout>
-
-
-
+            <LinearLayout
+                android:id="@+id/ll1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="10dp"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Người theo dõi: "
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    />
+                <TextView
+                    android:id="@+id/tv_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/black_50"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang theo dõi: "
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    android:layout_marginStart="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="18sp"
+                    android:background="@android:color/transparent"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_50"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <Button
+                    android:id="@+id/btn_post"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bài viết"
+                    android:textAllCaps="false"
+                    android:background="@drawable/btn_like_cmt"
+                    android:layout_weight="1"
+                    android:textSize="20sp"/>
+                <Button
+                    android:id="@+id/btn_story"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tác phẩm"
+                    android:textAllCaps="false"
+                    android:background="@drawable/btn_like_cmt"
+                    android:layout_weight="1"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=". . ."
+                android:textSize="20sp"
+                android:gravity="center"
+                android:padding="30dp"
+                android:visibility="visible"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:paddingBottom="200dp"
+                />
         </LinearLayout>
 
-    </ScrollView>
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:navigationIcon="@drawable/ic_baseline_arrow_circle_left_40"
-        style="@style/Theme_transparent"
-        />
-
+    </androidx.core.widget.NestedScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/float_btn"
         android:layout_width="wrap_content"

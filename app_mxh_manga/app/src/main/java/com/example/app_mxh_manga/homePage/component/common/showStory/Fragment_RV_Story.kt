@@ -14,8 +14,7 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
-import com.example.app_mxh_manga.homePage.component.common.Fragment_LV_Story
-import com.example.app_mxh_manga.homePage.component.common.KEY_STORY
+
 import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Story
 import com.example.app_mxh_manga.homePage.component.story.IDStory
 import com.example.app_mxh_manga.module.Story

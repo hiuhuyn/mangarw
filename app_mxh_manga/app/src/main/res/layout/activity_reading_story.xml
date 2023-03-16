@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@android:color/transparent"
+        style="@style/Toolbar"
         app:navigationIcon="@drawable/ic_baseline_navigate_before_40"
         />
     <androidx.core.widget.NestedScrollView
@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:gravity="center">
         <ImageButton
             android:id="@+id/ib_prev"

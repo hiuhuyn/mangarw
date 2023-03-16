@@ -39,7 +39,7 @@ class Activity_New_Story : AppCompatActivity() {
     private lateinit var rv_genre: RecyclerView
     private var listGenre_Select = ArrayList<Genre_Get>()
     private var idUser = ""
-    private var uri_Avt: Uri = Int_Uri().convertUri(R.drawable.img_1)
+    private var uri_Avt: Uri = Int_Uri().convertUri(R.drawable.ic_launcher_foreground)
     private var isType: Boolean = true
     private lateinit var startGallery_images: ActivityResultLauncher<Intent>
     private var allGenre = ArrayList<Genre_Get>()
@@ -48,7 +48,6 @@ class Activity_New_Story : AppCompatActivity() {
         GetData().getAllGenre { geners ->
             if (geners!=null){
                 allGenre.addAll(geners)
-
             }
 
         }
@@ -96,11 +95,9 @@ class Activity_New_Story : AppCompatActivity() {
             val describe: String = edt_desc.text.toString()
             val status: Boolean = false
             val type: Boolean = isType
-            val progressDialog = ProgressDialog(this)
-            progressDialog.setMessage("Đang cập nhật...")
-            progressDialog.setCancelable(false)
-            progressDialog.show()
+            val dialog = Notification(this).dialogLoading("Save...")
             val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
+            dialog.show()
 
             val cover_image = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idUser}_story.jpg"
             val listIdGenre = ArrayList<String>()
@@ -109,21 +106,18 @@ class Activity_New_Story : AppCompatActivity() {
             }
             val story = Story(name, author, id_user, describe, status, cover_image, type, listIdGenre)
             AddData().newStory(story){ id->
-                progressDialog.dismiss()
+                dialog.dismiss()
                 if (id!=null){
-                    progressDialog.show()
+                    Notification(this).toastCustom("Thêm thành công").show()
                     AddData().newImage(uri_Avt, cover_image){
-                        progressDialog.dismiss()
                         if (it){
-                            progressDialog.show()
                             UpdateData().cover_story(id, cover_image){
-                                progressDialog.dismiss()
                                 finish()
                             }
                         }
                     }
                 }else{
-                    Toast.makeText(this, "Thêm không thành công", Toast.LENGTH_SHORT).show()
+                    Notification(this).toastCustom("Thêm không thành công").show()
                 }
             }
         }
@@ -140,12 +134,11 @@ class Activity_New_Story : AppCompatActivity() {
         iv_avt.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
-//            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
+//            intent.addCategory(Intent.CATEGORY_OPENABLE)
             startGallery_images.launch(intent)
         }
         ib_add_genre.setOnClickListener {
-            setTheme(R.style.Theme_transparent)
+//            setTheme(R.style.Theme_transparent)
             val view = layoutInflater.inflate(R.layout.layout_bottomsheet_genre, null)
             val bottomSheet = BottomSheetDialog(this)
             bottomSheet.setContentView(view)
@@ -168,10 +161,6 @@ class Activity_New_Story : AppCompatActivity() {
                 }
             })
             rv_genre2.adapter = adapterRvGenre2
-
-
-
-
             bottomSheet.show()
         }
 

@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.component.adaters.Adapter_LV_ShowAll_ImagesPost
 
 class Activity_ShowImagePost : AppCompatActivity() {
@@ -32,9 +33,13 @@ class Activity_ShowImagePost : AppCompatActivity() {
         val listView = findViewById<ListView>(R.id.listView)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         val listUri: ArrayList<Uri> = ArrayList()
-        GetData().getPost(idPosts){
-            if (it!=null){
-                for (item in it.posts.images){
+        adapter = Adapter_LV_ShowAll_ImagesPost(this, listUri)
+        val dialog = Notification(this).dialogLoading("Loading...")
+        dialog.show()
+        GetData().getPost(idPosts){ postGet ->
+            dialog.dismiss()
+            if (postGet!=null){
+                for (item in postGet.posts.images){
                     GetData().getImage(item){
                         if (it != null) {
                             listUri.add(it)
@@ -44,7 +49,7 @@ class Activity_ShowImagePost : AppCompatActivity() {
                 }
             }
         }
-        adapter = Adapter_LV_ShowAll_ImagesPost(this, listUri)
+
         toolbar.setNavigationOnClickListener {
             finish()
         }

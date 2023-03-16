@@ -16,10 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.AddData
-import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
-import com.example.app_mxh_manga.component.OnItemClick
-import com.example.app_mxh_manga.component.UpdateData
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.module.Posts
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -91,10 +88,8 @@ class Activity_NewPost : AppCompatActivity() {
             when(it.itemId){
                 R.id.check -> {
                     // thêm vào csdl
-                    val progressDialog = ProgressDialog(this)
-                    progressDialog.setMessage("Đang tạo mới...")
-                    progressDialog.setCancelable(false)
-                    progressDialog.show()
+                    val dialog = Notification(this).dialogLoading("Save...")
+                    dialog.show()
                     val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
                     var index = 0
 
@@ -111,12 +106,12 @@ class Activity_NewPost : AppCompatActivity() {
                                 }
                                 index++
                             }
-                            if (progressDialog.isShowing) progressDialog.dismiss()
-                            Toast.makeText(this, "Thêm bài viết thành công!", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                            Notification(this).toastCustom("Thêm thành công!").show()
                             finish()
                         }else{
-                            if (progressDialog.isShowing) progressDialog.dismiss()
-                            Toast.makeText(this, "Thêm bài viết thất bại!", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                            Notification(this).toastCustom("Thêm thất bại!").show()
                         }
                     }
 

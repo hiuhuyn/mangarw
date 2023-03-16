@@ -13,4 +13,5 @@
     <color name="green">#4cae4c</color>
     <color name="red">#D9534F</color>
     <color name="light_blue">#DAF4FF</color>
+    <color name="darker_gray">#aaa</color>
 </resources>

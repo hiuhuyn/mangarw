@@ -17,45 +17,73 @@
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             />
-        <EditText
-            android:id="@+id/edt_email"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Địa chỉ email"
-            android:padding="10dp"
-            android:textSize="25dp"
-            android:drawableStart="@drawable/ic_baseline_email_24"
-            android:paddingStart="20dp"
-            android:maxLines="2"
-            />
-        <EditText
-            android:id="@+id/edt_pass"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên đăng nhập"
+                style="@style/Theme_textView"
+                tools:ignore="HardcodedText" />
+            <EditText
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="17.5dp"
+                android:paddingVertical="10dp"
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tên đăng nhập của bạn"
+                android:background="@drawable/border"
+                tools:ignore="HardcodedText"
+                style="@style/Theme_EditText"
+                android:inputType="text" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mật khẩu"
-            android:padding="10dp"
-            android:textSize="25dp"
-            android:drawableStart="@drawable/ic_baseline_lock_24"
-            android:drawableEnd="@drawable/ic_baseline_visibility_off_24"
-            android:paddingStart="20dp"
-            android:maxLines="1"
-            android:maxLength="10"
-            android:text=""
-            android:inputType="textPassword"
-            />
+            android:orientation="vertical"
+            android:paddingHorizontal="20sp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mật khẩu"
+                style="@style/Theme_textView"
+                tools:ignore="HardcodedText" />
+            <EditText
+                android:id="@+id/edtPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:paddingHorizontal="17.5dp"
+                android:paddingVertical="10dp"
+                android:hint="Nhập mật khẩu"
+                android:inputType="textPassword"
+                android:drawableEnd="@drawable/ic_baseline_visibility_off_24"
+                android:background="@drawable/border"
+                style="@style/Theme_EditText"
+                android:longClickable="false"
+                tools:ignore="HardcodedText,RtlSymmetry" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
             android:weightSum="2">
             <Button
                 android:id="@+id/btn_signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="15sp"
                 android:text="Đăng ký"
-                android:padding="15dp"
+                tools:ignore="HardcodedText"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:background="@drawable/selector_btn_rg30"
@@ -67,9 +95,9 @@
                 android:id="@+id/btn_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25dp"
+                android:textSize="15dp"
                 android:text="Đăng nhập"
-                android:padding="15dp"
+                tools:ignore="HardcodedText"
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:background="@drawable/selector_btn_rg30"
@@ -78,40 +106,33 @@
                 android:layout_marginHorizontal="10dp"
                 />
         </LinearLayout>
-        <TextView
+        <Button
             android:id="@+id/tv_forgot_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quên mật khẩu?"
-            android:layout_gravity="center"
-            android:textSize="20dp"
-            android:layout_marginVertical="10dp"
+            android:layout_gravity="end"
+            android:textSize="15dp"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/btn_like_cmt"
+            android:textAllCaps="false"
+            android:layout_marginEnd="20dp"
             />
 
         <Button
             android:id="@+id/btn_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="22dp"
+            android:textSize="18sp"
             android:drawableStart="@drawable/google"
             android:text="Tiếp tục với google"
             android:background="@drawable/selector_btn_rg30"
-            android:paddingVertical="15dp"
-            android:paddingHorizontal="20dp"
-            android:layout_margin="30dp"
+            android:backgroundTint="@color/white"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="15dp"
+            android:layout_margin="10dp"
             android:textAllCaps="false"
             />
     </LinearLayout>
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:background="@drawable/shape_oval_story"
-        android:backgroundTint="@color/white"
-        android:indeterminateTint="#0090FF"
-        android:layout_centerInParent="true"
-        android:padding="10dp"
-        android:visibility="gone"
-        />
 </RelativeLayout>
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ListView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.homePage.component.common.search.component.Adapter_Lv_Search_Story
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
 import com.example.app_mxh_manga.module.Story
@@ -36,22 +37,21 @@ class Fragment_Search_StoryManga : Fragment() {
         val listView =view.findViewById<ListView>(R.id.listView)
         val activitySearch = activity as Activity_Search
         adapter = Adapter_Lv_Search_Story(activitySearch, listStory)
-
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
-
+        val dialog = Notification(view.context).dialogLoading("Loading...")
+        dialog.show()
         listView.adapter = adapter
         GetData().getAllStory_Type(false){ itSG ->
-            progressDialog.dismiss()
             if (itSG!=null){
                 for (item in itSG){
                     if (item.story.status){
                         listStory.add(item)
+                        adapter.notifyDataSetChanged()
+                    }
+                    if (item == itSG.last()){
+                        dialog.dismiss()
+                        adapter.update(listStory)
                     }
                 }
-                adapter.update(listStory)
             }
         }
         return view
