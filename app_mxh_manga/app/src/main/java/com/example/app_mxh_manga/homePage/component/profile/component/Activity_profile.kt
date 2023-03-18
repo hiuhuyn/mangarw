@@ -1,6 +1,7 @@
 package com.example.app_mxh_manga.homePage.component.profile.component
 
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -88,7 +89,10 @@ class Activity_profile : AppCompatActivity() {
                 user = userGet
                 tv_name.setText(user.user.name)
                 tv_desc.setText("Tiểu sử: "+user.user.story)
-                tv_level.setText("lv ${NumberData().formatLevel(user.user.score)}")
+                NumberData().formatLevel(user.user.score){ score, color ->
+                    tv_level.text = "LV $score"
+                    tv_level.setBackgroundColor(Color.parseColor(color))
+                }
                 if (user.user.sex){
                     tv_sex.setText("Nam")
                 }else{
@@ -126,11 +130,7 @@ class Activity_profile : AppCompatActivity() {
                     }
                     GetData().getStoryByIdUser(idUser){ storys ->
                         if (storys!=null){
-                            adapterRvStory = Adapter_RV_Story(storys, object : OnItemClick{
-                                override fun onItemClick(position: Int) {
-
-                                }
-                            })
+                            adapterRvStory = Adapter_RV_Story(storys)
                             checkStory = true
                         }else{
                             checkStory = false

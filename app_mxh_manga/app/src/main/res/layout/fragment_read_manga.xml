@@ -1,48 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="10dp"
     android:paddingTop="10dp"
-
     tools:context=".homePage.component.readmanga.Fragment_ReadManga">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        app:tabSelectedTextColor="#03A9F4"
-        app:tabRippleColor="@android:color/transparent"
-        />
-    <include
-        android:id="@+id/search"
-        layout="@layout/item_searchview"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/ib_rating"
-        android:layout_marginVertical="10dp"
-        android:layout_below="@id/tabLayout"/>
-    <ImageButton
-        android:id="@+id/ib_rating"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/ic_baseline_bar_chart_40"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/tabLayout"
-        android:background="@drawable/btn_like_cmt"
-        android:layout_marginVertical="10dp"
-        android:layout_marginStart="10dp"
-        android:padding="10dp"
-        />
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome"
+                android:textSize="30sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold"
+                />
+            <ImageButton
+                android:id="@+id/ib_rating"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_baseline_bar_chart_40"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/btn_text"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPage2"
-        android:background="@android:color/transparent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search"/>
-</RelativeLayout>
+        </RelativeLayout>
+
+        <include
+            android:id="@+id/search"
+            layout="@layout/item_searchview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginVertical="10dp" />
+        <include
+            android:id="@+id/view1"
+            layout="@layout/layout_item_show_story"
+            />
+        <include
+            android:id="@+id/view2"
+            layout="@layout/layout_item_show_story"
+            />
+        <include
+            android:id="@+id/view3"
+            layout="@layout/layout_item_show_story"
+            />
+        <include
+            android:id="@+id/view4"
+            layout="@layout/layout_item_show_story"
+            />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

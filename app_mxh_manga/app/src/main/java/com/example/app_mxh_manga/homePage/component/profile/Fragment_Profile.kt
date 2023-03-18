@@ -3,6 +3,7 @@ package com.example.app_mxh_manga.homePage.component.profile
 import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -86,7 +87,10 @@ class Fragment_Profile : Fragment() {
             if (userGet != null) {
                 tv_name.text = userGet.user.name
                 tv_following.setText("${NumberData().formatInt(userGet.user.follow_users.size)}")
-                tv_level.setText("LV ${NumberData().formatLevel(userGet.user.score)}")
+                NumberData().formatLevel(userGet.user.score){ score, color ->
+                    tv_level.text = "LV $score"
+                    tv_level.setBackgroundColor(Color.parseColor(color))
+                }
                 GetData().usersFollowUser(idUser){
                     if (it!=null){
                         tv_followers.setText(NumberData().formatInt(it.size))

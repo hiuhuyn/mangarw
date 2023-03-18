@@ -1,9 +1,13 @@
 package com.example.app_mxh_manga.component
 
 import android.util.Log
+import com.example.app_mxh_manga.module.History
+import com.example.app_mxh_manga.module.History_Get
 import com.example.app_mxh_manga.module.Rating
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+
+const val TAG_Update = "update_data"
 
 class UpdateData {
     fun oneImagePost(id_post: String, pathName: String, callback: (Boolean) -> Unit){
@@ -31,6 +35,7 @@ class UpdateData {
             callback(false)
         }
     }
+
 
 
     fun cover_story(id_story: String, pathName: String, callback: (Boolean) -> Unit){
@@ -216,6 +221,45 @@ class UpdateData {
         }
     }
 
+    fun updateScoreUser(id_user: String, callback: (Boolean) -> Unit){
+        if (id_user!=""){
+            val chapterRef = FirebaseFirestore.getInstance().collection("User").document(id_user)
+            // tăng  giá trị lên 1
+            val increment = FieldValue.increment(1)
+            chapterRef.update("score", increment)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d("UpdateData", "updateScoreUser Failure $it")
+                }
+
+        }else{
+            callback(false)
+        }
+
+    }
+
+    fun updateViewStory(id_story: String, callback: (Boolean) -> Unit){
+        if (id_story!=""){
+            val chapterRef = FirebaseFirestore.getInstance().collection("Storys").document(id_story)
+            // tăng  giá trị lên 1
+            val increment = FieldValue.increment(1)
+            chapterRef.update("views", increment)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d("UpdateData", "updateViewStory Failure $it")
+                }
+
+        }else{
+            callback(false)
+        }
+
+    }
 
 
     fun updateViewChapter(id_chapter: String, callback: (Boolean) -> Unit){
@@ -299,4 +343,26 @@ class UpdateData {
             callback(false)
         }
     }
+
+    fun history(history: History_Get, callback: (Boolean) -> Unit){
+        if (history.id_history != ""){
+            val updateHistory = hashMapOf(
+                "id_chapter" to history.history.id_chapter, // id của chương truyện vừa đọc
+                "time_reading" to FieldValue.serverTimestamp() // thời gian hiện tại
+            )
+            FirebaseFirestore.getInstance().collection("History").document(history.id_history)
+                .update(updateHistory)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                }
+        }
+        else{
+            callback(false)
+        }
+
+    }
+
 }

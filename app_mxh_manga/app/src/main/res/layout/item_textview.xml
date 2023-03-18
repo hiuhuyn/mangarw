@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:text="àuhiwufaw"
         style="@style/Theme_textView"
-
+        android:ellipsize="end"
         />
 
 </LinearLayout>

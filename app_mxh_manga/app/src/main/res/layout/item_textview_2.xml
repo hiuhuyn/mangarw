@@ -11,6 +11,7 @@
         android:textSize="17sp"
         android:text=""
         android:background="@android:color/transparent"
+        android:ellipsize="end"
         />
 
 </LinearLayout>

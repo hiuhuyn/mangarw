@@ -42,15 +42,7 @@ class Fragment_RV_Story: Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_rv, container, false)
         val rv = view.findViewById<RecyclerView>(R.id.recyclerView)
-        adapter = Adapter_RV_Story(listStoryGet, object : OnItemClick{
-            override fun onItemClick(position: Int) {
-                val i = Intent(activity, Activity_showStory::class.java)
-                val bundle = Bundle()
-                bundle.putString(IDStory, listStoryGet[position].id_story)
-                i.putExtras(bundle)
-                startActivity(i)
-            }
-        })
+        adapter = Adapter_RV_Story(listStoryGet)
         for (item in list){
             GetData().getStoryByID(item){
                 if (it != null) {
@@ -66,15 +58,6 @@ class Fragment_RV_Story: Fragment() {
             false
         )
         return view
-    }
-    companion object {
-        @JvmStatic
-        fun newInstance(listStory: ArrayList<String>) =
-            Fragment_RV_Story().apply {
-                arguments = Bundle().apply {
-                    putStringArrayList(LIST_ID_STORY, listStory)
-                }
-            }
     }
 
 }

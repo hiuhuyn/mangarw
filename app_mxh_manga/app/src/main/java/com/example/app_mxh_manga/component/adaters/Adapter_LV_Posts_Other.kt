@@ -297,14 +297,17 @@ class Adapter_RV_ImagePost(val list: ArrayList<String>, val onClickListener: OnC
     }
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        GetData().getImage(list[position]){ uri->
-            holder.itemView.apply {
-                val imageView = findViewById<ImageView>(R.id.imageView)
-                Picasso.with(context).load(uri).into(imageView)
-                imageView.setOnLongClickListener {
-                    onClickListener.onClick(this)
-                    true
+
+        holder.itemView.apply {
+            val imageView = findViewById<ImageView>(R.id.imageView)
+            GetData().getImage(list[position]){ uri->
+                if (uri!=null){
+                    Picasso.with(context).load(uri).into(imageView)
                 }
+            }
+            imageView.setOnLongClickListener {
+                onClickListener.onClick(this)
+                true
             }
         }
     }

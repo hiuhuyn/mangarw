@@ -103,26 +103,32 @@
                     android:layout_marginBottom="10dp"
                     android:textColor="@color/black_50"
                     />
-                <TextView
-                    android:id="@+id/tv_level"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="lv 0"
-                    android:textSize="18sp"
-                    android:background="@drawable/border"
-                    android:layout_below="@id/tv_desc"
                     android:layout_alignParentStart="true"
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginBottom="10dp"
-                    android:textStyle="bold|italic"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:maxLength="10"
-                    android:backgroundTint="#03A9F4"
-                    android:gravity="center"
-                    android:paddingVertical="5dp"
-                    android:paddingHorizontal="15dp"
-                    />
+                    android:layout_below="@id/tv_desc"
+                    app:cardCornerRadius="10dp">
+                    <TextView
+                        android:id="@+id/tv_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="lv 0"
+                        android:textSize="18sp"
+                        android:background="@color/darker_gray"
+                        android:textStyle="bold|italic"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:maxLength="10"
+                        android:gravity="center"
+                        android:paddingVertical="5dp"
+                        android:paddingHorizontal="15dp"
+                        />
+                </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:id="@+id/tv_sex"
                     android:layout_width="wrap_content"
@@ -141,7 +147,7 @@
                     android:gravity="center"
                     android:paddingVertical="5dp"
                     android:paddingHorizontal="20dp"
-                    android:layout_toEndOf="@+id/tv_level"
+                    android:layout_toEndOf="@+id/cardView"
                     />
             </RelativeLayout>
             <LinearLayout
@@ -203,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:text="Bài viết"
                     android:textAllCaps="false"
-                    android:background="@drawable/btn_like_cmt"
+                    android:background="@drawable/btn_text"
                     android:layout_weight="1"
                     android:textSize="20sp"/>
                 <Button
@@ -212,7 +218,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tác phẩm"
                     android:textAllCaps="false"
-                    android:background="@drawable/btn_like_cmt"
+                    android:background="@drawable/btn_text"
                     android:layout_weight="1"
                     android:textSize="20sp"/>
             </LinearLayout>

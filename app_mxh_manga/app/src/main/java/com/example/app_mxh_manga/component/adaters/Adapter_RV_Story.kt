@@ -1,5 +1,7 @@
 package com.example.app_mxh_manga.component.adaters
 
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +14,15 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.OnItemClick
+import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
+import com.example.app_mxh_manga.homePage.component.story.IDStory
 import com.example.app_mxh_manga.module.Genre_Get
 import com.example.app_mxh_manga.module.Story
 import com.example.app_mxh_manga.module.Story_Get
 import com.squareup.picasso.Picasso
 
 
-class Adapter_RV_Story(val list: ArrayList<Story_Get>, val onItemClick: OnItemClick) : RecyclerView.Adapter<Adapter_RV_Story.ViewHolder>() {
+class Adapter_RV_Story(val list: ArrayList<Story_Get>) : RecyclerView.Adapter<Adapter_RV_Story.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -93,7 +97,12 @@ class Adapter_RV_Story(val list: ArrayList<Story_Get>, val onItemClick: OnItemCl
                 false)
 
             setOnClickListener {
-                onItemClick.onItemClick(position)
+                val i = Intent(this.context, Activity_showStory::class.java)
+                val bundle = Bundle()
+                bundle.putString(IDStory, list[position].id_story)
+                i.putExtras(bundle)
+                context.startActivity(i)
+
             }
         }
     }

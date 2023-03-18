@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
@@ -16,10 +15,8 @@ import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
-import com.example.app_mxh_manga.homePage.component.common.Activity_readingStory
-import com.example.app_mxh_manga.module.Chapter
+import com.example.app_mxh_manga.homePage.component.common.Activity_readingChapter
 import com.example.app_mxh_manga.module.Chapter_Get
-import com.example.app_mxh_manga.module.Story
 import com.example.app_mxh_manga.module.Story_Get
 import com.squareup.picasso.Picasso
 
@@ -86,7 +83,7 @@ class Activity_MyStory : AppCompatActivity() {
         }
         adapterRvChapter = Adapter_RV_Chapter(listChapter, object : OnItemClick {
             override fun onItemClick(position: Int) {
-                val i = Intent(this@Activity_MyStory, Activity_readingStory::class.java)
+                val i = Intent(this@Activity_MyStory, Activity_readingChapter::class.java)
                 val bundle = Bundle()
                 bundle.putString(IDCHAPTER, listChapter[position].id_chapter)
                 bundle.putString(IDStory, id_story)

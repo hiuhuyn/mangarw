@@ -79,6 +79,14 @@ class AddData {
         }
     }
 
+    fun newHistory(history: History, callback: (Boolean) -> Unit){
+        FirebaseFirestore.getInstance().collection("History").add(history).addOnSuccessListener {
+            callback(true)
+        }.addOnFailureListener {
+            callback(false)
+        }
+    }
+
 
 
 

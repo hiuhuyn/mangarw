@@ -15,10 +15,8 @@ class Story{
     var cover_image: String = ""
     var type: Boolean = true// t = novel, f = manga
     var genres: ArrayList<String> = ArrayList()
+    var views = 0
     constructor()
-
-
-
     constructor(
         name: String,
         author: String,

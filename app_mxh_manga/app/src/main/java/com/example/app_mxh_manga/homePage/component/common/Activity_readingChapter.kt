@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ListView
@@ -14,21 +15,17 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
-import com.example.app_mxh_manga.component.GetData
-import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
-import com.example.app_mxh_manga.component.OnItemClick
-import com.example.app_mxh_manga.component.UpdateData
+import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Content_Image
 import com.example.app_mxh_manga.homePage.component.story.IDCHAPTER
-import com.example.app_mxh_manga.homePage.component.story.IDStory
-import com.example.app_mxh_manga.module.Chapter
 import com.example.app_mxh_manga.module.Chapter_Get
+import com.example.app_mxh_manga.module.History
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Activity_readingStory : AppCompatActivity() {
+class Activity_readingChapter : AppCompatActivity() {
     private lateinit var id_chapter: String
     private lateinit var chapter_get:Chapter_Get
     private lateinit var toolbar: Toolbar
@@ -53,7 +50,7 @@ class Activity_readingStory : AppCompatActivity() {
         progressDialog.setMessage("Loading...")
         progressDialog.setCancelable(false)
         progressDialog.show()
-        setContentView(R.layout.activity_reading_story)
+        setContentView(R.layout.activity_reading_chapter)
         toolbar = findViewById(R.id.toolbar)
         tv_content = findViewById(R.id.tv_content)
         rv_content = findViewById(R.id.recyclerView_content)
@@ -101,7 +98,7 @@ class Activity_readingStory : AppCompatActivity() {
                         }
                         ib_prev.setOnClickListener {
                             if (index < listChapter.size-1){
-                                val i = Intent(this, Activity_readingStory::class.java)
+                                val i = Intent(this, Activity_readingChapter::class.java)
                                 val bundle = Bundle()
                                 bundle.putString(IDCHAPTER, listChapter[index+1].id_chapter)
                                 i.putExtras(bundle)
@@ -110,7 +107,7 @@ class Activity_readingStory : AppCompatActivity() {
                         }
                         ib_next.setOnClickListener {
                             if (index > 0){
-                                val i = Intent(this, Activity_readingStory::class.java)
+                                val i = Intent(this, Activity_readingChapter::class.java)
                                 val bundle = Bundle()
                                 bundle.putString(IDCHAPTER, listChapter[index-1].id_chapter)
                                 i.putExtras(bundle)
@@ -126,7 +123,7 @@ class Activity_readingStory : AppCompatActivity() {
                             if (recyclerView != null) {
                                 recyclerView.adapter = Adapter_RV_Chapter(listChapter, object : OnItemClick{
                                     override fun onItemClick(position: Int) {
-                                        val i = Intent(this@Activity_readingStory, Activity_readingStory::class.java)
+                                        val i = Intent(this@Activity_readingChapter, Activity_readingChapter::class.java)
                                         val bundle = Bundle()
                                         bundle.putString(IDCHAPTER, listChapter[position].id_chapter)
                                         i.putExtras(bundle)
@@ -209,20 +206,39 @@ class Activity_readingStory : AppCompatActivity() {
         }
     }
     fun startTimer() {
-        var elapsedTime = 0
         // Bắt đầu đếm thời gian đọc
-        timer = object : CountDownTimer(10000, 1000) { // đếm ngược 20 giây với khoảng thời gian 1 giây
+        timer = object : CountDownTimer(10000, 1000) { // đếm ngược 10 giây với khoảng thời gian 1 giây
             override fun onTick(millisUntilFinished: Long) {
                 if (shouldCountDown) { // kiểm tra xem có nên đếm thời gian hay không
                     // cập nhật UI
                 }
             }
-
             override fun onFinish() {
                 if (shouldCountDown) { // kiểm tra xem có nên đếm thời gian hay không
                     // cập nhật UI
                     UpdateData().updateViewChapter(id_chapter){
                         cancel() // Hủy bỏ timer
+                        UpdateData().updateViewStory(chapter_get.chapter.id_story){
+
+                        }
+                        UpdateData().updateScoreUser(id_mainUser){
+
+                        }
+
+                        GetData().getHistoryByUser_Story(id_mainUser, chapter_get.chapter.id_story){
+                            if (it!=null){
+                                val historyGet = it
+                                historyGet.history.id_chapter = id_chapter
+                                Log.d(TAGGET, "getHistoryByUser_Story id: ${historyGet.id_history}")
+                                UpdateData().history(historyGet){
+                                }
+                            }else{
+                                AddData().newHistory(History(id_mainUser, chapter_get.chapter.id_story, id_chapter)){
+                                }
+                            }
+                        }
+
+
                     }
                 }
             }

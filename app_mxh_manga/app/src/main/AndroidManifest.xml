@@ -15,12 +15,13 @@
         android:theme="@style/Theme.App_mxh_manga"
         tools:targetApi="31">
         <activity
-            android:name=".homePage.component.story.Activity_Reading"
+            android:name=".offline.Activity_Offline"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".homePage.component.story.Activity_newChapter"
             android:exported="false">
@@ -43,7 +44,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".homePage.component.common.Activity_readingStory"
+            android:name=".homePage.component.common.Activity_readingChapter"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

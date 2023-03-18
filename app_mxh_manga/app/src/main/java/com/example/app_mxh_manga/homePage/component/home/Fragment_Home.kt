@@ -1,28 +1,20 @@
 package com.example.app_mxh_manga.homePage.component.home
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ListView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app_mxh_manga.offline.CheckNetwork
 
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
-import com.example.app_mxh_manga.component.adaters.Adapter_LV_Posts_Other
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
 import com.example.app_mxh_manga.module.Post_Get
-import com.example.app_mxh_manga.module.Posts
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class Fragment_Home : Fragment() {
@@ -63,13 +55,19 @@ class Fragment_Home : Fragment() {
                         }
                     }
                 }
-            }else{
-                Notification(view.context).toastCustom("Mất kết nối...").show()
             }
         }
         viewSearch.setOnClickListener {
             startActivity(Intent(activity_homePage, Activity_Search::class.java))
         }
+
+        if (!CheckNetwork().isNetworkAvailable(view.context)){
+            dialog.dismiss()
+            Notification(view.context).toastCustom("Không có mạng").show()
+        }
         return view
     }
+
+
+
 }

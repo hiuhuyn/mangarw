@@ -16,15 +16,12 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Genre
-import com.example.app_mxh_manga.homePage.component.common.Activity_readingStory
+import com.example.app_mxh_manga.homePage.component.common.Activity_readingChapter
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
 import com.example.app_mxh_manga.homePage.component.story.IDCHAPTER
 import com.example.app_mxh_manga.homePage.component.story.IDStory
 import com.example.app_mxh_manga.module.*
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 class Activity_showStory : AppCompatActivity() {
@@ -90,7 +87,7 @@ class Activity_showStory : AppCompatActivity() {
 
         adapter_chapter = Adapter_RV_Chapter(listChapter, object : OnItemClick {
             override fun onItemClick(position: Int) {
-                val i = Intent(this@Activity_showStory, Activity_readingStory::class.java)
+                val i = Intent(this@Activity_showStory, Activity_readingChapter::class.java)
                 val bundle = Bundle()
                 bundle.putString(IDCHAPTER, listChapter[position].id_chapter)
                 i.putExtras(bundle)
@@ -104,10 +101,10 @@ class Activity_showStory : AppCompatActivity() {
                 eventFollow()
             }
         }
-        GetData().getStoryByID(id_story){
-            if (it!=null){
-                story_get = it
-                for (item in it.story.genres){
+        GetData().getStoryByID(id_story){ storyGet ->
+            if (storyGet!=null){
+                story_get = storyGet
+                for (item in storyGet.story.genres){
                     GetData().getGenreByIdGenre(item){
                         if (it != null) {
                             listGenre_Get.add(it)
@@ -141,7 +138,12 @@ class Activity_showStory : AppCompatActivity() {
                 }
                 GetData().getChapterByIdStory(story_get.id_story){
                     if (it!=null){
-                        tv_like.setText(NumberData().formatInt(it.size))
+                        var countLike = 0
+                        for(i in it){
+                            countLike += i.chapter.likes.size
+                        }
+
+                        tv_like.setText(NumberData().formatInt(countLike))
                     }else{
                         tv_like.setText("0")
                     }
@@ -150,7 +152,6 @@ class Activity_showStory : AppCompatActivity() {
                 GetData().getRatingStory(story_get.id_story){
                     if (it!=null){
                         var rating = 0.0
-                        var checkForExistence = false
                         var id_rating = ""
                         for (i in it){
                             rating += i.rating.score
@@ -399,7 +400,7 @@ class Activity_showStory : AppCompatActivity() {
 
 
     private fun showContentChapter(id_chapter: String){
-        val i = Intent(this, Activity_readingStory::class.java)
+        val i = Intent(this, Activity_readingChapter::class.java)
         val bundle = Bundle()
         bundle.putString("id_chapter", id_chapter)
         i.putExtras(bundle)

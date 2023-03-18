@@ -222,6 +222,7 @@
                 style="@style/Theme_textView"
                 android:text="Miêu tả"
                 android:padding="10dp"
+                android:ellipsize="end"
                 />
             <Button
                 android:id="@+id/btn_continue"

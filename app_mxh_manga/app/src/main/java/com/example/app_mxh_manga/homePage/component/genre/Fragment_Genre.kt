@@ -69,15 +69,7 @@ class Fragment_Genre : Fragment() {
         spinner_sort = view.findViewById(R.id.spinner_sort)
         tv_descGenre = view.findViewById(R.id.tv_descGenre)
         rv_story = view.findViewById(R.id.rv_story)
-        adapterRvStory = Adapter_RV_Story(listStory_Genre, object : OnItemClick{
-            override fun onItemClick(position: Int) {
-                val i = Intent(activity, Activity_showStory::class.java)
-                val bundle = Bundle()
-                bundle.putString(IDStory, listStory_Genre[position].id_story)
-                i.putExtras(bundle)
-                view.context.startActivity(i)
-            }
-        })
+        adapterRvStory = Adapter_RV_Story(listStory_Genre)
         GetData().getAllStory {
             if (it!=null){
                 listStoryAll.addAll(it)

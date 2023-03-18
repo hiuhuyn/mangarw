@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="140dp"
+        android:layout_height="160dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@color/light_gray"
+        app:cardCornerRadius="10dp">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:id="@+id/tv_countView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="130dp"
+            android:background="#AE484848"
+            android:textColor="@color/white"
+            android:drawableStart="@drawable/ic_baseline_visibility_24"
+            android:padding="5dp"
+            android:ellipsize="end"
+            android:lines="1"
+            />
+    </androidx.cardview.widget.CardView>
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:lines="2"
+        android:gravity="center_vertical"
+        style="@style/Theme_textView"
+        android:textStyle="bold"
+        android:paddingVertical="5dp"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/tv_chapter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Theme_textView"
+        android:text="chương 1"
+        android:textColor="#3C3C3C"
+        android:ellipsize="end"
+        />
+
+
+
+
+</LinearLayout>

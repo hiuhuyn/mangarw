@@ -13,5 +13,6 @@
         android:background="@drawable/shape_genre_on"
         android:padding="10dp"
         android:textColor="#6D6D6D"
+        android:ellipsize="end"
         android:textStyle="bold"/>
 </FrameLayout>

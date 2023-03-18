@@ -1,6 +1,5 @@
-package com.example.app_mxh_manga.homePage.component.bookcase.component.download
+package com.example.app_mxh_manga.homePage.component.bookcase.component.adapter
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

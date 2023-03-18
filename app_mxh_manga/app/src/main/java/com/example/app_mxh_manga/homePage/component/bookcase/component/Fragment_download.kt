@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.ModeDataSaveSharedPreferences
+import com.example.app_mxh_manga.component.Notification
+import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
 import com.example.app_mxh_manga.homePage.Activity_homePage
-import com.example.app_mxh_manga.homePage.component.bookcase.component.adapter.Adapter_RV_Story_History
-import com.example.app_mxh_manga.module.History_Get
+import com.example.app_mxh_manga.module.Story_Get
 
 
-class Fragment_history : Fragment() {
+class Fragment_download : Fragment() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,30 +34,19 @@ class Fragment_history : Fragment() {
         val view =  inflater.inflate(R.layout.fragment_rv, container, false)
         val tv = view.findViewById<TextView>(R.id.tv)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
-        tv.text = "Lịch sử đọc truyện"
+        tv.text = "Truyện theo dõi"
         tv.visibility = View.VISIBLE
-        val listHistory = ArrayList<History_Get>()
+        val listStory = ArrayList<Story_Get>()
 
-        val id_user = ModeDataSaveSharedPreferences(activity as Activity_homePage).getIdUser()
 
-        val adapter = Adapter_RV_Story_History(listHistory)
+
+        val adapter = Adapter_RV_Story(listStory)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(
             view.context,
             LinearLayoutManager.VERTICAL,
             false
-
         )
-
-        GetData().getHistoryByUser(id_user){
-            if (it!=null){
-                listHistory.addAll(it)
-                adapter.notifyDataSetChanged()
-            }else{
-                tv.text = "Bạn cần đọc 1 chương truyện thì mới có lịch sử đọc"
-            }
-        }
-
 
         return view
     }
