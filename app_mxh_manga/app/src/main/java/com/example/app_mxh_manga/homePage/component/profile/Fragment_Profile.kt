@@ -1,11 +1,9 @@
 package com.example.app_mxh_manga.homePage.component.profile
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,12 +20,11 @@ import com.example.app_mxh_manga.homePage.component.profile.component.Activity_E
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
 import com.example.app_mxh_manga.homePage.component.story.Activity_creative_zone
 import com.example.app_mxh_manga.login.Activity_Login
-import com.example.app_mxh_manga.module.User
+import com.example.app_mxh_manga.messenger.Activity_chat
 import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
-import kotlinx.coroutines.*
 
 
 class Fragment_Profile : Fragment() {
@@ -129,6 +126,9 @@ class Fragment_Profile : Fragment() {
                 }
                 R.id.item_setting -> {
 
+                }
+                R.id.item_messenger -> {
+                    startActivity(Intent(context, Activity_chat::class.java))
                 }
             }
             true

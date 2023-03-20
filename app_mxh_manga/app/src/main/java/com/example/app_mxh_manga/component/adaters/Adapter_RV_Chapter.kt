@@ -34,9 +34,6 @@ class Adapter_RV_Chapter(val list: ArrayList<Chapter_Get>, val onItemClick: OnIt
             tv_numView.setText(NumberData().formatInt(list[position].chapter.views))
 
 
-
-
-
         }
     }
 

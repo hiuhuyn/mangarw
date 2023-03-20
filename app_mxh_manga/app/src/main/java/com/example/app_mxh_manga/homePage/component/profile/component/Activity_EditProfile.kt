@@ -180,6 +180,7 @@ class Activity_EditProfile : AppCompatActivity() {
                         }
                     }
                     dialog.dismiss()
+                    finish()
 
                 }
             }

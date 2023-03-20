@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingVertical="5dp"
+    android:layout_marginEnd="10dp">
+
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_alignParentEnd="true"
+        style="@style/Theme_textView"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:background="@drawable/chat_content"
+        android:padding="10dp"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="#0584FE"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="80dp"
+        android:layout_below="@id/tv_date"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_content"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:orientation="vertical"
+        app:spanCount="2"
+        android:layout_alignParentEnd="true"
+        android:foregroundGravity="right"
+        android:visibility="gone"
+        />
+</RelativeLayout>

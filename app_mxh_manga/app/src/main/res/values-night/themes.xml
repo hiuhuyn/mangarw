@@ -16,7 +16,9 @@
         <item name="android:textSize">15sp</item>
 
     </style>
-
+    <style name="Theme_layout" parent="Theme.App_mxh_manga">
+        <item name="android:backgroundTint">@color/darker_gray</item>
+    </style>
 
 
 </resources>

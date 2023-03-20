@@ -6,6 +6,7 @@ import android.widget.Toast
 import com.example.app_mxh_manga.module.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,6 +18,7 @@ class AddData {
         }.addOnFailureListener {
             callback(false)
         }
+
     }
     fun newImage(uri: Uri, pathSave: String, callback: (check: Boolean) -> Unit){
         val storageReference = FirebaseStorage.getInstance().reference
@@ -27,6 +29,7 @@ class AddData {
             }
             .addOnFailureListener {
                 callback(false)
+                Log.d("AddData", "new image err: $it")
             }
     }
     fun newPost(post: Posts, callback: (id: String?) -> Unit){
@@ -87,6 +90,22 @@ class AddData {
         }
     }
 
+    fun newMessenger(messenger: Messenger, callback: (id_messenger: String?) -> Unit){
+        FirebaseFirestore.getInstance().collection("Messenger").add(messenger).addOnSuccessListener {
+           callback(it.id)
+        }.addOnFailureListener {
+            callback(null)
+        }
+    }
+    fun newChat(chat: Chat, callback: (id: String?) -> Unit){
+        FirebaseFirestore.getInstance().collection("Chat").add(chat)
+            .addOnSuccessListener {
+                callback(it.id)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
 
 
 

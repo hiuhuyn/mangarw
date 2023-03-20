@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    style="@style/Theme_layout"
     android:layout_height="match_parent"
     tools:context=".homePage.component.common.Activity_ShowImagePost">
     <androidx.appcompat.widget.Toolbar

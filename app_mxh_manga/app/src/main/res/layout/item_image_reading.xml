@@ -13,7 +13,7 @@
         android:backgroundTint="@android:color/transparent"
         />
     <ImageButton
-        android:id="@+id/ib_delete"
+        android:id="@+id/btn_delete"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_baseline_cancel_40"

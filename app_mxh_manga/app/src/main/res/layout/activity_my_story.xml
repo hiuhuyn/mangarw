@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/Theme_layout"
+    android:background="@color/light_gray"
     tools:context=".homePage.component.story.Activity_MyStory">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

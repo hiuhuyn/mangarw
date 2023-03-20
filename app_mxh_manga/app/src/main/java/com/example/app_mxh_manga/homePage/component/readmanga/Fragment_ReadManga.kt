@@ -113,7 +113,7 @@ class Fragment_ReadManga : Fragment() {
             if (strings!=null){
                 for (i in strings){
                     GetData().getStoryByID(i){
-                        if (it!=null){
+                        if (it!=null && it.story.status){
                             listStory.add(it)
                             adapter.notifyDataSetChanged()
                         }
@@ -149,8 +149,12 @@ class Fragment_ReadManga : Fragment() {
         }
         GetData().getStorySort_view {
             if (it!=null){
-                listStory.addAll(it)
-                adapter.notifyDataSetChanged()
+                for (i in it){
+                    if (i.story.status){
+                        listStory.add(i)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
             }
         }
 

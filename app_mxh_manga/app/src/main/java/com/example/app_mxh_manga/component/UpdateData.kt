@@ -1,6 +1,7 @@
 package com.example.app_mxh_manga.component
 
 import android.util.Log
+import com.example.app_mxh_manga.module.Chat_Get
 import com.example.app_mxh_manga.module.History
 import com.example.app_mxh_manga.module.History_Get
 import com.example.app_mxh_manga.module.Rating
@@ -362,7 +363,28 @@ class UpdateData {
         else{
             callback(false)
         }
-
     }
+
+    fun chat(chatGet: Chat_Get, callback: (Boolean) -> Unit){
+        if (chatGet.id_chat != ""){
+            val update = hashMapOf(
+                "last_messenger" to chatGet.chat.last_messenger, // id của chương truyện vừa đọc
+                "last_messenger_time" to FieldValue.serverTimestamp() // thời gian hiện tại
+            )
+            FirebaseFirestore.getInstance().collection("Chat").document(chatGet.id_chat)
+                .update(update)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                }
+        }
+        else{
+            callback(false)
+        }
+    }
+
+
 
 }

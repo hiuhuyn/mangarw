@@ -20,7 +20,7 @@ class Adapter_NewImageChapter(val list: ArrayList<Uri>, val onItemClick: OnItemC
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.itemView.apply {
             val iv_content = findViewById<ImageView>(R.id.iv_content)
-            val ib_delete = findViewById<ImageButton>(R.id.ib_delete)
+            val ib_delete = findViewById<ImageButton>(R.id.btn_delete)
 
             iv_content.setImageURI(list[position])
             ib_delete.setOnClickListener {

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/Theme_layout"
     android:background="@color/light_gray"
     tools:context=".homePage.component.story.Activity_New_Story">
     <androidx.appcompat.widget.Toolbar
@@ -124,8 +125,9 @@
                 android:id="@+id/rv_genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:orientation="vertical"
+                app:spanCount="3"
                 android:layout_marginVertical="10dp"/>
 
             <TextView

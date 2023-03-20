@@ -7,11 +7,7 @@ import com.example.app_mxh_manga.R
 class Activity_Offline : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_rv)
-
-        
-
-
+        setContentView(R.layout.activity_offline)
 
 
 

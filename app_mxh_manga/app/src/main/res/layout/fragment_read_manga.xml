@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingHorizontal="10dp"
     android:paddingTop="10dp"
+    style="@style/Theme_layout"
     tools:context=".homePage.component.readmanga.Fragment_ReadManga">
     <LinearLayout
         android:layout_width="match_parent"

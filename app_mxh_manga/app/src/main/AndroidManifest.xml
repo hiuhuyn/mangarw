@@ -15,13 +15,33 @@
         android:theme="@style/Theme.App_mxh_manga"
         tools:targetApi="31">
         <activity
+            android:name=".homePage.component.story.Activity_Update_story"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".messenger.Activity_messenger"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".messenger.Activity_chat"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".offline.Activity_Offline"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".homePage.component.story.Activity_newChapter"
             android:exported="false">

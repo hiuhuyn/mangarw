@@ -27,7 +27,13 @@ class MainActivity : AppCompatActivity() {
         val id_user = ModeDataSaveSharedPreferences(this).getIdUser()
         progressBar.visibility = View.VISIBLE
 
-        if(CheckNetwork().isNetworkAvailable(this)){
+
+        val checkNetwork = CheckNetwork().isNetworkAvailable(this)
+
+
+
+        if (checkNetwork){
+            Notification(this).toastCustom("Kết nối thành công").show()
             GetData().getUserByID(id_user){
                 progressBar.visibility = View.GONE
                 if (it!=null && it.id_user == id_user ){
@@ -39,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }else{
-            Notification(this).toastCustom("Không có kết nối mạng").show()
+            Notification(this).toastCustom("Kết nối không thành công").show()
         }
 
 

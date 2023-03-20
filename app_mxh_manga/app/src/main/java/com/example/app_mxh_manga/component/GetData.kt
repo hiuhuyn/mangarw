@@ -1,7 +1,6 @@
 package com.example.app_mxh_manga.component
 
 import android.net.Uri
-import android.nfc.Tag
 import android.util.Log
 import com.example.app_mxh_manga.module.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -418,7 +417,8 @@ class GetData{
 
     fun getAllStory_Type(type: Boolean , callback: (ArrayList<Story_Get>?) -> Unit){
         val storyRef = FirebaseFirestore.getInstance().collection("Storys")
-        storyRef.whereEqualTo("type",  type).get()
+        storyRef.whereEqualTo("type",  type)
+            .get()
             .addOnSuccessListener {
                 if (it.isEmpty){
                     callback(null)
@@ -619,6 +619,178 @@ class GetData{
             callback(null)
         }
     }
+
+    fun getListChat(id_user: String, callback: (ArrayList<Chat_Get>?) -> Unit){
+        if(id_user!=""){
+            val listChat = ArrayList<Chat_Get>()
+            val db = FirebaseFirestore.getInstance().collection("Chat")
+            db.whereEqualTo("id_user1", id_user)
+                .orderBy("last_messenger_time", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    for (i in querySnapshot){
+                        val chat = i.toObject<Chat>()
+                        if (chat.last_messenger_time!=null){
+                            listChat.add(Chat_Get(i.id,chat))
+                        }
+                    }
+                    db.whereEqualTo("id_user2", id_user)
+                        .orderBy("last_messenger_time", Query.Direction.DESCENDING)
+                        .get()
+                        .addOnSuccessListener {
+                            for (i in it){
+                                val chat = i.toObject<Chat>()
+                                if (chat.last_messenger_time!=null){
+                                    listChat.add(Chat_Get(i.id,chat))
+                                }
+                            }
+                            callback(listChat)
+                        }
+                        .addOnFailureListener {
+                            callback(null)
+                            Log.d(TAGGET, "getChat $it")
+                        }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getChat $it")
+                }
+        }else{
+            callback(null)
+        }
+    }
+
+
+
+    fun getMessengerByID(id_messenger: String, callback: (Messenger_Get?) -> Unit){
+        if (id_messenger!=""){
+            FirebaseFirestore.getInstance().collection("Messenger").document(id_messenger)
+                .get()
+                .addOnSuccessListener {
+                    val messenger: Messenger? = it.toObject()
+                    if (messenger!=null){
+                        callback(Messenger_Get(it.id, messenger))
+                    }else{
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+
+                }
+        }else{
+
+            callback(null)
+        }
+
+    }
+    fun getMessengerBy_IdChat(id_chat: String, callback: (messengers: ArrayList<Messenger_Get>?) -> Unit ){
+        if (id_chat!=""){
+            val db = FirebaseFirestore.getInstance().collection("Messenger")
+            db.whereEqualTo("id_chat", id_chat)
+                .orderBy("date_submit", Query.Direction.ASCENDING)
+                .get()
+                .addOnSuccessListener {
+                    if(it.isEmpty){
+                        callback(null)
+                    }else{
+                        val list = ArrayList<Messenger_Get>()
+                        for (i in it){
+                            list.add(Messenger_Get(i.id, i.toObject()))
+                        }
+                        callback(list)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getMessengerBy_IdChat $it")
+                }
+        }else{
+            callback(null)
+        }
+    }
+    fun getChat(id_user1: String, id_user2: String, callback: (chat: Chat_Get?) -> Unit){
+        if (id_user1!="" && id_user2!=""){
+            val db = FirebaseFirestore.getInstance().collection("Chat")
+            db.whereEqualTo("id_user1", id_user1)
+                .get()
+                .addOnSuccessListener { it1 ->
+                    var check = false
+                    var chatGet = Chat_Get()
+                    for (i in it1){
+                        val chat = Chat_Get(i.id, i.toObject())
+                        if (chat.chat.id_user2 == id_user2){
+                            chatGet = chat
+                            check = true
+                            break
+                        }else{
+                            check = false
+                        }
+                    }
+                    if (check){
+                        callback(chatGet)
+                    }else{
+                        db.whereEqualTo("id_user2", id_user1)
+                            .get()
+                            .addOnSuccessListener { it2->
+
+                                for (i in it2){
+                                    val chat = Chat_Get(i.id, i.toObject())
+                                    if (chat.chat.id_user1 == id_user2){
+                                        chatGet = chat
+                                        check = true
+                                        break
+                                    }else{
+                                        check = false
+                                    }
+                                }
+                                if (check){
+                                    callback(chatGet)
+                                }else{
+                                    callback(null)
+                                }
+                            }
+                            .addOnFailureListener {
+                                callback(null)
+                                Log.d(TAGGET, "getChat $it")
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                    Log.d(TAGGET, "getChat $it")
+                }
+
+
+        }else{
+            callback(null)
+        }
+    }
+    fun getChatByID(id_chat: String, callback: (chat: Chat_Get?) -> Unit){
+        if (id_chat!=""){
+            FirebaseFirestore.getInstance().collection("Chat")
+                .document(id_chat)
+                .get()
+                .addOnSuccessListener {
+                    val chat =  it.toObject<Chat>()
+                    if (chat!=null){
+                        callback(Chat_Get(it.id, chat))
+                    }else{
+                        callback(null)
+                    }
+                }
+                .addOnFailureListener {
+                    callback(null)
+                }
+
+
+        }else{
+            callback(null)
+        }
+    }
+
+
+
 
 
 

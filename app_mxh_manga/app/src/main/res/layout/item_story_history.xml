@@ -47,7 +47,7 @@
             android:id="@+id/tv_timeReading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:text=""
             android:maxLines="2"
             android:textColor="#3D3D3D"

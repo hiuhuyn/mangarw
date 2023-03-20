@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
@@ -38,7 +41,7 @@ class Activity_MyStory : AppCompatActivity() {
     private lateinit var notification: Notification
     private lateinit var dialog: Dialog
 
-    private lateinit var adapterRvChapter: Adapter_RV_Chapter
+    private lateinit var adapterRvChapter: Adapter_RV_Chapter_Edit
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +84,7 @@ class Activity_MyStory : AppCompatActivity() {
                 addEvent()
             }
         }
-        adapterRvChapter = Adapter_RV_Chapter(listChapter, object : OnItemClick {
+        adapterRvChapter = Adapter_RV_Chapter_Edit(listChapter, object : OnItemClick {
             override fun onItemClick(position: Int) {
                 val i = Intent(this@Activity_MyStory, Activity_readingChapter::class.java)
                 val bundle = Bundle()
@@ -129,6 +132,30 @@ class Activity_MyStory : AppCompatActivity() {
         btn_stats.setOnClickListener {
             
         }
+
+        tv_name.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Nhập tên mới")
+
+            val input = EditText(this)
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { _, _ ->
+                val userInput = input.text.toString()
+                // Xử lý dữ liệu được nhập vào ở đây
+            }
+
+            builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+
+            builder.show()
+
+
+        }
+
+
+
+
+
 
     }
 }

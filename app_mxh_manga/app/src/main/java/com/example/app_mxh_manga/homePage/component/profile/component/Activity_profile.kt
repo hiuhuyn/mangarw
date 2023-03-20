@@ -21,6 +21,7 @@ import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
 
 import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
+import com.example.app_mxh_manga.module.Story_Get
 import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -130,7 +131,13 @@ class Activity_profile : AppCompatActivity() {
                     }
                     GetData().getStoryByIdUser(idUser){ storys ->
                         if (storys!=null){
-                            adapterRvStory = Adapter_RV_Story(storys)
+                            val listStory = ArrayList<Story_Get>()
+                            for (i in storys){
+                                if (i.story.status){
+                                    listStory.add(i)
+                                }
+                            }
+                            adapterRvStory = Adapter_RV_Story(listStory)
                             checkStory = true
                         }else{
                             checkStory = false

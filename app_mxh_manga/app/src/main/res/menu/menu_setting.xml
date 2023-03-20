@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_messenger"
+        android:title="Nhắn tin"
+        android:icon="@drawable/messenger"
+        app:showAsAction="always"
+        />
+
+    <item
         android:title="Cài đặt"
         android:icon="@drawable/ic_baseline_settings_40"
         app:showAsAction="always">
@@ -16,6 +23,4 @@
         </menu>
 
     </item>
-
-
 </menu>

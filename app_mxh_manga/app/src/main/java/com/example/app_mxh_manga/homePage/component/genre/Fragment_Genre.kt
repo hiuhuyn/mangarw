@@ -72,10 +72,13 @@ class Fragment_Genre : Fragment() {
         adapterRvStory = Adapter_RV_Story(listStory_Genre)
         GetData().getAllStory {
             if (it!=null){
-                listStoryAll.addAll(it)
-                listStory_Genre.addAll(it)
+                for (i in it){
+                    if (i.story.status){
+                        listStoryAll.add(i)
+                        listStory_Genre.add(i)
+                    }
+                }
                 adapterRvStory.notifyDataSetChanged()
-                Log.d(TAGGET, "list story: $it")
             }
         }
         rv_story.adapter = adapterRvStory
@@ -114,7 +117,7 @@ class Fragment_Genre : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(context, listSort[position], Toast.LENGTH_SHORT).show()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

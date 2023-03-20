@@ -4,16 +4,39 @@ import android.net.Uri
 import java.util.Calendar
 import java.util.Date
 
+
 class Messenger {
-    var id_user1: String = ""
-    var id_user2: String= ""
-    var contents: ArrayList<String>  = ArrayList()
+    var id_chat = ""
+    var sender: String = ""
+    var receiver: String= ""
+    var images: ArrayList<String>  = ArrayList()
+    var content: String = ""
+    var date_submit: Date = Calendar.getInstance().time
     constructor()
 
-    constructor(id_user1: String, id_user2: String, contents: ArrayList<String>) {
-        this.id_user1 = id_user1
-        this.id_user2 = id_user2
-        this.contents = contents
+
+
+    constructor(id_chat: String, sender: String, receiver: String, content: String) {
+        this.id_chat = id_chat
+        this.sender = sender
+        this.receiver = receiver
+        this.content = content
+    }
+
+    constructor(
+        id_chat: String,
+        sender: String,
+        receiver: String,
+        images: ArrayList<String>,
+        content: String,
+        date_submit: Date
+    ) {
+        this.id_chat = id_chat
+        this.sender = sender
+        this.receiver = receiver
+        this.images = images
+        this.content = content
+        this.date_submit = date_submit
     }
 }
 
@@ -28,26 +51,5 @@ class Messenger_Get {
     }
 
 }
-class Content_Messenger{
-    var id_user: String="" // người gửi
-    var date_submit: Date = Calendar.getInstance().time
-    var content: String = ""
-    constructor()
-    constructor(id_user: String, date_submit: Date, content: String) {
-        this.id_user = id_user
-        this.date_submit = date_submit
-        this.content = content
-    }
-}
-class Content_Messenger_Get{
-    var id_content: String = ""
-    var contentMessenger: Content_Messenger = Content_Messenger()
-    constructor()
-    constructor(id_content: String, contentMessenger: Content_Messenger) {
-        this.id_content = id_content
-        this.contentMessenger = contentMessenger
-    }
 
-
-}
 
