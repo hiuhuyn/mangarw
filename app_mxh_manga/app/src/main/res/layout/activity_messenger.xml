@@ -38,7 +38,7 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nguyen minh quan"
+            android:text="Loading"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"

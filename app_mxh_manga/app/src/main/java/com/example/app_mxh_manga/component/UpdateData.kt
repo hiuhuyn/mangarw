@@ -1,10 +1,7 @@
 package com.example.app_mxh_manga.component
 
 import android.util.Log
-import com.example.app_mxh_manga.module.Chat_Get
-import com.example.app_mxh_manga.module.History
-import com.example.app_mxh_manga.module.History_Get
-import com.example.app_mxh_manga.module.Rating
+import com.example.app_mxh_manga.module.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -384,6 +381,59 @@ class UpdateData {
             callback(false)
         }
     }
+
+    fun name_story(id_story: String, newName: String, callback: (Boolean) -> Unit){
+        if (id_story != "" && newName!=""){
+            FirebaseFirestore.getInstance().collection("Storys").document(id_story)
+                .update("name", newName)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d(TAG_Update, "name_story: $it")
+                }
+
+
+
+        }else{
+            callback(false)
+        }
+    }
+    fun describe_story(id_story: String, newdesc: String, callback: (Boolean) -> Unit){
+        if (id_story != "" && newdesc!=""){
+            FirebaseFirestore.getInstance().collection("Storys").document(id_story)
+                .update("describe", newdesc)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d(TAG_Update, "describe_story: $it")
+                }
+        }else{
+            callback(false)
+        }
+    }
+    fun coverImage_story(id_story: String, newpath: String, callback: (Boolean) -> Unit){
+        if (id_story != "" && newpath!=""){
+            FirebaseFirestore.getInstance().collection("Storys").document(id_story)
+                .update("cover_image", newpath)
+                .addOnSuccessListener {
+                    callback(true)
+                }
+                .addOnFailureListener {
+                    callback(false)
+                    Log.d(TAG_Update, "coverImage_story: $it")
+                }
+        }else{
+            callback(false)
+        }
+    }
+
+
+
+
 
 
 

@@ -64,6 +64,7 @@
                     android:textSize="18sp"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="textPassword"
+                    android:maxLength="10"
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout

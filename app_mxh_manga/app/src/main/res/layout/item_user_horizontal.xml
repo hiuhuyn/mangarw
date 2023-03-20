@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
-    android:layout_height="130dp"
+    android:layout_height="wrap_content"
     android:padding="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <androidx.cardview.widget.CardView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/light_gray"
@@ -29,6 +29,7 @@
         android:ellipsize="end"
         android:lines="1"
         style="@style/Theme_textView"
-        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:gravity="center"
         />
 </LinearLayout>

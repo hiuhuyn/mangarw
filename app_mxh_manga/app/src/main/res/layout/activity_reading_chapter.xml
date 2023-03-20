@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         style="@style/Toolbar"
+        app:menu="@menu/menu_home"
         app:navigationIcon="@drawable/ic_baseline_navigate_before_40"
         />
     <androidx.core.widget.NestedScrollView

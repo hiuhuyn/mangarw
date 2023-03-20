@@ -44,8 +44,24 @@ class Activity_creative_zone : AppCompatActivity() {
         tv_income = findViewById(R.id.tv_income)
         float_btn = findViewById(R.id.float_btn)
 
+
+
+    }
+
+    private fun addEvent() {
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
+        float_btn.setOnClickListener {
+            startActivity(Intent(this, Activity_New_Story::class.java))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         val dialog = Notification(this).dialogLoading("Loading...")
         dialog.show()
+        listStory.clear()
         GetData().getStoryByIdUser(idUser){ storys ->
             dialog.dismiss()
             if ( storys!= null){
@@ -66,17 +82,8 @@ class Activity_creative_zone : AppCompatActivity() {
 
 
         addEvent()
-
     }
 
-    private fun addEvent() {
-        toolbar.setNavigationOnClickListener {
-            finish()
-        }
-        float_btn.setOnClickListener {
-            startActivity(Intent(this, Activity_New_Story::class.java))
-        }
 
 
-    }
 }

@@ -4,9 +4,154 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/Theme_layout"
     tools:context=".homePage.component.story.Activity_Update_story">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Toolbar"
+        android:layout_alignParentTop="true"
+        app:title="Cập nhật truyện"
+        app:navigationIcon="@drawable/ic_baseline_navigate_before_40"/>
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_save"
+        android:layout_below="@+id/toolbar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_alignParentStart="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/cardView"
+                    android:layout_marginEnd="10dp"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ảnh bìa"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hoàn thiện thông tin truyện của bạn để thu hút nhiều người hơn"
+                        android:textSize="15sp"
+                        />
+                </LinearLayout>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView"
+                    android:layout_width="100dp"
+                    android:layout_height="140dp"
+                    android:layout_alignParentEnd="true"
+                    app:cardCornerRadius="10dp">
+                    <ImageView
+                        android:id="@+id/iv_avt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_launcher_background"
+                        android:scaleType="centerCrop"
+                        />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:background="@color/black_50"
+                        android:textSize="13sp"
+                        android:textColor="@color/white"
+                        android:text="Thêm ảnh"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        />
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên truyện"
+                android:layout_marginVertical="10dp"
+                style="@style/Theme_textView"
+                />
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nhập tên truyện"
+                style="@style/Theme_EditText"
+                android:padding="10dp"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginVertical="10dp"
+                    android:text="Thể loại"
+                    style="@style/Theme_textView" />
+                <ImageButton
+                    android:id="@+id/ib_add_genre"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_baseline_attachment_40"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="20dp"
+                    />
+            </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_genre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:orientation="vertical"
+                app:spanCount="3"
+                android:layout_marginVertical="10dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giới thiệu"
+                android:layout_marginVertical="10dp"
+                style="@style/Theme_textView"
+                />
+            <EditText
+                android:id="@+id/edt_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Viết giới thiệu về truyện"
+                style="@style/Theme_EditText"
+                android:padding="10dp"
+                android:minLines="2"
+                android:layout_marginBottom="100dp"
+                />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lưu lại"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:background="@drawable/bg_btn_yellow"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        />
 
 </RelativeLayout>

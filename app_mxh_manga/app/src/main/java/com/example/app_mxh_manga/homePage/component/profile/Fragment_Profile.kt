@@ -24,6 +24,7 @@ import com.example.app_mxh_manga.messenger.Activity_chat
 import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
 
@@ -47,9 +48,7 @@ class Fragment_Profile : Fragment() {
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_priority_high_40), "Giới thiệu chúng tôi"),
         Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_logout_24), "Đăng xuất"),
     )
-    init {
 
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,15 +72,21 @@ class Fragment_Profile : Fragment() {
         tv_followers = view.findViewById(R.id.tv_followers)
         tv_following = view.findViewById(R.id.tv_following)
         activityHomepage = activity as Activity_homePage
-        listView.adapter = Adapter_LV_iv_string(activityHomepage, listIv_Str)
-
         notification = Notification(view.context)
+        listView.adapter = Adapter_LV_iv_string(activityHomepage, listIv_Str)
+        idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
+        return view
+    }
+
+    override fun onStart() {
+        super.onStart()
         dialog = notification.dialogLoading("Loading...")
         dialog.show()
-        idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
+
         GetData().getUserByID(idUser){ userGet ->
             dialog.dismiss()
             if (userGet != null) {
+                user = userGet
                 tv_name.text = userGet.user.name
                 tv_following.setText("${NumberData().formatInt(userGet.user.follow_users.size)}")
                 NumberData().formatLevel(userGet.user.score){ score, color ->
@@ -105,8 +110,10 @@ class Fragment_Profile : Fragment() {
                 notification.toastCustom("Mất kết nối!").show()
             }
         }
-        return view
+
+
     }
+
 
     private fun addEvent() {
         floatBtn.setOnClickListener {
@@ -129,6 +136,9 @@ class Fragment_Profile : Fragment() {
                 }
                 R.id.item_messenger -> {
                     startActivity(Intent(context, Activity_chat::class.java))
+                }
+                R.id.item_changePassword ->{
+                    changePassword()
                 }
             }
             true
@@ -159,5 +169,43 @@ class Fragment_Profile : Fragment() {
 
 
     }
+
+    private fun changePassword() {
+        val dialog = Dialog(activityHomepage)
+        dialog.setContentView(R.layout.layout_dialog_change_password)
+        dialog.setCancelable(false)
+        val cancel = dialog.findViewById<Button>(R.id.btn_cancel)
+        val ok = dialog.findViewById<Button>(R.id.btn_ok)
+        val ti_password_old = dialog.findViewById<TextInputLayout>(R.id.ti_password_old)
+        val ti_password_new = dialog.findViewById<TextInputLayout>(R.id.ti_password_new)
+        cancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        ok.setOnClickListener {
+            val passOld = ti_password_old.editText?.text.toString().trim()
+            val passNew = ti_password_new.editText?.text.toString().trim()
+            29
+            if (passNew.isEmpty()){
+                ti_password_new.error = "Mật khẩu không được bỏ trống!"
+            }else{
+                ti_password_new.error = null
+                ti_password_new.isErrorEnabled = false
+            }
+            if (passOld != user.user.password){
+                ti_password_old.error = "Mật khẩu không chính xác!"
+            }else if ( passOld == user.user.password && passNew.isNotEmpty()){
+                UpdateData().password_user(user.id_user, passNew){
+                    if(it){
+                        dialog.dismiss()
+                        Notification(activityHomepage).toastCustom("Đổi mật khẩu thành công").show()
+                    }
+                }
+            }
+
+        }
+        dialog.show()
+    }
+
 
 }

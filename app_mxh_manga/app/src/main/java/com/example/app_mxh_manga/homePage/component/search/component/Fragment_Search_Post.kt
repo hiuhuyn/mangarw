@@ -19,6 +19,8 @@ import com.example.app_mxh_manga.module.Posts
 class Fragment_Search_Post: Fragment() {
     private lateinit var adapter: Adapter_LV_Posts_Other
     private var listPosts = ArrayList<Post_Get>()
+    private lateinit var notification: Notification
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,22 +39,24 @@ class Fragment_Search_Post: Fragment() {
         val activitySearch = activity as Activity_Search
         adapter = Adapter_LV_Posts_Other(activitySearch, listPosts)
         listView.adapter = adapter
-        val dialog = Notification(view.context).dialogLoading("Loading...")
+        notification =Notification(view.context)
+        val dialog = notification.dialogLoading("Loading...")
         dialog.show()
-
         GetData().getAllPosts {
             dialog.dismiss()
             if (it != null) {
-                for (i in it){
-                    listPosts.add(i)
-                    adapter.update(listPosts)
+                listPosts.addAll(it)
+                adapter.update(listPosts)
+                listPosts.sortWith { o1, o2 ->
+                    o2.posts.date_submit.compareTo(o1.posts.date_submit)
                 }
-            }else{
-                Notification(view.context).toastCustom("Không có nội dung để hiển thị").show()
             }
         }
+
         return view
     }
+
+
     fun updateDataSearch(search: String){
         adapter.filter.filter(search)
     }

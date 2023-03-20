@@ -12,22 +12,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.adaters.Adapter_VP2_ListFragment
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_name_chapter
 import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_story_sortview
-import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_sort_order
+import com.example.app_mxh_manga.homePage.component.readmanga.component.common.Adapter_RV_sort_order
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
 import com.example.app_mxh_manga.module.Story_Get
 import com.example.app_mxh_manga.module.User_Get
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
 class Fragment_ReadManga : Fragment() {
-    private lateinit var adpterVP2: Adapter_VP2_ListFragment
     private lateinit var homePage: Activity_homePage
     private lateinit var search: View
     private lateinit var ib_rating: ImageButton
@@ -53,8 +49,8 @@ class Fragment_ReadManga : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_read_manga, container, false)
-        search = view.findViewById<View>(R.id.search)
-        ib_rating = view.findViewById<ImageButton>(R.id.ib_rating)
+        search = view.findViewById(R.id.search)
+        ib_rating = view.findViewById(R.id.ib_rating)
         view1 = view.findViewById(R.id.view1)
         view2 = view.findViewById(R.id.view2)
         view3 = view.findViewById(R.id.view3)
@@ -62,20 +58,18 @@ class Fragment_ReadManga : Fragment() {
 
         homePage = activity as Activity_homePage
 
+
+        return view
+    }
+    override fun onStart() {
+        super.onStart()
         view1()
         view2()
         view3()
         view4()
 
         addEvent()
-        return view
     }
-
-
-
-
-
-
 
     private fun view1() {
         val tv_title = view1.findViewById<TextView>(R.id.tv_title)
@@ -89,11 +83,6 @@ class Fragment_ReadManga : Fragment() {
         btn_showAll.setOnClickListener {
 
         }
-
-
-
-
-
     }
     private fun view2() {
         val tv_title = view2.findViewById<TextView>(R.id.tv_title)
@@ -121,10 +110,6 @@ class Fragment_ReadManga : Fragment() {
                 }
             }
         }
-
-
-
-
         btn_showAll.setOnClickListener {
 
         }
@@ -157,10 +142,6 @@ class Fragment_ReadManga : Fragment() {
                 }
             }
         }
-
-
-
-
     }
     private fun view4() {
         val tv_title = view4.findViewById<TextView>(R.id.tv_title)
@@ -168,7 +149,7 @@ class Fragment_ReadManga : Fragment() {
         val rv = view4.findViewById<RecyclerView>(R.id.recyclerView)
         tv_title.text = "Top thành viên"
         val listUser = ArrayList<User_Get>()
-        val adapter = Adapter_sort_order(listUser)
+        val adapter = Adapter_RV_sort_order(listUser)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(
             view4.context,

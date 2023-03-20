@@ -49,7 +49,6 @@ class Activity_New_Story : AppCompatActivity() {
             if (geners!=null){
                 allGenre.addAll(geners)
             }
-
         }
     }
 
@@ -138,7 +137,6 @@ class Activity_New_Story : AppCompatActivity() {
             startGallery_images.launch(intent)
         }
         ib_add_genre.setOnClickListener {
-//            setTheme(R.style.Theme_transparent)
             val view = layoutInflater.inflate(R.layout.layout_bottomsheet_genre, null)
             val bottomSheet = BottomSheetDialog(this)
             bottomSheet.setContentView(view)

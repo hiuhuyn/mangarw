@@ -52,6 +52,12 @@ class Activity_messenger : AppCompatActivity() {
 
         val bundle = intent.extras
         id_chat = bundle?.getString(IDCHAT).toString()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listMessage.clear()
         val dialog = Notification(this).dialogLoading("Loading...")
         dialog.show()
         GetData().getChatByID(id_chat){ chatGet ->
@@ -88,6 +94,9 @@ class Activity_messenger : AppCompatActivity() {
 
             }
         }
+
+
+
     }
 
     private fun addEvent() {

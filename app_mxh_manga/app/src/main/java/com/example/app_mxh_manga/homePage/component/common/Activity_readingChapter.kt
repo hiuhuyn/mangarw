@@ -18,6 +18,7 @@ import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Content_Image
+import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.story.IDCHAPTER
 import com.example.app_mxh_manga.module.Chapter_Get
 import com.example.app_mxh_manga.module.History
@@ -46,10 +47,7 @@ class Activity_readingChapter : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val progressDialog = ProgressDialog(this)
-        progressDialog.setMessage("Loading...")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
+
         setContentView(R.layout.activity_reading_chapter)
         toolbar = findViewById(R.id.toolbar)
         tv_content = findViewById(R.id.tv_content)
@@ -72,10 +70,18 @@ class Activity_readingChapter : AppCompatActivity() {
         }
         id_mainUser = ModeDataSaveSharedPreferences(this).getIdUser()
 
+        toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.item_home -> {
+                    startActivity(Intent(this, Activity_homePage::class.java))
+                    finishAffinity()
+                }
+            }
 
+            false
+        }
 
         GetData().getChapterByIDChapter(id_chapter){ chapter ->
-            progressDialog.dismiss()
             if (chapter!=null){
                 chapter_get = chapter
                 eventLike()
@@ -137,7 +143,6 @@ class Activity_readingChapter : AppCompatActivity() {
                                 )
                             }
                             bottomSheetDialog.show()
-
                         }
 
 
@@ -254,10 +259,4 @@ class Activity_readingChapter : AppCompatActivity() {
         timer?.cancel()
 
     }
-
-
-
-
-
-
 }

@@ -53,8 +53,6 @@ class Fragment_Search_Author: Fragment() {
             i.putExtras(bundle)
             startActivity(i)
         }
-
-
         return view
     }
     fun updateDataSearch(search: String){

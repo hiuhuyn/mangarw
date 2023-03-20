@@ -41,6 +41,12 @@ class Activity_chat : AppCompatActivity() {
         ib_exit = findViewById(R.id.ib_exit)
         view_search = findViewById(R.id.viewSearch)
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listChat.clear()
         adapterChat = Adapter_RV_Chat(listChat, idUser)
         val dialog = Notification(this).dialogLoading("Loading...")
         dialog.show()
@@ -67,6 +73,7 @@ class Activity_chat : AppCompatActivity() {
                         Picasso.with(this).load(it).into(iv_avt)
                     }
                 }
+                listUserFollowing.clear()
                 val adaptet_userFollowing = Adapter_RV_user_horizontal(listUserFollowing, object : OnItemClick{
                     override fun onItemClick(position: Int) {
                         GetData().getChat(idUser, listUserFollowing[position].id_user){ chatGet ->
@@ -106,11 +113,6 @@ class Activity_chat : AppCompatActivity() {
                 }
             }
         }
-
-
-
-
-
         ib_exit.setOnClickListener {
             finish()
         }
@@ -119,24 +121,6 @@ class Activity_chat : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        listChat.clear()
-        adapterChat.notifyDataSetChanged()
-        GetData().getListChat(idUser){ chatGets ->
-            if (chatGets!=null){
-                listChat.addAll(chatGets)
-                adapterChat.update(chatGets)
-            }
-        }
-    }
-
-
-    override fun onStop() {
-        super.onStop()
-        listChat.clear()
-        adapterChat.notifyDataSetChanged()
-    }
 
 
 }

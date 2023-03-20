@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,9 @@ import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
 
 import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
+import com.example.app_mxh_manga.messenger.Activity_messenger
+import com.example.app_mxh_manga.messenger.IDCHAT
+import com.example.app_mxh_manga.module.Chat
 import com.example.app_mxh_manga.module.Story_Get
 import com.example.app_mxh_manga.module.User_Get
 import com.example.app_mxh_manga.module.system.Image_String
@@ -30,8 +34,6 @@ import com.squareup.picasso.Picasso
 
 class Activity_profile : AppCompatActivity() {
     private lateinit var user: User_Get
-
-
     private lateinit var toolbar: Toolbar
     private lateinit var iv_cover: ImageView
     private lateinit var iv_avt: ImageView
@@ -47,14 +49,13 @@ class Activity_profile : AppCompatActivity() {
     private lateinit var idUserMain: String
     private lateinit var btn_post: Button
     private lateinit var btn_story: Button
+    private lateinit var btn_messenger: Button
     private lateinit var tv_empty: TextView
 
     private lateinit var adapterPost: Adapter_RV_Post
     private lateinit var adapterRvStory: Adapter_RV_Story
     private var checkPost = false
     private var checkStory = false
-
-
     private lateinit var rv : RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,30 +76,41 @@ class Activity_profile : AppCompatActivity() {
         btn_post  = findViewById(R.id.btn_post)
         btn_story= findViewById(R.id.btn_story)
         tv_empty= findViewById(R.id.tv_empty)
+        btn_messenger= findViewById(R.id.btn_messenger)
         tv_empty.setText(". . .")
         tv_empty.visibility= View.VISIBLE
 
         val bundle = intent.extras
         if (bundle != null) {
             idUser = bundle.getString(IDUSER).toString()
+        }else{
+            idUser = ""
         }
         idUserMain = ModeDataSaveSharedPreferences(this).getIdUser()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
         val dialog = Notification(this).dialogLoading("Loading...")
         dialog.show()
         GetData().getUserByID(idUser){ userGet ->
             if (userGet != null) {
                 user = userGet
-                tv_name.setText(user.user.name)
-                tv_desc.setText("Tiểu sử: "+user.user.story)
+                tv_name.text = user.user.name
+                tv_desc.text = "Tiểu sử: "+user.user.story
                 NumberData().formatLevel(user.user.score){ score, color ->
                     tv_level.text = "LV $score"
                     tv_level.setBackgroundColor(Color.parseColor(color))
                 }
                 if (user.user.sex){
-                    tv_sex.setText("Nam")
+                    tv_sex.text = "Nam"
                 }else{
-                    tv_sex.setText("Nu")
+                    tv_sex.text = "Nu"
                 }
+
+
+
 
                 GetData().usersFollowUser(idUser){
                     if (it!=null){
@@ -154,18 +166,49 @@ class Activity_profile : AppCompatActivity() {
             }else{
                 dialog.dismiss()
                 Notification(this).toastCustom("Lấy thông tin thất bại")
-                finish()
             }
+
+
         }
+
+
     }
+
+
 
 
     private fun profile_other(){
         floatBtn.visibility = View.GONE
         btn_follow.visibility = View.VISIBLE
+        btn_messenger.visibility = View.VISIBLE
         iv_avt.setOnClickListener {
             //
         }
+        btn_messenger.setOnClickListener {
+            GetData().getChat(idUser, idUserMain){ chatGet ->
+                if (chatGet!=null){
+                    val intent = Intent(this, Activity_messenger::class.java)
+                    val bundle = Bundle()
+                    bundle.putString(IDCHAT, chatGet.id_chat)
+                    intent.putExtras(bundle)
+                    startActivity(intent)
+                }else{
+                    val chat = Chat(idUser, idUserMain)
+                    AddData().newChat(chat){
+                        if (it!=null){
+                            val intent = Intent(this, Activity_messenger::class.java)
+                            val bundle = Bundle()
+                            bundle.putString(IDCHAT, it)
+                            intent.putExtras(bundle)
+                            startActivity(intent)
+                        }
+                    }
+                }
+            }
+        }
+
+
+
         GetData().getUserByID(idUserMain){ userGet ->
             if (userGet!=null){
                 var check_follow = false

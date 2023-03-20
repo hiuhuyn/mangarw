@@ -20,6 +20,10 @@
             <item
                 android:id="@+id/item_edtProfile"
                 android:title="Chỉnh sửa trang cá nhân"/>
+            <item
+                android:id="@+id/item_changePassword"
+                android:title="Đổi mật khẩu"
+                />
         </menu>
 
     </item>

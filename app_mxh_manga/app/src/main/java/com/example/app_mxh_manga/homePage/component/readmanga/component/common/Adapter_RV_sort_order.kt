@@ -13,14 +13,11 @@ import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.NumberData
-import com.example.app_mxh_manga.homePage.component.common.showStory.Activity_showStory
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
-import com.example.app_mxh_manga.homePage.component.story.IDStory
-import com.example.app_mxh_manga.module.Story_Get
 import com.example.app_mxh_manga.module.User_Get
 import com.squareup.picasso.Picasso
 
-class Adapter_sort_order(val list: ArrayList<User_Get>): RecyclerView.Adapter<Adapter_sort_order.UserItemViewHolder>() {
+class Adapter_RV_sort_order(val list: ArrayList<User_Get>): RecyclerView.Adapter<Adapter_RV_sort_order.UserItemViewHolder>() {
     class UserItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserItemViewHolder {
@@ -55,10 +52,9 @@ class Adapter_sort_order(val list: ArrayList<User_Get>): RecyclerView.Adapter<Ad
                 val i = Intent(this.context, Activity_profile::class.java)
                 val bundle = Bundle()
                 bundle.putString(IDUSER, list[position].id_user)
-                context.startActivity(i)
+                i.putExtras(bundle)
+                this.context.startActivity(i)
             }
-
-
         }
     }
 

@@ -54,8 +54,8 @@ class Activity_showStory : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_show_story)
         val bundle = intent.extras
         if (bundle != null) {
             id_story = bundle.getString(IDStory).toString()
@@ -63,7 +63,7 @@ class Activity_showStory : AppCompatActivity() {
             Toast.makeText(this, "Lỗi òi...", Toast.LENGTH_SHORT).show()
             finish()
         }
-        setContentView(R.layout.activity_show_story)
+
         toolbar = findViewById(R.id.toolbar)
         iv_avt = findViewById(R.id.iv_avt)
         rv_genre = findViewById(R.id.rv_genre)
@@ -81,6 +81,8 @@ class Activity_showStory : AppCompatActivity() {
         tv_nameStory = findViewById(R.id.tv_nameStory)
         btn_continue = findViewById(R.id.btn_continue)
 
+        btn_continue.visibility = View.GONE
+
         adapter_gener = Adapter_RV_Genre(listGenre_Get)
         rv_genre.adapter = adapter_gener
         user_main.id_user = ModeDataSaveSharedPreferences(this).getIdUser()
@@ -95,6 +97,12 @@ class Activity_showStory : AppCompatActivity() {
             }
         })
         lv_chapter.adapter = adapter_chapter
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listGenre_Get.clear()
+        listChapter.clear()
         GetData().getUserByID(user_main.id_user){
             if (it!=null){
                 user_main = it
@@ -179,8 +187,6 @@ class Activity_showStory : AppCompatActivity() {
             }
         }
         eventToolbar()
-
-
     }
 
     private fun setColorRating(id_rating: String, rating: Double) {
@@ -370,8 +376,15 @@ class Activity_showStory : AppCompatActivity() {
         }
     }
     private fun eventReading(){
-        btn_continue.setOnClickListener {
-//            showContentChapter(listChapter[2].id_chapter)
+        GetData().getHistoryByUser_Story(user_main.id_user, id_story){ historyGet ->
+            if (historyGet!=null && historyGet.history.id_chapter!=""){
+                btn_continue.visibility = View.VISIBLE
+                btn_continue.setOnClickListener {
+                    showContentChapter(historyGet.history.id_chapter)
+                }
+            }else{
+                btn_continue.visibility = View.GONE
+            }
         }
         btn_reading_First.setOnClickListener {
             showContentChapter(listChapter.last().id_chapter)
