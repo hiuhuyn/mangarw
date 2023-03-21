@@ -55,9 +55,7 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
             val imgComment = findViewById<ImageView>(R.id.imgView_comment)
             val tv_favorite = findViewById<TextView>(R.id.tv_favourite)
             val tv_cmt = findViewById<TextView>(R.id.tv_number_comment)
-            val iv_close = findViewById<ImageView>(R.id.image_close)
             val iv_setting = findViewById<ImageView>(R.id.image_setting)
-            iv_close.visibility = View.GONE
             iv_setting.visibility = View.GONE
 
             val post = list[position].posts
@@ -65,10 +63,8 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
 
             if (post.id_user == id_user){
                 iv_setting.visibility = View.VISIBLE
-                iv_close.visibility = View.GONE
             }else{
                 iv_setting.visibility = View.GONE
-                iv_close.visibility = View.VISIBLE
             }
             GetData().getUserByID(post.id_user){ userGet ->
                 if (userGet != null) {
@@ -189,10 +185,7 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
 
             tv_favorite.setText("${NumberData().formatInt(post.likes.size)}")
 //            tv_cmt.setText("${NumberData().formatInt(post.comments.size)}")
-            iv_close.setOnClickListener {
-                list.removeAt(position)
-                notifyDataSetChanged()
-            }
+
             iv_setting.setOnClickListener {
                 val listIv_Str = listOf(
                     Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Chỉnh sửa bài viết"),
@@ -223,6 +216,7 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
 
                 bottomSheet.show()
             }
+
             if (post.images.size <=0){
                 recyclerView.visibility = View.GONE
             }else{

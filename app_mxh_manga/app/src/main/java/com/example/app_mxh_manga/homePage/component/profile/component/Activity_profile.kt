@@ -132,7 +132,7 @@ class Activity_profile : AppCompatActivity() {
                 //
                 GetData().getPost_IdUser(idUser){ posts->
                     if (posts!=null){
-                        adapterPost = Adapter_RV_Post(posts, idUser)
+                        adapterPost = Adapter_RV_Post(posts, idUserMain)
                         checkPost = true
                         rv.adapter = adapterPost
                         tv_empty.visibility = View.GONE
