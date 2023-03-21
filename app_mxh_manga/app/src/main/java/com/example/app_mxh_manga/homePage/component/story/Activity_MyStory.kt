@@ -9,16 +9,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
 import com.example.app_mxh_manga.component.Notification
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.component.UpdateData
-import com.example.app_mxh_manga.component.adaters.Adapter_RV_Chapter
 import com.example.app_mxh_manga.homePage.component.common.Activity_readingChapter
 import com.example.app_mxh_manga.module.Chapter_Get
 import com.example.app_mxh_manga.module.Story_Get

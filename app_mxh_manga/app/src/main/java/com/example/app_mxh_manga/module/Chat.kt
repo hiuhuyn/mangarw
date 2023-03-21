@@ -8,9 +8,6 @@ class Chat {
     var last_messenger: String =""
     var last_messenger_time:Date? = null
     constructor()
-
-
-
     constructor(
         id_user1: String,
         id_user2: String,

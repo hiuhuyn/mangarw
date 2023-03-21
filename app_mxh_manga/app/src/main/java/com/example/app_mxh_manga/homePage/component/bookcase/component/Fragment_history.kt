@@ -45,9 +45,7 @@ class Fragment_history : Fragment() {
             view.context,
             LinearLayoutManager.VERTICAL,
             false
-
         )
-
         GetData().getHistoryByUser(id_user){
             if (it!=null){
                 listHistory.addAll(it)

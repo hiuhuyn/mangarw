@@ -22,6 +22,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".homePage.component.common.Activity_readingChapter"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".messenger.Activity_messenger"
             android:exported="false">
             <meta-data
@@ -58,13 +65,6 @@
         </activity>
         <activity
             android:name=".homePage.component.profile.component.Activity_EditProfile"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".homePage.component.common.Activity_readingChapter"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
