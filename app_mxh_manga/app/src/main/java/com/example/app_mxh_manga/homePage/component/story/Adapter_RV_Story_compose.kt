@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.GetData
+import com.example.app_mxh_manga.component.NumberData
 import com.example.app_mxh_manga.component.OnItemClick
 import com.example.app_mxh_manga.module.Story
 import com.example.app_mxh_manga.module.Story_Get
@@ -50,11 +51,20 @@ class Adapter_RV_Story_compose(var listMain: ArrayList<Story_Get>, val onItemCli
             }else{
                 tv_censorship.setText("Kiểm duyệt")
             }
-//            tv_view.setText("${GetNumberData().numberLike_Story(list[position].id_story)}")
-//            tv_chap.setText("${GetNumberData().numberChapter(list[position].id_story)}")
-//            tv_like.setText("${GetNumberData().numberLike_Story(list[position].id_story)}")
-//            tv_cmt.setText("${GetNumberData().numberCmt_Story(list[position].id_story)}")
+            tv_view.text = NumberData().formatInt(list[position].story.views)
+            GetData().getChapterByIdStory(list[position].id_story){
+                if (it!=null){
+                    tv_chap.text = NumberData().formatInt(it.size)
+                    var countLike = 0
+                    for (i in it){
+                        countLike += i.chapter.likes.size
+                    }
+                    tv_like.text = NumberData().formatInt(countLike)
 
+                }else{
+                    tv_chap.text = "0"
+                }
+            }
             setOnClickListener {
                 onItemClick.onItemClick(position)
             }
