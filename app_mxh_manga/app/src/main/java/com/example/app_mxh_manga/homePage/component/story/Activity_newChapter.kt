@@ -111,7 +111,6 @@ class Activity_newChapter : AppCompatActivity() {
             val textTitle = edt_title.text.toString().trim()
 
             val dialog = Notification(this).dialogLoading("Save...")
-            val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
             var index = 0
 
             val chapter = Chapter(textTitle, id_story, textContent)
@@ -121,7 +120,7 @@ class Activity_newChapter : AppCompatActivity() {
                 if (id_chapter != null){
                     if (listUri.size > 0){
                         for (i in listUri){
-                            val pathName = "images_chapter/${simpleDateFormat.format(Calendar.getInstance().time)}_${id_chapter}_${index}.jpg"
+                            val pathName = "images_chapter/$id_chapter/${chapter.title}_$index.jpg"
                             AddData().newImage(i, pathName){
                                 UpdateData().oneImageChapter(id_chapter, pathName){
                                 }

@@ -25,7 +25,7 @@
     </style>
     <style name="Theme_EditText" parent="Theme.App_mxh_manga">
         <item name="android:textSize">17sp</item>
-        <item name="backgroundTint">#5B9A9A9A</item>
+        <item name="backgroundTint">#EBEBEB</item>
         <item name="android:textColor">#313131</item>
         <item name="android:padding">10dp</item>
     </style>

@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="10dp"
-    >
+    android:layout_marginVertical="5dp"
+    android:background="@drawable/border">
 
     <TextView
         android:id="@+id/tv_title"
@@ -14,10 +14,10 @@
         android:layout_toStartOf="@+id/btn_showAll"
         android:maxLines="2"
         android:text=""
+        android:textColor="#04B1FF"
         android:textSize="18sp"
         android:padding="10dp"
-        android:ellipsize="end"
-        android:textStyle="bold" />
+        android:ellipsize="end"/>
 
     <Button
         android:id="@+id/btn_showAll"
@@ -32,11 +32,11 @@
         android:textAllCaps="false"
         android:textStyle="bold"
         android:background="@drawable/btn_text"
-        android:textSize="18sp" />
+        android:textSize="15sp" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:layout_marginTop="10dp"/>
+        android:padding="5dp"
+        android:layout_below="@id/tv_title" />
 </RelativeLayout>

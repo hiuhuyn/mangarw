@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
         android:background="@android:color/transparent"
-        android:indeterminateTint="#0090FF"
+        android:indeterminateTint="@color/darker_gray"
         android:layout_centerInParent="true"
         android:padding="10dp"
         />

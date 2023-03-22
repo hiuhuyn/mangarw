@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="Tên truyện và ảnh bìa đẹp là một nửa của thành công"
                 android:textSize="18sp"
-                android:textStyle="bold"
+                android:textStyle="bold|italic"
                 android:background="@android:color/transparent"
                 android:layout_margin="10dp"
                 />
@@ -54,7 +54,7 @@
                         android:layout_height="match_parent"
                         app:cardBackgroundColor="#2AEFEFEF"
                         app:cardElevation="0dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="5dp">
                         <ImageView
                             android:id="@+id/iv_avt"
                             android:layout_width="match_parent"

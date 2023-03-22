@@ -21,7 +21,7 @@
             android:id="@+id/iv_avt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/img"
+            android:src="@drawable/ic_launcher_foreground"
             android:backgroundTint="@android:color/transparent"
             android:scaleType="centerCrop"
             />
@@ -45,14 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/Theme_textView"
-                android:text="Nguyễn minh quân"
+                android:text=""
                 android:textStyle="bold"
                 />
             <TextView
                 android:id="@+id/tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nội dung commment"
+                android:text=""
                 android:textStyle="normal"
                 style="@style/Theme_textView"
                 />
@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Theme_textView"
                 android:textSize="12sp"
-                android:text="29/11/2002"
+                android:text=""
                 android:textColor="#CD3F3F3F"
                 android:textStyle="bold"
                 />

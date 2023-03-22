@@ -10,7 +10,7 @@
         android:layout_height="160dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/light_gray"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="5dp">
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
@@ -22,13 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="135dp"
             android:background="#AE484848"
             android:textColor="@color/white"
             android:drawableStart="@drawable/ic_baseline_visibility_24"
-            android:padding="5dp"
             android:ellipsize="end"
+            android:gravity="center_vertical"
             android:lines="1"
+            android:paddingHorizontal="5dp"
             />
     </androidx.cardview.widget.CardView>
     <TextView
@@ -36,11 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:lines="2"
+        android:maxLines="2"
         android:gravity="center_vertical"
         style="@style/Theme_textView"
         android:textStyle="bold"
-        android:paddingVertical="5dp"
         android:ellipsize="end"
         />
     <TextView
@@ -48,9 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Theme_textView"
-        android:text="chương 1"
+        android:text=""
         android:textColor="#3C3C3C"
         android:ellipsize="end"
+        android:maxLines="2"
         />
 
 

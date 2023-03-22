@@ -7,7 +7,7 @@
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="àuhiwufaw"
+        android:text=""
         style="@style/Theme_textView"
         android:ellipsize="end"
         />

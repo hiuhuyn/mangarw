@@ -78,8 +78,8 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
             }
 
 
-            tv_content.setText(post.content)
-            tv_date.setText(NumberData().formatTime(post.date_submit))
+            tv_content.text = post.content
+            tv_date.text = NumberData().formatTime(post.date_submit)
             var isCheckTym = false
 
             for (i in post.likes){
@@ -161,6 +161,7 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
                             Log.d("NewData", "new comment: $it")
                             if (it!=null){
                                 listCmt.add(Comment_Post_Get(it, commentPost))
+                                tv_cmt.text = NumberData().formatInt(listCmt.size)
                                 adapter_cmt.notifyDataSetChanged()
                             }
                         }

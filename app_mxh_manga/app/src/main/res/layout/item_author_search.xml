@@ -31,7 +31,6 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
     <TextView
         android:id="@+id/tv_nameUser"
         android:layout_width="match_parent"

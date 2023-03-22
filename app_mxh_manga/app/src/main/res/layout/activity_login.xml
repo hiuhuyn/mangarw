@@ -27,7 +27,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tên đăng nhập"
+                android:text="Email"
                 style="@style/Theme_textView"
                 tools:ignore="HardcodedText" />
             <EditText
@@ -37,7 +37,7 @@
                 android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nhập tên đăng nhập của bạn"
+                android:hint="Nhập email của bạn"
                 android:background="@drawable/border"
                 tools:ignore="HardcodedText"
                 style="@style/Theme_EditText"

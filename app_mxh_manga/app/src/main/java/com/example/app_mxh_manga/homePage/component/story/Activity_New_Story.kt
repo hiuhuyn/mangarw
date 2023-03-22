@@ -88,17 +88,16 @@ class Activity_New_Story : AppCompatActivity() {
             finish()
         }
         btn_save.setOnClickListener {
-            val name: String = edt_name.text.toString()
-            val author: String = edt_author.text.toString()
+            val name: String = edt_name.text.toString().trim()
+            val author: String = edt_author.text.toString().trim()
             val id_user: String = idUser
-            val describe: String = edt_desc.text.toString()
+            val describe: String = edt_desc.text.toString().trim()
             val status: Boolean = false
             val type: Boolean = isType
             val dialog = Notification(this).dialogLoading("Save...")
-            val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
             dialog.show()
 
-            val cover_image = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idUser}_story.jpg"
+            val cover_image = "story/${name}_${(0..1000).random()}.jpg"
             val listIdGenre = ArrayList<String>()
             for (item in listGenre_Select){
                 listIdGenre.add(item.id_genre)

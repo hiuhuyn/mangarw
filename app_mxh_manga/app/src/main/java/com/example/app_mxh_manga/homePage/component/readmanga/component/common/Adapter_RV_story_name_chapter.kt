@@ -31,7 +31,11 @@ class Adapter_RV_story_name_chapter(val list: ArrayList<Story_Get>): RecyclerVie
             val imageView = findViewById<ImageView>(R.id.imageView)
             val tv_name = findViewById<TextView>(R.id.tv_name)
             val tv_chapter = findViewById<TextView>(R.id.tv_chapter)
+            val tv_countView = findViewById<TextView>(R.id.tv_countView)
             tv_name.text = list[position].story.name
+            tv_countView.text = NumberData().formatInt(list[position].story.views)
+
+
             GetData().getImage(list[position].story.cover_image){
                 if (it!=null){
                     Picasso.with(context).load(it).into(imageView)

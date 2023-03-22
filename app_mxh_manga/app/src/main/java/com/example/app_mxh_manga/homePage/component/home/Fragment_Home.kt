@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.offline.CheckNetwork
 
@@ -27,6 +28,7 @@ class Fragment_Home : Fragment() {
     private lateinit var adapterLv: Adapter_RV_Post
     private var id_user: String = ""
     private lateinit var notification: Notification
+    private lateinit var tv_post_null: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +43,12 @@ class Fragment_Home : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         viewSearch = view.findViewById(R.id.view_search)
         recyclerView = view.findViewById(R.id.recyclerView)
+        tv_post_null = view.findViewById(R.id.tv_post_null)
         activity_homePage = activity as Activity_homePage
         id_user = ModeDataSaveSharedPreferences(activity_homePage).getIdUser()
         adapterLv = Adapter_RV_Post(listPosts, id_user)
         recyclerView.adapter = adapterLv
         notification = Notification(view.context)
-
-
 
         return view
     }
@@ -61,9 +62,22 @@ class Fragment_Home : Fragment() {
             dialog.dismiss()
             if (userGet!=null){
                 // lấy các id user đang follow
-//                val comparetor = Comparator<Post_Get>{ post1, post2 ->
-//                    post1.posts.date_submit.compareTo(post2.posts.date_submit)
-//                }
+
+                GetData().getPost_IdUser(id_user){
+                    if (it!=null){
+                        listPosts.addAll(it)
+                        listPosts.sortWith { o1, o2 ->
+                            o2.posts.date_submit.compareTo(o1.posts.date_submit)
+                        }
+                        tv_post_null.visibility = View.GONE
+                        adapterLv.notifyDataSetChanged()
+                    }else{
+                        if (userGet.user.follow_users.isEmpty()){
+                            tv_post_null.visibility = View.VISIBLE
+                        }
+                    }
+                }
+
                 for (item in userGet.user.follow_users){
                     GetData().getPost_IdUser(item){ postsGet ->
                         if (postsGet!=null){
@@ -71,15 +85,15 @@ class Fragment_Home : Fragment() {
                             listPosts.sortWith { o1, o2 ->
                                 o2.posts.date_submit.compareTo(o1.posts.date_submit)
                             }
+                            tv_post_null.visibility = View.GONE
                             adapterLv.notifyDataSetChanged()
                         }
                     }
                 }
-
-
-
             }
         }
+
+
         viewSearch.setOnClickListener {
             startActivity(Intent(activity_homePage, Activity_Search::class.java))
         }

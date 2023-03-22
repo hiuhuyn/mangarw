@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/light_gray"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="5dp">
             <ImageView
                 android:id="@+id/iv_avt"
                 android:layout_width="match_parent"
@@ -44,7 +44,7 @@
         android:ellipsize="end"
         android:maxLines="2"
         android:textSize="13sp"
-        android:text="dddddddd\ndddđ"
+        android:text=""
         android:textStyle="bold" />
 
     <TextView
@@ -56,7 +56,7 @@
         android:layout_marginBottom="51dp"
         android:layout_toEndOf="@id/frameLayout"
         android:background="@android:color/transparent"
-        android:text="ddddddddddddđ"
+        android:text=""
         android:textColor="#FF9800"
         android:lines="1"
         android:ellipsize="end"

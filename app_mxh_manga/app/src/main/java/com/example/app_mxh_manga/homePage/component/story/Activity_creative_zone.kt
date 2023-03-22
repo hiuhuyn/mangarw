@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class Activity_creative_zone : AppCompatActivity() {
     private lateinit var tv_follow: TextView
     private lateinit var tv_drawable: TextView
     private lateinit var tv_income: TextView
+    private lateinit var tv_storyNull: TextView
     private lateinit var float_btn: FloatingActionButton
     private lateinit var adapterRvStoryCompose: Adapter_RV_Story_compose
     private var listStory = ArrayList<Story_Get>()
@@ -43,6 +45,7 @@ class Activity_creative_zone : AppCompatActivity() {
         tv_drawable = findViewById(R.id.tv_drawable)
         tv_income = findViewById(R.id.tv_income)
         float_btn = findViewById(R.id.float_btn)
+        tv_storyNull = findViewById(R.id.tv_storyNull)
 
 
 
@@ -76,7 +79,10 @@ class Activity_creative_zone : AppCompatActivity() {
                         startActivity(i)
                     }
                 })
+                tv_storyNull.visibility = View.GONE
                 rv_story.adapter = adapterRvStoryCompose
+            }else{
+                tv_storyNull.visibility = View.VISIBLE
             }
         }
 

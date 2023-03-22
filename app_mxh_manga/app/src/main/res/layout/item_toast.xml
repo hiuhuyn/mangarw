@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:backgroundTint="#EBEBEB"
+    android:backgroundTint="@color/light_gray"
     android:paddingVertical="5dp"
     android:paddingHorizontal="10dp"
     android:background="@drawable/dialog_bg"
@@ -22,5 +22,6 @@
         android:backgroundTint="@android:color/transparent"
         android:textSize="18sp"
         android:textColor="#282222"
+        android:text="asssssssssssssssssssssssssss"
         />
 </LinearLayout>

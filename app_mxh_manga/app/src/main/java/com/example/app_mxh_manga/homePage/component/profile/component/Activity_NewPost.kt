@@ -84,13 +84,12 @@ class Activity_NewPost : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             finish()
         }
-        toolbar.setOnMenuItemClickListener {
-            when(it.itemId){
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId){
                 R.id.check -> {
                     // thêm vào csdl
                     val dialog = Notification(this).dialogLoading("Save...")
                     dialog.show()
-                    val simpleDateFormat = SimpleDateFormat("dd_mm_yyyy_hh_mm_ss")
                     var index = 0
 
                     val post = Posts(id_user, edt_content.text.toString())
@@ -99,7 +98,7 @@ class Activity_NewPost : AppCompatActivity() {
                         if (it != null){
                             idPosts = it
                             for (i in listUri){
-                                val pathName = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${idPosts}_${index}.jpg"
+                                val pathName = "posts/$it/$index.jpg"
                                 AddData().newImage(i, pathName){
                                     UpdateData().oneImagePost(idPosts, pathName){
                                     }
