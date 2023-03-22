@@ -81,11 +81,11 @@ class Activity_MyStory : AppCompatActivity() {
                         Picasso.with(this).load(it).into(iv_avt)
                     }
                 }
-                tv_name.setText(story_get.story.name)
-                if (story_get.story.type){
-                    tv_censorship.setText("Đã kiểm duyệt")
+                tv_name.text = story_get.story.name
+                if (story_get.story.status){
+                    tv_censorship.text = "Đã kiểm duyệt"
                 }else{
-                    tv_censorship.setText("Kiểm duyệt")
+                    tv_censorship.text = "Kiểm duyệt"
                 }
                 addEvent()
             }
@@ -106,7 +106,7 @@ class Activity_MyStory : AppCompatActivity() {
             if (it!=null){
                 Log.d("GetData", "myStory: ${it.toArray()}")
                 listChapter.addAll(it)
-                tv_count_chapter.setText("Chapter (${listChapter.size})")
+                tv_count_chapter.text = "Chapter (${listChapter.size})"
                 adapterRvChapter.notifyDataSetChanged()
             }else{
                 Log.d("GetData", "myStory: null")

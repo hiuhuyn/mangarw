@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.R
@@ -34,6 +35,7 @@ class Activity_readingChapter : AppCompatActivity() {
     private lateinit var ib_listChap: ImageButton
     private lateinit var ib_like: ImageButton
     private lateinit var ib_cmt: ImageButton
+    private lateinit var scrollView: NestedScrollView
     private lateinit var tv_title: TextView
     private var listChapter : ArrayList<Chapter_Get> = ArrayList()
     private var index = 0
@@ -54,6 +56,7 @@ class Activity_readingChapter : AppCompatActivity() {
         ib_like = findViewById(R.id.ib_like)
         ib_cmt  = findViewById(R.id.ib_cmt)
         tv_title = findViewById(R.id.tv_title)
+        scrollView = findViewById(R.id.scrollView)
         val bundle = intent.extras
         if (bundle != null) {
             id_chapter = bundle.getString(IDCHAPTER).toString()
@@ -123,6 +126,7 @@ class Activity_readingChapter : AppCompatActivity() {
                 checkLike(index)
                 startTimer()
                 startTimer()
+                scrollView.smoothScrollTo(0,0)
             }
         }
         ib_next.setOnClickListener {
@@ -135,6 +139,7 @@ class Activity_readingChapter : AppCompatActivity() {
                 tv_content.text = chapter_get.chapter.content_novel
                 checkLike(index)
                 startTimer()
+                scrollView.smoothScrollTo(0,0)
             }
 
         }
@@ -155,6 +160,7 @@ class Activity_readingChapter : AppCompatActivity() {
                         checkIndex(index)
                         checkLike(index)
                         startTimer()
+                        scrollView.smoothScrollTo(0,0)
                     }
                 })
                 recyclerView.layoutManager = LinearLayoutManager(
