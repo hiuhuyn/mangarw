@@ -37,7 +37,7 @@ class Activity_Update_story : AppCompatActivity() {
     private var allGenre = ArrayList<Genre_Get>()
     private lateinit var adapaterRV_Genre: Adapter_RV_Genre
     private var listGenre_Select = ArrayList<Genre_Get>()
-    private var uri_Avt: Uri = Int_Uri().convertUri(R.drawable.ic_launcher_foreground)
+    private var uri_Avt: Uri? = null
     private var storyGet = Story_Get()
 
     init {
@@ -143,18 +143,22 @@ class Activity_Update_story : AppCompatActivity() {
             }
             storyGet.story.genres = listIdGenre
 
-            val avtbefore = storyGet.story.cover_image
-            val cover_image = "images/${simpleDateFormat.format(Calendar.getInstance().time)}_${storyGet.id_story}.jpg"
-            storyGet.story.cover_image = cover_image
-
-            if (avtbefore!=""){
-                DeleteData().delOneImage(avtbefore){
+            if (uri_Avt!=null){
+                val avtbefore = storyGet.story.cover_image
+                if (avtbefore!=""){
+                    DeleteData().delOneImage(avtbefore){
+                    }
+                }
+                val cover_image = "story/${storyGet.story.name}_${(0..1000).random()}.jpg"
+                storyGet.story.cover_image = cover_image
+                AddData().newImage(uri_Avt!!, cover_image){
 
                 }
             }
-            AddData().newImage(uri_Avt, cover_image){
 
-            }
+
+
+
 
             dialog.show()
             SetData().story(storyGet){

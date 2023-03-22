@@ -109,35 +109,34 @@ class Activity_newChapter : AppCompatActivity() {
         ib_save.setOnClickListener {
             val textContent = edt_content.text.toString().trim()
             val textTitle = edt_title.text.toString().trim()
-
             val dialog = Notification(this).dialogLoading("Save...")
             var index = 0
-
-            val chapter = Chapter(textTitle, id_story, textContent)
-            dialog.show()
-
-
-
-            AddData().newChapter(chapter){ id_chapter->
-                dialog.dismiss()
-                if (id_chapter != null){
-                    if (listUri.size > 0){
-                        dialog.show()
-                        for (i in listUri){
-                            val pathName = "images_chapter/$id_chapter/${chapter.title}_$index.jpg"
-                            AddData().newImage(i, pathName){
-                                UpdateData().oneImageChapter(id_chapter, pathName){
+            if(textTitle.isEmpty()){
+                Notification(this).toastCustom("Hãy nhập tiêu đề chương trước").show()
+            }else{
+                val chapter = Chapter(textTitle, id_story, textContent)
+                dialog.show()
+                AddData().newChapter(chapter){ id_chapter->
+                    dialog.dismiss()
+                    if (id_chapter != null){
+                        if (listUri.size > 0){
+                            dialog.show()
+                            for (i in listUri){
+                                val pathName = "images_chapter/$id_chapter/${chapter.title}_$index.jpg"
+                                AddData().newImage(i, pathName){
+                                    UpdateData().oneImageChapter(id_chapter, pathName){
+                                    }
                                 }
+                                if (i == listUri.last()) dialog.dismiss()
+                                index++
                             }
-                            if (i == listUri.last()) dialog.dismiss()
-                            index++
                         }
+                        Notification(this).toastCustom("Thêm chương mới thành công!").show()
+                        finish()
+                    }else{
+                        Notification(this).toastCustom("Thêm chương thất bại!").show()
+                        finish()
                     }
-                    Notification(this).toastCustom("Thêm chương mới thành công!").show()
-                    finish()
-                }else{
-                    Notification(this).toastCustom("Thêm chương thất bại!").show()
-                    finish()
                 }
             }
         }

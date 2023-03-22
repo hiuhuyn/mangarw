@@ -94,28 +94,33 @@ class Activity_New_Story : AppCompatActivity() {
             val describe: String = edt_desc.text.toString().trim()
             val status: Boolean = false
             val type: Boolean = isType
-            val dialog = Notification(this).dialogLoading("Save...")
-            dialog.show()
 
-            val cover_image = "story/${name}_${(0..1000).random()}.jpg"
-            val listIdGenre = ArrayList<String>()
-            for (item in listGenre_Select){
-                listIdGenre.add(item.id_genre)
-            }
-            val story = Story(name, author, id_user, describe, status, cover_image, type, listIdGenre)
-            AddData().newStory(story){ id->
-                dialog.dismiss()
-                if (id!=null){
-                    Notification(this).toastCustom("Thêm thành công").show()
-                    AddData().newImage(uri_Avt, cover_image){
-                        if (it){
-                            UpdateData().cover_story(id, cover_image){
-                                finish()
+            if (name.isEmpty()){
+                Notification(this).toastCustom("Bạn chưa nhập tên truyện").show()
+            }else{
+                val dialog = Notification(this).dialogLoading("Save...")
+                dialog.show()
+
+                val cover_image = "story/${name}_${(0..1000).random()}.jpg"
+                val listIdGenre = ArrayList<String>()
+                for (item in listGenre_Select){
+                    listIdGenre.add(item.id_genre)
+                }
+                val story = Story(name, author, id_user, describe, status, cover_image, type, listIdGenre)
+                AddData().newStory(story){ id->
+                    dialog.dismiss()
+                    if (id!=null){
+                        Notification(this).toastCustom("Thêm thành công").show()
+                        AddData().newImage(uri_Avt, cover_image){
+                            if (it){
+                                UpdateData().cover_story(id, cover_image){
+                                    finish()
+                                }
                             }
                         }
+                    }else{
+                        Notification(this).toastCustom("Thêm không thành công").show()
                     }
-                }else{
-                    Notification(this).toastCustom("Thêm không thành công").show()
                 }
             }
         }
