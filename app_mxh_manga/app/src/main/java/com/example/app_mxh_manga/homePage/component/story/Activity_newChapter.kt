@@ -115,16 +115,21 @@ class Activity_newChapter : AppCompatActivity() {
 
             val chapter = Chapter(textTitle, id_story, textContent)
             dialog.show()
+
+
+
             AddData().newChapter(chapter){ id_chapter->
                 dialog.dismiss()
                 if (id_chapter != null){
                     if (listUri.size > 0){
+                        dialog.show()
                         for (i in listUri){
                             val pathName = "images_chapter/$id_chapter/${chapter.title}_$index.jpg"
                             AddData().newImage(i, pathName){
                                 UpdateData().oneImageChapter(id_chapter, pathName){
                                 }
                             }
+                            if (i == listUri.last()) dialog.dismiss()
                             index++
                         }
                     }
@@ -132,6 +137,7 @@ class Activity_newChapter : AppCompatActivity() {
                     finish()
                 }else{
                     Notification(this).toastCustom("Thêm chương thất bại!").show()
+                    finish()
                 }
             }
         }
