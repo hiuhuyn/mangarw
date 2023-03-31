@@ -9,23 +9,31 @@
 
     <ImageView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/background_logo" />
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:adjustViewBounds="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/logo_mangarw" />
+        android:scaleType="centerInside"
+        android:layout_centerVertical="true"
+        android:src="@drawable/text_logo" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
+        android:layout_below="@+id/iv_logo"
         android:background="@drawable/shape_oval_story"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/white"
         android:indeterminateTint="#0090FF"
-        android:layout_centerInParent="true"
         android:padding="10dp"
-        android:visibility="visible"
-        />
-
-
+        android:visibility="visible" />
 </RelativeLayout>
