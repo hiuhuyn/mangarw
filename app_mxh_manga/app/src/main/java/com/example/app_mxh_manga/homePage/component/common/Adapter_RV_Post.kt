@@ -1,26 +1,20 @@
 package com.example.app_mxh_manga.homePage.component.common
 
-import android.app.Activity
 import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
-import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
+import com.example.app_mxh_manga.component.adaters.Adapter_RV_iv_string
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Comment_Post
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_ImagePost
 import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
@@ -188,34 +182,29 @@ class Adapter_RV_Post(val list: ArrayList<Post_Get>,  val id_user: String) : Rec
 //            tv_cmt.setText("${NumberData().formatInt(post.comments.size)}")
 
             iv_setting.setOnClickListener {
-                val listIv_Str = listOf(
-                    Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Chỉnh sửa bài viết"),
-                    Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_photo_library_40), "Xóa bài viết")
-                )
-                context.setTheme(R.style.Theme_transparent)
-                val bottomSheet = BottomSheetDialog(context)
-                bottomSheet.setContentView(R.layout.layout_bottom_sheeet_listview)
-                val listView = bottomSheet.findViewById<ListView>(R.id.listView)
-                if (listView != null) {
-                    listView.adapter = Adapter_LV_iv_string(bottomSheet.context,  listIv_Str )
-                    listView.setOnItemClickListener { parent, view, i, id ->
-                        when(i){
-                            0 -> {
+                val popup = PopupMenu(context, this)
+                popup.inflate(R.menu.menu_setting_post)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    popup.gravity = Gravity.TOP or Gravity.END
+                }
+                popup.setOnMenuItemClickListener { menuItem ->
+                    when(menuItem.itemId){
+                        R.id.item_edit_post -> {
 
-                            }
-                            1 -> {
-                                DeleteData().delPost(list[index].id_post){
-
+                        }
+                        R.id.item_delete_post -> {
+                            DeleteData().delPost(list[position].id_post){
+                                if (it){
+                                    popup.dismiss()
+                                    list.removeAt(position)
+                                    notifyDataSetChanged()
                                 }
-                                bottomSheet.dismiss()
-                                list.removeAt(index)
-                                notifyDataSetChanged()
                             }
                         }
                     }
+                    false
                 }
-
-                bottomSheet.show()
+                popup.show()
             }
 
             if (post.images.size <=0){

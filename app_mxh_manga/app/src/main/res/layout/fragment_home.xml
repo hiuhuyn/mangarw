@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     style="@style/Theme_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".homePage.component.home.Fragment_Home">
@@ -11,42 +12,71 @@
         layout="@layout/item_searchview"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"/>
-    <androidx.core.widget.NestedScrollView
+        android:layout_margin="10dp" />
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view_search">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Bảng tin"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:layout_marginHorizontal="10dp"/>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:layout_marginTop="10dp"/>
-            <TextView
-                android:id="@+id/tv_post_null"
+        android:text="Bảng tin"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="10dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardElevation="0dp"
+            android:layout_marginHorizontal="10dp"
+            app:cardBackgroundColor="#70DEDEDE"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="25dp">
+            <ImageView
+                android:id="@+id/iv_avt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Không có bài viết để hiển thị"
-                android:textSize="20sp"
-                android:padding="10dp"
-                android:gravity="center"
-                android:visibility="gone"
+                android:backgroundTint="@android:color/transparent"
+                android:src="@drawable/ic_launcher_foreground"
+                android:scaleType="centerCrop"
                 />
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_newPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thêm bài viết mới"
+            android:layout_toEndOf="@id/cardView"
+            android:textSize="18sp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/border"
+
+            />
+
+    </RelativeLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/tv_post_null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Không có bài viết để hiển thị"
+        android:textSize="20sp"
+        android:padding="10dp"
+        android:gravity="center"
+        android:visibility="gone"
+        />
+</LinearLayout>

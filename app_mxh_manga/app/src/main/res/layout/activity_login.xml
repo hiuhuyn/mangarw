@@ -10,14 +10,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/background_logo"
         android:orientation="vertical">
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:src="@drawable/logo_mangarw"
+            android:src="@drawable/text_logo"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
-            />
+            android:contentDescription="TODO" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,6 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Email"
+                android:textSize="18sp"
+                android:textColor="@color/white"
                 style="@style/Theme_textView"
                 tools:ignore="HardcodedText" />
             <EditText
@@ -54,6 +57,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mật khẩu"
+                android:textSize="18sp"
+                android:textColor="@color/white"
                 style="@style/Theme_textView"
                 tools:ignore="HardcodedText" />
             <EditText
@@ -77,6 +82,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:gravity="center_horizontal"
+            android:background="@android:color/transparent"
             android:weightSum="2">
             <Button
                 android:id="@+id/btn_signup"
@@ -113,7 +119,8 @@
             android:layout_height="wrap_content"
             android:text="Quên mật khẩu?"
             android:layout_gravity="end"
-            android:textSize="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/white"
             android:paddingHorizontal="10dp"
             android:background="@drawable/btn_text"
             android:textAllCaps="false"

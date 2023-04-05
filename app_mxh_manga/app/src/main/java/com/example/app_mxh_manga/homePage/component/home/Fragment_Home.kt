@@ -7,22 +7,29 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.offline.CheckNetwork
 
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
 import com.example.app_mxh_manga.homePage.Activity_homePage
 import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
+import com.example.app_mxh_manga.homePage.component.profile.component.Activity_NewPost
+import com.example.app_mxh_manga.homePage.component.profile.component.Activity_profile
 import com.example.app_mxh_manga.homePage.component.search.Activity_Search
 import com.example.app_mxh_manga.module.Post_Get
+import com.squareup.picasso.Picasso
 import java.util.Collections
 
 
 class Fragment_Home : Fragment() {
     private lateinit var recyclerView: RecyclerView
+    private lateinit var iv_avt: ImageView
+    private lateinit var tv_newPost: TextView
     private lateinit var activity_homePage: Activity_homePage
     private var listPosts = ArrayList<Post_Get>()
     private lateinit var viewSearch: View
@@ -45,6 +52,8 @@ class Fragment_Home : Fragment() {
         viewSearch = view.findViewById(R.id.view_search)
         recyclerView = view.findViewById(R.id.recyclerView)
         tv_post_null = view.findViewById(R.id.tv_post_null)
+        iv_avt = view.findViewById(R.id.iv_avt)
+        tv_newPost = view.findViewById(R.id.tv_newPost)
         activity_homePage = activity as Activity_homePage
         id_user = ModeDataSaveSharedPreferences(activity_homePage).getIdUser()
         adapterLv = Adapter_RV_Post(listPosts, id_user)
@@ -63,6 +72,12 @@ class Fragment_Home : Fragment() {
             dialog.dismiss()
             if (userGet!=null){
                 // lấy các id user đang follow
+
+                GetData().getImage(userGet.user.uri_avt){
+                    if (it!=null){
+                        Picasso.with(context).load(it).into(iv_avt)
+                    }
+                }
 
                 GetData().getPost_IdUser(id_user){
                     if (it!=null){
@@ -94,9 +109,19 @@ class Fragment_Home : Fragment() {
             }
         }
 
+        iv_avt.setOnClickListener {
+            val intent = Intent(this.context, Activity_profile::class.java)
+            val bundle = Bundle()
+            bundle.putString(IDUSER, id_user)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
 
         viewSearch.setOnClickListener {
             startActivity(Intent(activity_homePage, Activity_Search::class.java))
+        }
+        tv_newPost.setOnClickListener {
+            startActivity(Intent(activity_homePage, Activity_NewPost::class.java))
         }
 
     }

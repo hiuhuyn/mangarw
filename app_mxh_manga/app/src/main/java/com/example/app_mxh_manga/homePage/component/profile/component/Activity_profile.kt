@@ -10,15 +10,12 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.example.app_mxh_manga.IDUSER
 import com.example.app_mxh_manga.R
 import com.example.app_mxh_manga.component.*
-import com.example.app_mxh_manga.component.adaters.Adapter_LV_iv_string
+import com.example.app_mxh_manga.component.adaters.Adapter_RV_iv_string
 import com.example.app_mxh_manga.component.adaters.Adapter_RV_Story
 
 import com.example.app_mxh_manga.homePage.component.common.Adapter_RV_Post
@@ -257,21 +254,7 @@ class Activity_profile : AppCompatActivity() {
         floatBtn.visibility = View.VISIBLE
         btn_follow.visibility = View.GONE
         iv_avt.setOnClickListener {
-            val listIv_Str = listOf(
-                Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Xem ảnh đại diện"),
-                Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_photo_library_40), "Chọn ảnh đại diện")
-            )
-            this.setTheme(R.style.Theme_transparent)
-            val bottomSheet = BottomSheetDialog(this)
-            bottomSheet.setContentView(R.layout.layout_bottom_sheeet_listview)
-            val listView = bottomSheet.findViewById<ListView>(R.id.listView)
-            if (listView != null) {
-                listView.adapter = Adapter_LV_iv_string(bottomSheet.context,  listIv_Str )
-                listView.setOnItemClickListener { parent, view, position, id ->
-                    Toast.makeText(this, listIv_Str[position].str, Toast.LENGTH_SHORT).show()
-                }
-            }
-            bottomSheet.show()
+
         }
         floatBtn.setOnClickListener {
             startActivity(Intent(this, Activity_NewPost::class.java))

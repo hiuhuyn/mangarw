@@ -13,134 +13,129 @@
         app:menu="@menu/menu_setting"
         style="@style/Toolbar"
         />
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:orientation="vertical">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@drawable/logo_app"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="0dp"
-            />
-        <androidx.cardview.widget.CardView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:cardElevation="0dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="-40dp"
-            app:cardBackgroundColor="#70DEDEDE"
-            app:cardCornerRadius="50dp">
-            <ImageView
-                android:id="@+id/iv_avt"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/ic_launcher_foreground"
-                android:scaleType="centerCrop"
-                />
-        </androidx.cardview.widget.CardView>
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="20sp"
-            android:layout_margin="10dp"
-            android:backgroundTint="@android:color/transparent"
-            android:maxLines="1"
-            android:layout_gravity="center_vertical"/>
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="10dp">
-            <TextView
-                android:id="@+id/tv_level"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="lv 0"
-                android:textSize="15sp"
-                android:background="@color/darker_gray"
-                android:textStyle="bold|italic"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:maxLength="10"
-                android:gravity="center"
-                android:paddingVertical="5dp"
-                android:paddingHorizontal="15dp"
-                />
-        </androidx.cardview.widget.CardView>
-
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_margin="10dp"
-            android:background="@android:color/transparent">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Người theo dõi: "
-                style="@style/Theme_textView"
-                android:textColor="@color/black_50"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/text_logo"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:background="@drawable/background_logo"
+                android:layout_marginTop="0dp"
                 />
+            <androidx.cardview.widget.CardView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:cardElevation="0dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="-40dp"
+                app:cardBackgroundColor="#70DEDEDE"
+                app:cardCornerRadius="35dp">
+                <ImageView
+                    android:id="@+id/iv_avt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@drawable/ic_launcher_foreground"
+                    android:scaleType="centerCrop"
+                    />
+            </androidx.cardview.widget.CardView>
             <TextView
-                android:id="@+id/tv_followers"
+                android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                style="@style/Theme_textView"
-                android:textColor="@color/black_50"
-                android:textStyle="bold"
+                android:text=""
+                android:textSize="20sp"
+                android:layout_margin="10dp"
+                android:backgroundTint="@android:color/transparent"
                 android:maxLines="1"
-                />
-            <TextView
+                android:layout_gravity="center_vertical"/>
+            <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đang theo dõi: "
-                style="@style/Theme_textView"
-                android:textColor="@color/black_50"
-                android:layout_marginStart="10dp"
-                />
-            <TextView
-                android:id="@+id/tv_following"
-                android:layout_width="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="10dp">
+                <TextView
+                    android:id="@+id/tv_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="lv 0"
+                    android:textSize="15sp"
+                    android:background="@color/darker_gray"
+                    android:textStyle="bold|italic"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:maxLength="10"
+                    android:gravity="center"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="15dp"
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
-                style="@style/Theme_textView"
-                android:textColor="@color/black_50"
-                android:textStyle="bold"
-                android:maxLines="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Người theo dõi: "
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    />
+                <TextView
+                    android:id="@+id/tv_followers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đang theo dõi: "
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    android:layout_marginStart="10dp"
+                    />
+                <TextView
+                    android:id="@+id/tv_following"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    style="@style/Theme_textView"
+                    android:textColor="@color/black_50"
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="5dp"
+                android:background="#7E474747"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
                 />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginVertical="5dp"
-            android:background="#7E474747"/>
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/float_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:elevation="0dp"
-        android:src="@drawable/ic_baseline_draw_40"
-        android:backgroundTint="#2DBEFF"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="20dp"/>
-
-
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

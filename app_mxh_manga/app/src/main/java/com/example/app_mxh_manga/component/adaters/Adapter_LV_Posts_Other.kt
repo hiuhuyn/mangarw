@@ -2,8 +2,10 @@ package com.example.app_mxh_manga.component.adaters
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -40,7 +42,6 @@ class Adapter_LV_Posts_Other(val activity: AppCompatActivity, val list: ArrayLis
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = activity.layoutInflater.inflate(R.layout.item_post, parent, false)
-        view.visibility = View.GONE
         val imgAvt = view.findViewById<ImageView>(R.id.imgView_avt)
         val tv_name = view.findViewById<TextView>(R.id.tv_name)
         val tv_content = view.findViewById<TextView>(R.id.tv_content)
@@ -73,10 +74,7 @@ class Adapter_LV_Posts_Other(val activity: AppCompatActivity, val list: ArrayLis
                     if (it!=null){
                         Picasso.with(context).load(it).into(imgAvt)
                     }
-                    view.visibility = View.VISIBLE
                 }
-            }else{
-                view.visibility = View.GONE
             }
         }
         tv_content.setText(post.content)
@@ -199,35 +197,29 @@ class Adapter_LV_Posts_Other(val activity: AppCompatActivity, val list: ArrayLis
             )
         }
         iv_setting.setOnClickListener {
-            val listIv_Str = listOf(
-                Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_account_box_40), "Chỉnh sửa bài viết"),
-                Image_String(Int_Uri().convertUri(R.drawable.ic_baseline_photo_library_40), "Xóa bài viết")
-            )
-            context.setTheme(R.style.Theme_transparent)
-            val bottomSheet = BottomSheetDialog(context)
-            bottomSheet.setContentView(R.layout.layout_bottom_sheeet_listview)
-            val listView = bottomSheet.findViewById<ListView>(R.id.listView)
-            if (listView != null) {
-                listView.adapter = Adapter_LV_iv_string(bottomSheet.context,  listIv_Str )
-                listView.setOnItemClickListener { parent, view, index, id ->
-                    when(index){
-                        0 -> {
+            val popup = PopupMenu(view.context, view)
+            popup.inflate(R.menu.menu_setting_post)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                popup.gravity = Gravity.TOP or Gravity.END
+            }
+            popup.setOnMenuItemClickListener { menuItem ->
+                when(menuItem.itemId){
+                    R.id.item_edit_post -> {
 
-                        }
-                        1 -> {
-                            DeleteData().delPost(mainId_User){
-                                if (it){
-                                    bottomSheet.dismiss()
-                                    list.removeAt(position)
-                                    notifyDataSetChanged()
-                                }
+                    }
+                    R.id.item_delete_post -> {
+                        DeleteData().delPost(list[position].id_post){
+                            if (it){
+                                popup.dismiss()
+                                list.removeAt(position)
+                                notifyDataSetChanged()
                             }
                         }
                     }
                 }
+                false
             }
-
-            bottomSheet.show()
+            popup.show()
         }
         imgAvt.setOnClickListener {
             val intent = Intent(this.context, Activity_profile::class.java)

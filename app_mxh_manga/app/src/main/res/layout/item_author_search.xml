@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@color/light_gray"
-            app:cardCornerRadius="40dp">
+            app:cardCornerRadius="35dp">
             <ImageView
                 android:id="@+id/imageAvt"
                 android:layout_width="match_parent"

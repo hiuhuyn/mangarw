@@ -11,7 +11,7 @@
         android:layout_gravity="center_horizontal"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/light_gray"
-        app:cardCornerRadius="50dp">
+        app:cardCornerRadius="30dp">
         <ImageView
             android:id="@+id/iv_avt"
             android:layout_width="match_parent"

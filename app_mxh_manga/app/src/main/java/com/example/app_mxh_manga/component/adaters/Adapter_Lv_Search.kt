@@ -40,7 +40,6 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story_Ge
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.item_story, parent, false)
-        view.visibility = View.GONE
         val img_story = view.findViewById<ImageView>(R.id.imageStory)
         val tv_nameStory = view.findViewById<TextView>(R.id.tv_nameStory)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_genre)
@@ -53,9 +52,6 @@ class Adapter_Lv_Search_Story(val activity: Context, val list:ArrayList<Story_Ge
         GetData().getImage(listFilter[position].story.cover_image){
             if (it!=null){
                 Picasso.with(context).load(it).into(img_story)
-                view.visibility= View.VISIBLE
-            }else{
-                view.visibility= View.VISIBLE
             }
         }
 
@@ -168,16 +164,12 @@ class Adapter_Lv_Search_Author(val activity: AppCompatActivity, val list: ArrayL
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = activity.layoutInflater.inflate(R.layout.item_author_search, parent, false)
-        view.visibility =View.GONE
         val imageAvt = view.findViewById<ImageView>(R.id.imageAvt)
         val tv_name = view.findViewById<TextView>(R.id.tv_nameUser)
         val tvSumStory = view.findViewById<TextView>(R.id.tv_sumStory)
         GetData().getImage(listFilter[position].user.uri_avt){
             if (it!=null){
                 Picasso.with(context).load(it).into(imageAvt)
-                view.visibility = View.VISIBLE
-            }else{
-                view.visibility = View.VISIBLE
             }
         }
         tv_name.text = listFilter[position].user.name
