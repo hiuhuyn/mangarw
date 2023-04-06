@@ -72,6 +72,7 @@ class Fragment_Profile : Fragment() {
         tv_followers = view.findViewById(R.id.tv_followers)
         tv_following = view.findViewById(R.id.tv_following)
         activityHomepage = activity as Activity_homePage
+        idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
         notification = Notification(view.context)
         rv.adapter = Adapter_RV_iv_string(activityHomepage, listIv_Str, object : OnItemClick{
             override fun onItemClick(position: Int) {
@@ -87,9 +88,12 @@ class Fragment_Profile : Fragment() {
                         startActivity(Intent(activityHomepage, Activity_creative_zone::class.java))
                     }
                     2 -> {
-
+                        Toast.makeText(context, "Chức năng chưa được cài đặt", Toast.LENGTH_SHORT).show()
                     }
                     3 -> {
+                        Toast.makeText(context, "Chức năng chưa được cài đặt", Toast.LENGTH_SHORT).show()
+                    }
+                    4 -> {
                         // dăng xuất
                         ModeDataSaveSharedPreferences(activityHomepage).logout()
                         startActivity(Intent(context, Activity_Login::class.java))
@@ -99,8 +103,6 @@ class Fragment_Profile : Fragment() {
             }
         })
 
-
-        idUser = ModeDataSaveSharedPreferences(activityHomepage).getIdUser()
         return view
     }
 
